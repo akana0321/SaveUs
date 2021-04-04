@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class FrameActivity extends AppCompatActivity {
     Toolbar toolBar;
     BottomNavigationView frBottom;
+    String string;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
