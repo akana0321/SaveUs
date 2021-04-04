@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 툴바 상단 좌측 메뉴 버튼을 누르면 나와야 하는 목록들 -->
+
+    <item
+        android:id="@+id/tbEmer"
+        android:title="응급처치" />
+    <item
+        android:id="@+id/tbAed"
+        android:title="AED 위치" />
+    <item
+        android:id="@+id/tbMoun"
+        android:title="등산 중 사고신고" />
+    <item
+        android:id="@+id/tbPati"
+        android:title="환자 상태 파악" />
+    <item
+        android:id="@+id/tbCont"
+        android:title="문의하기" />
+</menu>

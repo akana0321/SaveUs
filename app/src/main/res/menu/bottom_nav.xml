@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Bottom Navigation에 들어가는 목록들 -->
+
+    <item
+        android:id="@+id/frBack"
+        android:icon="@drawable/ic_back_white"
+        android:title="뒤로가기" />
+
+    <item
+        android:id="@+id/frMain"
+        android:icon="@drawable/ic_home_white"
+        android:title="메인으로" />
+
+    <item
+        android:id="@+id/frExit"
+        android:icon="@drawable/ic_exit_white"
+        android:title="종료하기" />
+
+</menu>
