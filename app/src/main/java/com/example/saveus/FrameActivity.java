@@ -8,15 +8,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class FrameActivity extends AppCompatActivity {
-    Toolbar FrToolbar;
+    Toolbar toolBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_frame);
-        setTitle("메인화면");
 
-        FrToolbar = (Toolbar) findViewById(R.id.frToolbar);
-        setSupportActionBar(FrToolbar);
+        toolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolBar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white);
     }
 }
