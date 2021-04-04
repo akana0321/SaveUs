@@ -5,8 +5,44 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/mainTv_Emer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_margin="30dp"
+        android:text="응급처치"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/mainTv_AED"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="AED위치"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/mainTV_Moun"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="등산 중 사고 신고"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/mainTv_Pati"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="환자 상태파악"
+        android:textSize="25dp" />
+
+        <TextView
+        android:id="@+id/mainTv_Cont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="문의하기"
+        android:textSize="25dp" />
+
 
 </LinearLayout>
