@@ -20,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import static com.example.saveus.R.layout.activity_emergency;
+import static com.example.saveus.R.layout.activity_fracture;
 import static com.example.saveus.R.layout.activity_main;
 
 public class FrameActivity extends AppCompatActivity {
@@ -42,10 +43,20 @@ public class FrameActivity extends AppCompatActivity {
         //        // Bottom Navigation 설정
         frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
 
+
         content = (FrameLayout)findViewById(R.id.content_layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(activity_main,content,true); // 1. 메인 페이지 xml 가져오기
+        v1 = inflater.inflate(activity_main,null); //2. 메인 페이지를 뷰객체로 가져오기.
 
+
+        switch (v1.getId()){
+            case  R.id.mainTv_Emer : {
+            content = (FrameLayout) findViewById(R.id.content_layout);
+            inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inflater.inflate(activity_emergency, content, true);
+             }
+        }
     }
 
 
@@ -60,6 +71,9 @@ public class FrameActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.tbEmer :
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                inflater.inflate(activity_emergency,content,true); // *2021.04.05 응급처치 기능 클릭시, 본문이 프레임레이아웃 이므로 응급처치 페이지가 누적해서 보여줌.
+                                                                                // intent으로 해야 화면전환이 될 것 같음.
                 return true;
                 // 응급처치 기능 클릭시 페이지 전환
             case R.id.tbAed:

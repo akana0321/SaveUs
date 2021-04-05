@@ -8,19 +8,21 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    TextView MainTv_EMER,MainTv_AED, Main_MOUN,Main_PATI,Main_COUNT;
-
+    Button MainTv_EMER;
+    TextView MainTv_AED, Main_MOUN,Main_PATI,Main_COUNT;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MainTv_EMER = (TextView)findViewById(R.id.mainTv_Emer);
+        MainTv_EMER = (Button) findViewById(R.id.mainTv_Emer);
         MainTv_AED = (TextView)findViewById(R.id.mainTv_AED);
         Main_MOUN = (TextView)findViewById(R.id.mainTV_Moun);
         Main_PATI = (TextView)findViewById(R.id.mainTv_Pati);
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
 
     }
