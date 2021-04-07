@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
@@ -29,19 +30,13 @@ public class FrameActivity extends AppCompatActivity {
     Toolbar toolBar;
     BottomNavigationView frBottom;
     FrameLayout content;
-    Button MainTv_EMER;
+    TextView MainTv_EMER;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_frame);
 
-        // Toolbar 설정
-        toolBar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolBar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false); // 상단 좌측 탭에 뒤로가기 버튼이 활성화 되어 있어서 false 전환 2021.04.04 16:53
-        //        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white);
-        //
         //        // Bottom Navigation 설정
         frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
 
@@ -49,10 +44,10 @@ public class FrameActivity extends AppCompatActivity {
         content = (FrameLayout)findViewById(R.id.content_layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(activity_main,content,true); // 1. 메인 페이지 xml 가져오기
-        v1 = inflater.inflate(activity_main,null); //2. 메인 페이지를 뷰객체로 가져오기.
 
 
-        MainTv_EMER = (Button) findViewById(R.id.mainTv_Emer);
+
+        MainTv_EMER = (TextView) findViewById(R.id.mainTv_Emer);
         MainTv_EMER.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

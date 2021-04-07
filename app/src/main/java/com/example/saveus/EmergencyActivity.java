@@ -11,6 +11,6 @@ public class EmergencyActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency);
-        setTitle("응급상황");
+        setTitle("응급처치");
     }
 }

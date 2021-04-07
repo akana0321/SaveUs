@@ -5,10 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        layout="@layout/activity_toolbar"
-        android:id="@+id/toolbar" />
-
     <!-- FrameLayout에 다른 내용들이 호출된다 -->
     <FrameLayout
         android:id="@+id/content_layout"

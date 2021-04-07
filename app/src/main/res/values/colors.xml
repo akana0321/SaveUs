@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
+
+    <color name="colorPrimary">#FFBE0A</color>
+    <!-- color name="colorPrimary">#008577</color--> // 인트로와 색상을 맞추기 위해서 변경해봄.
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 </resources>
