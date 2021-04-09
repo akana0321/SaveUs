@@ -12,6 +12,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        getSupportActionBar().hide();   // 액션바 숨기기
 
         // 로고화면 띄우기
         Handler handler = new Handler();

@@ -30,17 +30,18 @@ public class EmergencyActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_emergency);
         setTitle("응급처치");
 
-        initPlayer();
+        initPlayer();   // 유튜브 플레이어 가져오기
 
         Button btnPlay = findViewById(R.id.youtubeBtn);
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playVideo();
+                playVideo();    // 버튼 클릭시 동작
             }
         });
     }
 
+    // 유튜브 플레이어를 가져오는 메서드
     private void initPlayer() {
         playerView = findViewById(R.id.youTubePlayerView);
         playerView.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
@@ -57,7 +58,7 @@ public class EmergencyActivity extends YouTubeBaseActivity {
 
                     @Override
                     public void onLoaded(String id) {
-                        Log.d(TAG, "onLoaded : " + id);
+                        Log.d(TAG, "onLoaded : " + id); // 정상적으로 load가 되면 TAG에 상태 저장
                     }
 
                     @Override
@@ -78,6 +79,7 @@ public class EmergencyActivity extends YouTubeBaseActivity {
                     @Override
                     public void onError(YouTubePlayer.ErrorReason errorReason) {
                         Log.d(TAG, "onError : " + errorReason);
+                        // 에러가 나면 에러 이유를 TAG에 상태 저장
                     }
                 });
 
@@ -90,6 +92,7 @@ public class EmergencyActivity extends YouTubeBaseActivity {
         });
     }
 
+    // 버튼을 눌렀을 때 정지 상태에서는 재생, 재생 상태에서는 일시 정지
     private void playVideo() {
         if (player != null) {
             if (player.isPlaying())
