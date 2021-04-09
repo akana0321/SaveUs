@@ -18,7 +18,7 @@ public class EmergencyActivity extends YouTubeBaseActivity {
     YouTubePlayer player;
 
     // 유튜브 API Key와 동영상 ID 변수설정
-    private String API_KEY = "AIzaSyCOO1gFLG45vDalw6gTYgcLI3AFw-Dm4gs";
+    private String API_KEY = "유튜브 API키 입력"; // 개인정보라서 깃허브에 올리면 위험함
     private String videoId = "q3xPn7_AZTk";
 
     // logcat 사용설정
@@ -47,6 +47,7 @@ public class EmergencyActivity extends YouTubeBaseActivity {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 player = youTubePlayer;
+                player.cueVideo(videoId);
 
                 player.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
                     @Override
@@ -57,7 +58,6 @@ public class EmergencyActivity extends YouTubeBaseActivity {
                     @Override
                     public void onLoaded(String id) {
                         Log.d(TAG, "onLoaded : " + id);
-                        player.play();
                     }
 
                     @Override
@@ -80,6 +80,7 @@ public class EmergencyActivity extends YouTubeBaseActivity {
                         Log.d(TAG, "onError : " + errorReason);
                     }
                 });
+
             }
 
             @Override
