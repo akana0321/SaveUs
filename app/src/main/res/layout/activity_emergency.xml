@@ -5,39 +5,77 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.youtube.player.YouTubePlayerView
-        android:id="@+id/youTubePlayerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/youtubeBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="재생"
-        android:textColor="#000000"
-        android:layout_gravity="center"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/emerTv_bru"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="이제 시작"/>
+            android:layout_margin="30dp"
+            android:text="타박상"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/emerTv_burn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="화상"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/emerTv_air"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="기도폐쇄"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/emerTv_sei"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="발작"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/emerTv_sti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="쏘임/물림"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/emerTv_heaTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="심장마비"
+            android:textSize="25dp" />
+
     </LinearLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/frBottom"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        app:itemIconTint="@color/cardview_dark_background"
-        app:itemTextColor="@color/cardview_dark_background"
-        app:menu="@menu/bottom_nav" />
+        android:orientation="vertical">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/frBottom_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="?android:attr/windowBackground"
+            app:itemIconTint="@color/cardview_dark_background"
+            app:itemTextColor="@color/cardview_dark_background"
+            app:menu="@menu/bottom_nav" />
+
+    </RelativeLayout>
 
 </LinearLayout>
