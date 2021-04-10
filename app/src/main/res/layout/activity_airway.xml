@@ -1,13 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:textSize="40dp"
-        android:text="activity_airway" />
+        android:orientation="vertical" >
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/airTv_M01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="\n\가. 의심 상황"/>
+
+        <TextView
+            android:id="@+id/airTv_Sub01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="① 두 손으로 목부분을 쥐면서 기침하려고 함. \n② 목 부분에서 심한 천명음(쌕 쌕소리)가 들림. \n③ 얼굴이 파랗게 변함.\n"
+            android:textSize="15dp" />
+
+        <View android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" /> <!-- 중간 선 표시 -->
+
+        <TextView
+            android:id="@+id/airTv_M02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:textSize="20dp"
+            android:text="\n나. 시행순서\n"/>
+
+        <TextView
+            android:id="@+id/airTv_Sub02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="※ 성인"
+            android:textSize="17dp" />
+
+        <com.google.android.youtube.player.YouTubePlayerView
+            android:id="@+id/youTubePlayerView_adult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/airTv_Sub03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="1. 구조자는 환자의 뒤에 서서, 환자의 허리를 팔로 감싸고 한 쪽다리를 환자의 다리사이에 지지한다.\n"
+            android:textSize="15dp" />
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" /> <!-- 중간 선 표시 -->
+
+        <TextView
+            android:id="@+id/airTv_Sub04"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="2. 이후 구조자는 주먹 쥔 손을 환자의 명치와 배꼽 부 위 중간에 놓고, 다른 한 손으로 주먹 쥔 손을 감싼다.\n"
+            android:textSize="15dp" />
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" /> <!-- 중간 선 표시 -->
+
+        <TextView
+            android:id="@+id/airTv_Sub05"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="3. 다른 한 손으로 주먹 쥔 손을 감싸고 빠르게 위로 밀쳐 올린다.\n"
+            android:textSize="15dp" />
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+        <TextView
+            android:id="@+id/airTv_Sub06"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="4. 이물질이 밖으로 나올 때, 환자가 호흡이나 기침을 시작할 때, 환자가 의식을 잃을 때 까지 수행한다.\n"
+            android:textSize="15dp" />
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+        <TextView
+            android:id="@+id/airTv_Sub07"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="※ 영아 [2세 미만]"
+            android:textSize="17dp" />
+
+        <com.google.android.youtube.player.YouTubePlayerView
+            android:id="@+id/youTubePlayerView_child"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/airTv_Sub08"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="1. 자세취하기 및 119 신고요청 \n\n
+주변에 119 신고를 요청 후 환자의 얼굴이 위로 향하고, 환자를 자신의 팔위에 올려놓고 손으로는 환자의 머리와 경부가 고정되도록 잡는다.\n 이후 다른 팔을 이용해 환자의 얼굴이 아래로 향하도록 뒤집어(돌려서) 턱을 잡은 손이 환자를 떠받친다.\n"
+            android:textSize="15dp" />
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" /> <!-- 중간 선 표시 -->
+
+        <TextView
+            android:id="@+id/airTv_Sub09"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="2. 등 두드리기 5회\n\n
+영아의 머리를 가슴보다 낮게 하고, 영아를 안은 팔을 허벅지에 고정시킨 뒤 손바닥으로 영아의 어깨죽지 사이(견갑골)를 5회 두드린다.\n"
+            android:textSize="15dp" />
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" /> <!-- 중간 선 표시 -->
+
+        <TextView
+            android:id="@+id/airTv_Sub10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="3. 흉부압박 5회\n\n 영아의 등을 받치고, 머리를 가슴보다 낮게 하여, 영아를 안은 팔을 무릎 위에 놓는다. 영아의 유두사이에 가상선을 긋고, 검지와 중지를 흉골에 올려놓고 천천히 확실하게 5회의 압박을 시행 한다.\n"
+            android:textSize="15dp" />
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+        <TextView
+            android:id="@+id/airTv_Sub11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="4. 입안의 이물질 제거\n\n 영아의 구강 내 이물질을 확인하여 제거한다. (손에 닿지 않은 경우 일부러 제거하지 않는다.)\n"
+            android:textSize="15dp" />
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+        <TextView
+            android:id="@+id/airTv_Sub12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="5. 영아가 의식을 잃거나, 이물이 배출되거나, 힘차게 숨을 쉬거나, 기침을 할 때까지 계속 반복 실시. \n\n(119구급대원이 도착할 때까지 위의 과정을 반복 시행한다.)
+"
+            android:textSize="15dp" />
+
+
+    </LinearLayout>
+</ScrollView>
