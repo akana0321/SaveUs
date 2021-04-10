@@ -4,11 +4,10 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AirwayActivity extends AppCompatActivity {
+public class BleedingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_airway);
-        setTitle("기도폐쇄");
-
+        setContentView(R.layout.activity_bruise);
+        setTitle("출혈");
     }
 }

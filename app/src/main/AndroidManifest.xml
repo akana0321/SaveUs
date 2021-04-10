@@ -19,7 +19,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".EmergencyActivity" android:label="응급처치 페이지"/>
+        <activity android:name=".AedActivity" android:label="AED 위치"/>
+        <activity android:name=".AirwayActivity" android:label="기도폐쇄" />
+        <activity android:name=".BleedingActivity" android:label="출혈"/>
+        <activity android:name=".BruiseActivity" android:label="타박상"/>
+        <activity android:name=".BurnActivity" android:label="화상" />
+        <activity android:name=".ContactActivity" android:label="문의하기"/>
+        <activity android:name=".EmergencyActivity" android:label="응급처치"/>
+        <activity android:name=".FractureActivity" android:label="골절" />
+        <activity android:name=".HeartActivity" android:label="심장마비"/>
+        <activity android:name=".MountainActivity" android:label="등산 중 사고신고" />
+        <activity android:name=".PatientActivity" android:label="환자상태 파악"/>
+        <activity android:name=".SeizureActivity" android:label="발작" />
+        <activity android:name=".SprainsActivity" android:label="염좌"/>
+        <activity android:name=".StingActivity" android:label="쏘임/물림" />
     </application>
 </manifest>

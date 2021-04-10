@@ -1,44 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.youtube.player.YouTubePlayerView
-        android:id="@+id/youTubePlayerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/youtubeBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="재생"
-        android:textColor="#000000"
-        android:layout_gravity="center"/>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/fraTv_M01"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:text="이제 시작"/>
-    </LinearLayout>
+            android:text="\n\가. 의심 상황"/>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/frBottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        app:itemIconTint="@color/cardview_dark_background"
-        app:itemTextColor="@color/cardview_dark_background"
-        app:menu="@menu/bottom_nav" />
+        <TextView
+            android:id="@+id/fraTv_Sub01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="① 통증 : 가볍게 누르기만 해도 심한 통증이 유발 되는 경우
+            \n ② 좌우 변형 : 외형상 좌우를 비교해 봤을 때 변형이 있는 경우
+            \n ③ 못 움직임 : 통증 때문에 움직일 수 없는 경우
+            \n ④ 부음 : 출혈로 인해 부어 오르고,심하면 피부가 변색으로 이어지는 경우\n\n"
+            android:textSize="15dp" />
+
+        <View android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+        <TextView
+            android:id="@+id/fraTv_M03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:textSize="20dp"
+            android:text="\n나. 시행순서\n"/>
+
+        <com.google.android.youtube.player.YouTubePlayerView
+            android:id="@+id/youTubePlayerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/fraTv_Sub02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="1.골절 부위를 원상태로 돌려 놓으려고 무리한 시도를 하지 않는다.
+            \n\n 골절이 일어난 주변부의 근육이나 혈관, 신경 등을 더 손상시킬 수 있어 행동을 삼가 해야합니다. \n"
+            android:textSize="15dp" />
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+        <TextView
+            android:id="@+id/fraTv_Sub03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="2.골절 부위를 고정시킨다.
+            \n\n\t손상 부위를 가능한 움직이지 않도록 하며, 다친 부위를 심장보다 높게 올린 상태에서 나무판자, 여러 겹 접은 신문지등 부목을 이용하여 골절부위가 움직이지 못하도록 고정해야 한다.\t
+            \n 부목은 골절된 부위의 위·아래 관절까지 포함시킬 수 있는 길어야 하며 폭은 골절된 부위보다 넓은 것을 선택해야 한다.\n"
+            android:textSize="15dp" />
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+        <TextView
+            android:id="@+id/fraTv_Sub04"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="3. 골절 직후 냉 찜찔이 도움이 된다.
+            \n\n 골절 부위는 대부분 부어오르고 열이 발생하여, 냉찜질은 혈관을 수축시켜 부러진 뼈 주변에서 발생할 수 있는 출혈을 감소 및 골절 부위의 통증을 덜 느끼게 하는 진통 효과를 가진다.\n"
+            android:textSize="15dp" />
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+        <TextView
+            android:id="@+id/fraTv_Sub05"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="4. (지혈이 필요한 경우) 깨끗한 거즈나 천을 이용하여 지혈한다.
+            \n\n 상처 부위에서 피가 나면 깨끗한 거즈나 천을 이용하여 지혈하는 것이 좋다.
+            \n 간혹 가루 형태의 지혈제를 사용하는 경우가 있는데, 가루가 상처 부위의 염증을 악화시킬 수 있어 주의해야 한다.\n"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+</ScrollView>
+
+
 <!--
     <LinearLayout
         android:layout_width="match_parent"
@@ -136,5 +195,3 @@
 
     </LinearLayout>
 !-->
-
-</LinearLayout>

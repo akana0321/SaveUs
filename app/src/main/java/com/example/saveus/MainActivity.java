@@ -3,6 +3,7 @@ package com.example.saveus;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,7 +18,7 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    TextView MainTv_EMER, MainTv_AED, Main_MOUN,Main_PATI,Main_COUNT;
+    TextView MainTv_EMER, MainTv_AED, Main_MOUN,Main_PATI,Main_CONT;
     BottomNavigationView frBottom;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +30,42 @@ public class MainActivity extends AppCompatActivity {
         MainTv_AED = (TextView)findViewById(R.id.mainTv_AED);
         Main_MOUN = (TextView)findViewById(R.id.mainTV_Moun);
         Main_PATI = (TextView)findViewById(R.id.mainTv_Pati);
-        Main_COUNT = (TextView)findViewById(R.id.mainTv_Cont);
-
-        // Bottom Navigation 설정
+        Main_CONT = (TextView)findViewById(R.id.mainTv_Cont);
         frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
 
+        // 텍스트뷰 클릭시 인텐트 전환
         MainTv_EMER.setOnClickListener(new View.OnClickListener() {  // 응급처치 클릭시 응급상황 분류 페이지 이동
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
+                startActivity(intent);
+            }
+        });
+        MainTv_AED.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AedActivity.class);
+                startActivity(intent);
+            }
+        });
+        Main_MOUN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MountainActivity.class);
+                startActivity(intent);
+            }
+        });
+        Main_PATI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PatientActivity.class);
+                startActivity(intent);
+            }
+        });
+        Main_CONT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ContactActivity.class);
                 startActivity(intent);
             }
         });
@@ -76,20 +104,23 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.tbEmer :
                 Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-                startActivity(intent);
+                startActivity(intent); // 응급처치 기능 클릭시 페이지 전환
                 return true;
-            // 응급처치 기능 클릭시 페이지 전환
             case R.id.tbAed:
-                //자동제세동기 기능 클릭시 페이지 전환
+                intent = new Intent(getApplicationContext(), AedActivity.class);
+                startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
                 return true;
             case R.id.tbMoun:
-                //등산중 사고 신고 클릭시 페이지 전환
+                intent = new Intent(getApplicationContext(), MountainActivity.class);
+                startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
                 return true;
             case R.id.tbPati:
-                //환자 상태파악 클릭시 페이지 전환
+                intent = new Intent(getApplicationContext(), PatientActivity.class);
+                startActivity(intent); //환자 상태파악 클릭시 페이지 전환
                 return true;
             case R.id.tbCont:
-                //문의하기 기능클릭시 페이지 전환
+                intent = new Intent(getApplicationContext(), ContactActivity.class);
+                startActivity(intent); //문의하기 기능클릭시 페이지 전환
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

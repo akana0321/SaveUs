@@ -11,14 +11,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
 
-public class EmergencyActivity extends YouTubeBaseActivity {
+public class EmergencyActivity extends AppCompatActivity {
     TextView EmerTv_BruTv,EmerTv_BurnTv,EmerTv_AirTv,EmerTv_SeiTv,EmerTv_StiTv,Emer_HeaTv;
     BottomNavigationView frBottom;
 
@@ -34,14 +31,48 @@ public class EmergencyActivity extends YouTubeBaseActivity {
         EmerTv_SeiTv = (TextView)findViewById(R.id.emerTv_sei);
         EmerTv_StiTv = (TextView)findViewById(R.id.emerTv_sti);
         Emer_HeaTv = (TextView)findViewById(R.id.emerTv_heaTv);
-
-        // Bottom Navigation 설정
         frBottom = (BottomNavigationView)findViewById(R.id.frBottom_1);
 
+        // 텍스트뷰 클릭 시 이동
         EmerTv_BruTv.setOnClickListener(new View.OnClickListener() {  // 응급처치 클릭시 응급상황 분류 페이지 이동
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), BruiseActivity.class);
+                startActivity(intent);
+            }
+        });
+        EmerTv_BurnTv.setOnClickListener(new View.OnClickListener() {  // 응급처치 클릭시 응급상황 분류 페이지 이동
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), BurnActivity.class);
+                startActivity(intent);
+            }
+        });
+        EmerTv_AirTv.setOnClickListener(new View.OnClickListener() {  // 응급처치 클릭시 응급상황 분류 페이지 이동
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AirwayActivity.class);
+                startActivity(intent);
+            }
+        });
+        EmerTv_SeiTv.setOnClickListener(new View.OnClickListener() {  // 응급처치 클릭시 응급상황 분류 페이지 이동
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SeizureActivity.class);
+                startActivity(intent);
+            }
+        });
+        EmerTv_StiTv.setOnClickListener(new View.OnClickListener() {  // 응급처치 클릭시 응급상황 분류 페이지 이동
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), StingActivity.class);
+                startActivity(intent);
+            }
+        });
+        Emer_HeaTv.setOnClickListener(new View.OnClickListener() {  // 응급처치 클릭시 응급상황 분류 페이지 이동
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HeartActivity.class);
                 startActivity(intent);
             }
         });
@@ -52,8 +83,7 @@ public class EmergencyActivity extends YouTubeBaseActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.frBack :
-                        //Intent intent = new Intent(getApplicationContext(), .class);
-                        //startActivity(intent); // 2021.04.07 임시로 페이지가 전환되는 지 확인하기 위해 작성해 봄.
+                        finish();
                         return true;
                     case R.id.frMain :
                         return true;
@@ -80,25 +110,26 @@ public class EmergencyActivity extends YouTubeBaseActivity {
         switch (item.getItemId()) {
             case R.id.tbEmer :
                 Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-                startActivity(intent);
+                startActivity(intent); // 응급처치 기능 클릭시 페이지 전환
                 return true;
-            // 응급처치 기능 클릭시 페이지 전환
             case R.id.tbAed:
-                //자동제세동기 기능 클릭시 페이지 전환
+                intent = new Intent(getApplicationContext(), AedActivity.class);
+                startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
                 return true;
             case R.id.tbMoun:
-                //등산중 사고 신고 클릭시 페이지 전환
+                intent = new Intent(getApplicationContext(), MountainActivity.class);
+                startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
                 return true;
             case R.id.tbPati:
-                //환자 상태파악 클릭시 페이지 전환
+                intent = new Intent(getApplicationContext(), PatientActivity.class);
+                startActivity(intent); //환자 상태파악 클릭시 페이지 전환
                 return true;
             case R.id.tbCont:
-                //문의하기 기능클릭시 페이지 전환
+                intent = new Intent(getApplicationContext(), ContactActivity.class);
+                startActivity(intent); //문의하기 기능클릭시 페이지 전환
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 }

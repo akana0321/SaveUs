@@ -2,11 +2,8 @@ package com.example.saveus;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -19,8 +16,8 @@ public class FractureActivity extends YouTubeBaseActivity {
     YouTubePlayer player;
 
     // 유튜브 API Key와 동영상 ID 변수설정
-    private String API_KEY = "유튜브 API키 입력"; // 개인정보라서 깃허브에 올리면 위험함
-    private String videoId = "q3xPn7_AZTk";
+    private String API_KEY = "AIzaSyCOO1gFLG45vDalw6gTYgcLI3AFw-Dm4gs"; // 개인정보라서 깃허브에 올리면 위험함
+    private String videoId = "vb7iYw_u24E";
 
     // logcat 사용설정
     private final String TAG = "FractureActivity";
@@ -32,14 +29,6 @@ public class FractureActivity extends YouTubeBaseActivity {
         setTitle("응급처치");
 
         initPlayer();   // 유튜브 플레이어 가져오기
-
-        Button btnPlay = findViewById(R.id.youtubeBtn);
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playVideo();    // 버튼 클릭시 동작
-            }
-        });
     }
 
     // 유튜브 플레이어를 가져오는 메서드
@@ -91,14 +80,5 @@ public class FractureActivity extends YouTubeBaseActivity {
 
             }
         });
-    }
-
-    // 버튼을 눌렀을 때 정지 상태에서는 재생, 재생 상태에서는 일시 정지
-    private void playVideo() {
-        if (player != null) {
-            if (player.isPlaying())
-                player.pause();
-            player.cueVideo(videoId);
-        }
     }
 }
