@@ -16,7 +16,7 @@ public class FractureActivity extends YouTubeBaseActivity {
     YouTubePlayer player;
 
     // 유튜브 API Key와 동영상 ID 변수설정
-    private String API_KEY = "AIzaSyCOO1gFLG45vDalw6gTYgcLI3AFw-Dm4gs"; // 개인정보라서 깃허브에 올리면 위험함
+    private String API_KEY = "Youtube API Key 입력"; // 개인정보라서 깃허브에 올리면 위험함
     private String videoId = "vb7iYw_u24E";
 
     // logcat 사용설정
