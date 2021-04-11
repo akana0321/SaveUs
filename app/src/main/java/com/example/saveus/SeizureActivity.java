@@ -10,16 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
+//import com.google.android.material.bottomnavigation.BottomNavigationView;
+//import com.google.android.youtube.player.YouTubeBaseActivity;
+//import com.google.android.youtube.player.YouTubeInitializationResult;
+//import com.google.android.youtube.player.YouTubePlayer;
+//import com.google.android.youtube.player.YouTubePlayerView;
 
-public class SeizureActivity extends YouTubeBaseActivity {
+public class SeizureActivity extends AppCompatActivity {
     // 객체 선언
-    YouTubePlayerView playerView;
-    YouTubePlayer player;
+   // YouTubePlayerView playerView;
+    //YouTubePlayer player;
 
     // 유튜브 API Key와 동영상 ID 변수설정
     private String API_KEY = "API KEY 입력"; // 개인정보라서 깃허브에 올리면 위험함
@@ -34,10 +34,11 @@ public class SeizureActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_seizure);
         setTitle("발작");
 
-        initPlayer();   // 유튜브 플레이어 가져오기
+        //initPlayer();   // 유튜브 플레이어 가져오기
     }
 
     // 유튜브 플레이어를 가져오는 메서드
+    /*
     private void initPlayer() {
         playerView = findViewById(R.id.youTubePlayerView);
         playerView.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
@@ -86,5 +87,5 @@ public class SeizureActivity extends YouTubeBaseActivity {
 
             }
         });
-    }
+    }*/
 }

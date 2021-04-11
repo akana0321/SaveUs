@@ -9,15 +9,15 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
+//import com.google.android.material.bottomnavigation.BottomNavigationView;
+//import com.google.android.youtube.player.YouTubeBaseActivity;
+//import com.google.android.youtube.player.YouTubeInitializationResult;
+//import com.google.android.youtube.player.YouTubePlayer;
+//import com.google.android.youtube.player.YouTubePlayerView;
 
-public class BurnActivity extends YouTubeBaseActivity {
-    YouTubePlayerView playerView;
-    YouTubePlayer player;
+public class BurnActivity extends AppCompatActivity{
+    //YouTubePlayerView playerView;
+   // YouTubePlayer player;
 
     // 유튜브 API Key와 동영상 ID 변수설정
     private String API_KEY = "API KEY 입력"; // 개인정보라서 깃허브에 올리면 위험함
@@ -28,7 +28,7 @@ public class BurnActivity extends YouTubeBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_burn);
         setTitle("화상");
-        initPlayer();
+        //initPlayer();
         /****************************************************
          ****************** 변수 선언부 *********************
          ****************************************************/
@@ -38,7 +38,7 @@ public class BurnActivity extends YouTubeBaseActivity {
          ****************************************************/
     }
     // 유튜브 플레이어를 가져오는 메서드
-    private void initPlayer() {
+    /*private void initPlayer() {
         playerView = findViewById(R.id.youTubePlayerView);
         playerView.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
@@ -87,4 +87,6 @@ public class BurnActivity extends YouTubeBaseActivity {
             }
         });
     }
+
+    */
 }

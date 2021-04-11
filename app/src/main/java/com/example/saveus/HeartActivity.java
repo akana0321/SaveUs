@@ -9,15 +9,15 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
+//import com.google.android.youtube.player.YouTubeBaseActivity;
+//import com.google.android.youtube.player.YouTubeInitializationResult;
+//import com.google.android.youtube.player.YouTubePlayer;
+//import com.google.android.youtube.player.YouTubePlayerView;
 
-public class HeartActivity extends YouTubeBaseActivity {
+public class HeartActivity extends AppCompatActivity{
     // 객체 선언
-    YouTubePlayerView playerView_AED, playerView_Heart; // 성인 및 유아 동영상 2개이므로
-    YouTubePlayer player_AED, player_Heart; // 성인 및 유아 동영상 2개이므로
+    // YouTubePlayerView playerView_AED, playerView_Heart; // 성인 및 유아 동영상 2개이므로
+    //YouTubePlayer player_AED, player_Heart; // 성인 및 유아 동영상 2개이므로
 
     // 유튜브 API Key와 동영상 ID 변수설정
     private String API_KEY = "API KEY 입력"; // 개인정보라서 깃허브에 올리면 위험함
@@ -39,10 +39,10 @@ public class HeartActivity extends YouTubeBaseActivity {
          *************** 인텐트 변환 메서드 ******************
          ****************************************************/
 
-        initPlayer();
+        //initPlayer();
     }
     // 유튜브 플레이어를 가져오는 메서드
-    private void initPlayer() {
+    /*private void initPlayer() {
         playerView_Heart = findViewById(R.id.youTubePlayerView_heart);
         playerView_AED = findViewById(R.id.youTubePlayerView_aed);
 
@@ -130,5 +130,5 @@ public class HeartActivity extends YouTubeBaseActivity {
             }
         });
     }
-
+*/
 }

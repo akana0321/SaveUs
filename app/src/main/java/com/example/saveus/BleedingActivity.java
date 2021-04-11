@@ -11,16 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
+//import com.google.android.material.bottomnavigation.BottomNavigationView;
+//import com.google.android.youtube.player.YouTubeBaseActivity;
+//import com.google.android.youtube.player.YouTubeInitializationResult;
+//import com.google.android.youtube.player.YouTubePlayer;
+//import com.google.android.youtube.player.YouTubePlayerView;
 
-public class BleedingActivity extends YouTubeBaseActivity {
+public class BleedingActivity extends AppCompatActivity {
     // 객체 선언
-    YouTubePlayerView playerView;
-    YouTubePlayer player;
+    //YouTubePlayerView playerView;
+    //YouTubePlayer player;
 
     // 유튜브 API Key와 동영상 ID 변수설정
     private String API_KEY = "API KEY 입력"; // 개인정보라서 깃허브에 올리면 위험함
@@ -31,11 +31,11 @@ public class BleedingActivity extends YouTubeBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bleeding);
         setTitle("출혈");
-        initPlayer();   // 유튜브 플레이어 가져오기
+        //initPlayer();   // 유튜브 플레이어 가져오기
     }
 
     // 유튜브 플레이어를 가져오는 메서드
-    private void initPlayer() {
+   /* private void initPlayer() {
         playerView = findViewById(R.id.youTubePlayerView);
         playerView.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
@@ -84,5 +84,7 @@ public class BleedingActivity extends YouTubeBaseActivity {
             }
         });
     }
+
+    */
 }
 

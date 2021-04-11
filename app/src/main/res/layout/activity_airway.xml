@@ -43,11 +43,13 @@
             android:padding="3dp"
             android:text="※ 성인"
             android:textSize="17dp" />
-
-        <com.google.android.youtube.player.YouTubePlayerView
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
             android:id="@+id/youTubePlayerView_adult"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:videoId="BhaR7UieJXQ"
+            app:autoPlay="true"
+            app:showFullScreenButton="false" />
 
         <TextView
             android:id="@+id/airTv_Sub03"
@@ -105,10 +107,13 @@
             android:text="※ 영아 [2세 미만]"
             android:textSize="17dp" />
 
-        <com.google.android.youtube.player.YouTubePlayerView
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
             android:id="@+id/youTubePlayerView_child"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:videoId="AQmoPWdI2pg"
+            app:autoPlay="true"
+            app:showFullScreenButton="false" />
 
         <TextView
             android:id="@+id/airTv_Sub08"
