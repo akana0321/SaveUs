@@ -23,7 +23,7 @@ public class BleedingActivity extends YouTubeBaseActivity {
     YouTubePlayer player;
 
     // 유튜브 API Key와 동영상 ID 변수설정
-    private String API_KEY = "API"; // 개인정보라서 깃허브에 올리면 위험함
+    private String API_KEY = "API KEY 입력"; // 개인정보라서 깃허브에 올리면 위험함
     private String videoId = "Jqj48mhziJM";
     private final String TAG = "Bledding Activity";
 
@@ -32,13 +32,6 @@ public class BleedingActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_bleeding);
         setTitle("출혈");
         initPlayer();   // 유튜브 플레이어 가져오기
-        /****************************************************
-         ****************** 변수 선언부 *********************
-         ****************************************************/
-
-        /****************************************************
-         *************** 인텐트 변환 메서드 ******************
-         ****************************************************/
     }
 
     // 유튜브 플레이어를 가져오는 메서드

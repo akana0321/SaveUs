@@ -22,7 +22,7 @@ public class SprainsActivity extends YouTubeBaseActivity {
     YouTubePlayer player;
 
     // 유튜브 API Key와 동영상 ID 변수설정
-    private String API_KEY = "API ID 값"; // 개인정보라서 깃허브에 올리면 위험함
+    private String API_KEY = "API KEY 입력"; // 개인정보라서 깃허브에 올리면 위험함
     private String videoId = "4D0Kk5owWP4";
 
     // logcat 사용설정

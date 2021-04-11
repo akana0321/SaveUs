@@ -1,13 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:textSize="40dp"
-        android:text="activity_seizure" />
+        android:orientation="vertical" >
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/seiTv_M01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="\n\가. 발작 개요"/>
+
+        <TextView
+            android:id="@+id/seiTv_Sub01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="발작은 뇌세포들이 비정상적으로 자극을 받을 때 일어난다. 동반된 증상은 뇌의 어느 부분이 영향을 받았는 가에 따라 다르게 나타난다. 다음과 같은 의학적 상태일 때 발작이 유발될 수 있다.
+                           \n\n● 간질(원인 불명의 발작이 계속 반복되는 경우) : 열사병(heat stroke)
+                           \n● 중독
+                           \n● 전기 감전
+                           \n● 저혈당
+                           \n● 소아에서 고열 발생 시
+                           \n● 뇌손상, 암, 뇌졸중 등\n
+                           \n발작은 심한 경우(발작이 15분 이상 지속되는 경우 등) 즉각적인 의학적 처치가 필요하지만 다행히도 대부분의 발작은 의학적 치료를 필요로 하지 않는다. 이러한 발작 환자에 대한 응급처치는 발작 시에 다치지 않도록 하고, 발작이 끝난 후 편하게 해주는 것이다.
+                           \n발작은 크게 신체가 한 가지 자세로 굳어지면서 떠는 운동성 발작과 신체의 떨림이 없이 잠시 동안의 의식 변화 등을 특징으로 하는 비운동성 발작의 두 가지 형태로 나뉜다.\n"
+            android:textSize="15dp" />
+
+        <View android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" />    <!-- 중간 선 표시 -->
+
+        <TextView
+            android:id="@+id/seiTv_M02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:textSize="18dp"
+            android:text="\n나. 비 운동성 발작 혹은 운동성 발작 직전의 증상 및 조치\n"/>
+
+        <TextView
+            android:id="@+id/seiTv_Sub02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="● 이상한 소리가 들린다.
+                          \n● 입안에 금속이 들어있는 것 같은 맛이 느껴진다.
+                          \n● 환각
+                          \n● 혼동 상태나 의식의 변화\n"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/seiTv_Sub03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:textSize="17dp"
+            android:text="\n\t비 운동성 경련 응급처치\n"/>
+
+        <TextView
+            android:id="@+id/seiTv_Sub04"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="의심이 되는 경우에 환자에서 필요한 응급처치는 없다.
+                          \n 신속히 병원으로 이송한다.\n"
+            android:textSize="15dp" />
+
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" />   <!-- 중간 선 표시 -->
+
+
+        <TextView
+            android:id="@+id/seiTv_M03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:textSize="20dp"
+            android:text="\n다. 운동성 발작의 증상 및 조치\n"/>
+        <TextView
+            android:id="@+id/seiTv_Sub05"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="● 얼굴과 사지가 툭툭 튀듯이 움직인다.
+                          \n● 눈이 상방을 주시하며 고정된다.
+                          \n● 침을 흘리거나 소변이나 대변을 본다.
+                          \n● 호흡이 힘들어지고 의식을 잃게 된다.\n"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/seiTv_Sub06"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:textSize="17dp"
+            android:text="\n\t운동성 경련 응급처치\n"/>
+
+        <com.google.android.youtube.player.YouTubePlayerView
+            android:id="@+id/youTubePlayerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/seiTv_Sub07"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="\n발작한 환자가 다칠 수 있는 주변에 무거운 것과 뾰족한 것을 치운다.
+                          \n두꺼운 시트나 베개 머리밑을 받쳐줘서 머리 손상을 방지한다.
+                          \n옆으로 눕혀서 기도를 확보시킨다.
+                          \n넥타이나 단추가 있다면 목을 조를 수도 있으므로 풀어준다.
+                          \n벨트도 배를 조일 수 있으므로 느슨하게 풀어준다.
+                          \n기도가 막힐 수도 있으므로 약을 억지로 먹이는 것을 금한다.
+                          \n대부분의 운동선 경련은 수분 이내에 종료되지만 경련을 다시 시작할 수 있기 때문에 이에 필요한 준비는 해야 하며, 환자가 경련하는 동안 다친 곳은 없는지 살펴보고 치료한다. 환자가 경련 후 수면을 지속할 수 있도록 한다."
+            android:textSize="15dp" />
+
+    </LinearLayout>
+</ScrollView>

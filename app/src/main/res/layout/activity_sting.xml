@@ -1,13 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:textSize="40dp"
-        android:text="activity_sting" />
+        android:orientation="vertical" >
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/stiTv_M01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="\n\n쏘임/물림 개요"/>
+
+        <TextView
+            android:id="@+id/stiTv_Sub01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="\n쏘임/물림의 경우는
+                            \n① 동물에게 물렸을 때
+                            \n② 뱀에게 물렸을 때
+                            \n③ 벌이나 벌레에게 쏘이는 경우
+                            \n의 세가지로 나누어 설명할 수 있다.\n\n"
+            android:textSize="15dp" />
+
+        <View android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" /> <!-- 중간 선 표시 -->
+
+        <TextView
+            android:id="@+id/stiTv_M02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:textSize="20dp"
+            android:text="\n① 동물에게 물렸을 때\n"/>
+
+        <com.google.android.youtube.player.YouTubePlayerView
+            android:id="@+id/youTubePlayerView_animal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/stiTv_Sub02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="\n동물에게 물린 경우 대부분에서 심각한 출혈은 발생하지 않으나, 2차 감염, 인대, 근육 또는 혈관, 신경 등에 심각한 손상을 일으킬 수도 있다.
+                            \n대부분의 동물교상은 개에 의해 발생하며, 그 외 고양이, 가축 그리고 야생동물에 의해 발생한다. 개의 침에는 약 60여 종의 세균이 존재하여 광견병 같은 심각한 감염을 일으킬 수 있다.\n
+                            \n● 표피 상처
+                            \n상처 부위를 흐르는 물에 비누로 5~10분간 깨끗이 씻는다.
+                            \n말린 후 접착드레싱이나 작은 알코올드레싱으로 덮는다.\n
+                            \n● 깊은 상처
+                            \n직접 압박을 하거나 물린 부위를 들어올려서 지혈한다.
+                            \n상처를 소독된 거즈나 깨끗한 패드로 덮고 붕대를 감는다.
+                            \n병/의원을 방문하여 경우에 따라 다음의 처치를 받도록 한다.
+                            \n세척, 항파상풍 주사, 봉합술 등을 시행하는데, 파상풍 예방 접종 경력과 시기에 대한 정보를 의료진에게 정확히 전달하면 도움을 받을 수 있다.\n"
+            android:textSize="15dp" />
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" /> <!-- 중간 선 표시 -->
+
+        <TextView
+            android:id="@+id/stiTv_M03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:textSize="20dp"
+            android:text="\n② 뱀에게 물렸을 때\n"/>
+
+        <com.google.android.youtube.player.YouTubePlayerView
+            android:id="@+id/youTubePlayerView_snake"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/stiTv_Sub03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="\n1. 독사여부 확인
+                            \n뱀에 물렸을 때의 상처자국을 보고 독사여부를 확인한다.
+                            \n  * 머리가 삼각형이고 물린 앞쪽에 두 개의 이빨 자국이면 독사\n
+                            \n2. 환자 안정
+                            \n환자를 눕혀서 안정시킨 뒤 움직이지 않게 한다.\n
+                            \n3. 압박하여 묶기
+                            \n물린곳에서 5~10cm 위를 적당한 압력으로 묶어 독이 퍼지지않게 한다.\n
+                            \n3. 압박하여 묶기
+                            \n물린곳에서 5~10cm 위를 적당한 압력으로 묶어 독이 퍼지지않게 한다.\n"
+            android:textSize="15dp" />
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" /> <!-- 중간 선 표시 -->
+
+        <TextView
+            android:id="@+id/stiTv_M04"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:textSize="20dp"
+            android:text="\n③ 벌이나 벌레에게 쏘이는 경우\n"/>
+
+        <com.google.android.youtube.player.YouTubePlayerView
+            android:id="@+id/youTubePlayerView_bee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/stiTv_Sub04"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="\n벌에 쏘일 경우 초기 증상으로는 쏘인 부위의 가려움, 통증 및 붓는 등의 국소적 현상이 대부분이다. 그러나 가장 심각한 증상은 벌독에 의해 생명을 위협할 수 있는 알레르기 반응(전신적 과민성 반응)이 발생했을 때이다.\n
+                            \n● 전신적 과민성 반응\n
+                            \n- 약 5% 정도에서 발생하는 것으로 알려져 있다.
+                            \n- 증상 : 몸이 붓고 가려움증이 발생하는 것, 이외에 피부가 창백해지고 식은땀이 나는 증세, 불안감, 두통, 어지럼증, 구토, 복부 통증, 호흡곤란, 경련, 의식 저하 등의 쇼크의 증상.
+                            \n- 증상 발현 시간 : 독소에 노출되고, 수 분에서 1시간 내에 발생.
+                            \n- 과민반응은 일단 시작하면 매우 빠른 경과를 밟으므로 초기에 치료를 시작하지 않으면 생명을 위협하는 경우가 많다.
+                            \n- 전신적 과민성 반응에 의한 사망 원인 중 60 ~ 80%는 공기를 폐로 전달하는 통로 역할을 하는 기도가 부어 숨을 쉴 수가 없어 사망하는 질식사로 보고되고 있다.
+                            \n- 두 번째로 흔한 사망 원인으로는 혈관 확장에 따른 의한 쇼크사이다.
+                            \n- 즉시 필요한 응급조치(심폐소생술 참고)를 시행하면서 신속히 의료기관으로 이송하여야 한다.\n"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/stiTv_Sub05"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="\n벌에게 쏘였을 떄 응급처치\n
+                            \n1. 벌침 찾기
+                            \n빨갛게 부어오른 부위에 검은 점처럼 보이는 벌침을 찾는다.\n
+                            \n2. 벌침 제거
+                            \n신용카드 등을 이용해 피부를 긁어내듯 침을 제거한다.\n
+                            \n3. 통증(부기) 완화
+                            \n상처 부위에 얼음주머니를 대 통증과 부기를 가라앉힌다.\n"
+            android:textSize="15dp" />
+
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+        <TextView
+            android:id="@+id/stiTv_Sub06"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="\n독거미에 물렸을 때
+                            \n1. 거미에 물렸을 때는 우선 거미의 사진을 찍어 둔다.\n
+                            \n2. 카메라가 없으면 거미의 크기와 모양을 기억하여 메모해 둔다.\n
+                            \n3. 시간이 지날수록 붓고 통증이 있다면 병원으로 간다.\n"
+            android:textSize="15dp" />
+
+        <View
+            android:background="#D0D0D0"
+            android:layout_width="match_parent"
+            android:layout_height="3px" />
+
+        <TextView
+            android:id="@+id/stiTv_Sub07"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="\n독나방에 쏘였을 때
+                            \n1. 독나방 가루가 피부에 묻으면 빨간 가루를 뿌린 것 같은 발진이 나타난다.\n
+                            \n2. 즉시 소독하고 스테로이드 연고를 바른다.\n"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+</ScrollView>

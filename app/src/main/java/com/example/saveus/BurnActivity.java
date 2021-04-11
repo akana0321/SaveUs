@@ -20,7 +20,7 @@ public class BurnActivity extends YouTubeBaseActivity {
     YouTubePlayer player;
 
     // 유튜브 API Key와 동영상 ID 변수설정
-    private String API_KEY = "API"; // 개인정보라서 깃허브에 올리면 위험함
+    private String API_KEY = "API KEY 입력"; // 개인정보라서 깃허브에 올리면 위험함
     private String videoId = "3iz8Eur5xqI";
     private final String TAG = "BurnActivity";
 

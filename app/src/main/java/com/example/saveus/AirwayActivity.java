@@ -17,11 +17,11 @@ import com.google.android.youtube.player.YouTubePlayerView;
 
 public class AirwayActivity extends YouTubeBaseActivity {
     // 객체 선언
-    YouTubePlayerView playerView_Adult,playerView_Child; // 성인 및 유아 동영상 2개이므로
+    YouTubePlayerView playerView_Adult, playerView_Child; // 성인 및 유아 동영상 2개이므로
     YouTubePlayer player_Adult, player_Child; // 성인 및 유아 동영상 2개이므로
 
     // 유튜브 API Key와 동영상 ID 변수설정
-    private String API_KEY = "API"; // 개인정보라서 깃허브에 올리면 위험함
+    private String API_KEY = "API KEY 입력"; // 개인정보라서 깃허브에 올리면 위험함
     private String videoId_Adult = "BhaR7UieJXQ";
     private String videoId_child = "AQmoPWdI2pg";
 
@@ -34,13 +34,6 @@ public class AirwayActivity extends YouTubeBaseActivity {
         setTitle("기도폐쇄");
 
         initPlayer();   // 유튜브 플레이어 가져오기
-        /****************************************************
-         ****************** 변수 선언부 *********************
-         ****************************************************/
-
-        /****************************************************
-         *************** 인텐트 변환 메서드 ******************
-         ****************************************************/
     }
 
     // 유튜브 플레이어를 가져오는 메서드
@@ -90,7 +83,7 @@ public class AirwayActivity extends YouTubeBaseActivity {
         playerView_Child.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                player_Child= youTubePlayer;
+                player_Child = youTubePlayer;
                 player_Child.cueVideo(videoId_child);
 
                 player_Child.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
