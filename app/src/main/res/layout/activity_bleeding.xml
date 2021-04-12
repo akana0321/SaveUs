@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_height="0dp"
+        android:layout_weight="1">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -29,7 +30,7 @@
 
             <View android:background="#D0D0D0"
                 android:layout_width="match_parent"
-                android:layout_height="3px" />    <!-- 중간 선 표시 -->
+                android:layout_height="3px" />
 
             <TextView
                 android:id="@+id/bleTv_M02"
@@ -58,26 +59,26 @@
             <View
                 android:background="#D0D0D0"
                 android:layout_width="match_parent"
-                android:layout_height="3px" />   <!-- 중간 선 표시 -->
+                android:layout_height="3px" />
 
             <TextView
                 android:id="@+id/bleTv_Sub03"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
-                android:text="2. 10분 이내에 출혈이 멈추지 않는다면 압박의 강도가 약했거나 압박 부위가 잘못된 것이다. \n\n 압박 부위를 넓히고 강도를 더 세게 하여 다시 10분 동안 압박한다. 팔이나 다리에서 출혈이 있을 경우 압박을 가하면서 동시에 상처 부위를 심장보다 높게 들어 올려 혈액의 흐름을 줄인다. \n상처부위를 심장보다 높이면 중력의 작용으로 피가 심장에서 팔 다리로 흐르는 것이 어려워진다. 그러나 상처 부위를 높이는 것만으로는 출혈이 멈추지 않으므로 압박을 함께 실시한다.\n"
+                android:text="2. 10분 이내에 출혈이 멈추지 않는다면 압박의 강도가 약했거나 압박 부위가 잘못된 것이다. \n\n 압박 부위를 넓히고 강도를 더 세게 하여 다시 10분 동안 압박한다. 팔이나 다리에서 출혈이 있을 경우 압박을 가하면서 동시에 상처 부위를 심장보다 높게 들어 올려 혈액의 흐름을 줄인다.\n\t상처부위를 심장보다 높이면 중력의 작용으로 피가 심장에서 팔 다리로 흐르는 것이 어려워진다. 그러나 상처 부위를 높이는 것만으로는 출혈이 멈추지 않으므로 압박을 함께 실시한다.\n"
                 android:textSize="15dp" />
             <View
                 android:background="#D0D0D0"
                 android:layout_width="match_parent"
-                android:layout_height="3px" />   <!-- 중간 선 표시 -->
+                android:layout_height="3px" />
 
             <TextView
                 android:id="@+id/bleTv_Sub04"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
-                android:text="3. 출혈이 계속되면 상처 부위를 직접 압박함과 동시에 압박 점에 압박을 가해서 혈류를 늦춘다.\n\n 압박 점은 체표면의 뼈 근처를 지나는 동맥이다. \n 따라서 압박 시 뼈에 닿는 듯한 느낌으로 압박을 하여야 한다. 몸 양측의 두 압박 점인 ＊[팔 쪽 출혈 인 경우]위팔 안쪽의 상완점(상완동맥)과 ＊[하체쪽 출혈인 경우] 사타구니의 대퇴점(대퇴동맥)이 가장 찾기 시운 압박점이다. \n"
+                android:text="3. 출혈이 계속되면 상처 부위를 직접 압박함과 동시에 압박 점에 압박을 가해서 혈류를 늦춘다.\n\n\t압박 점은 체표면의 뼈 근처를 지나는 동맥이다. \n\t따라서 압박 시 뼈에 닿는 듯한 느낌으로 압박을 하여야 한다. 몸 양측의 두 압박 점인 ＊[팔 쪽 출혈 인 경우]위팔 안쪽의 상완점(상완동맥)과 ＊[하체쪽 출혈인 경우] 사타구니의 대퇴점(대퇴동맥)이 가장 찾기 시운 압박점이다. \n"
                 android:textSize="15dp" />
             <View
                 android:background="#D0D0D0"
@@ -89,27 +90,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
-                android:text="4.출혈이 멈춘 후 압박붕대를 사용하여 상처 부위에 댄 드레싱을 고정시킨다. 감은 붕대를 이용하여 상처 부위의 위아래를 단단히 감는다.\n\n
-    만약, 상처 부위를 직접 압박할 수 없는 경우는 (예를 들면 탈구, 두개골 골절, 이물질이 박여있을 경우)거즈를 도넛 모양의 고리를 만들어 지혈한다. \n도넛 모양의 고리는 폭이 좁은 붕대(감은 붕대, 접은 삼각건)의 한쪽 끝을 네 손가락으로 여러 번 감아 동글게 만든다. 다른 한쪽 끝을 고리 안쪽으로 집어 넣어 테두리를 감는다. \n붕대를 다 쓸 때 까지 계속 감는다.\n"
+                android:text="4.출혈이 멈춘 후 압박붕대를 사용하여 상처 부위에 댄 드레싱을 고정시킨다. 감은 붕대를 이용하여 상처 부위의 위아래를 단단히 감는다.\n\n\t만약, 상처 부위를 직접 압박할 수 없는 경우는 (예를 들면 탈구, 두개골 골절, 이물질이 박여있을 경우)거즈를 도넛 모양의 고리를 만들어 지혈한다.\n\t도넛 모양의 고리는 폭이 좁은 붕대(감은 붕대, 접은 삼각건)의 한쪽 끝을 네 손가락으로 여러 번 감아 동글게 만든다. 다른 한쪽 끝을 고리 안쪽으로 집어 넣어 테두리를 감는다. \n붕대를 다 쓸 때 까지 계속 감는다.\n"
                 android:textSize="15dp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.google.android.material.bottomnavigation.BottomNavigationView
-                    android:id="@+id/frBottom"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:background="?android:attr/windowBackground"
-                    app:labelVisibilityMode="labeled"
-                    app:itemIconTint="@color/cardview_dark_background"
-                    app:itemTextColor="@color/cardview_dark_background"
-                    app:menu="@menu/bottom_nav" />
-            </RelativeLayout>
         </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/frBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="?android:attr/windowBackground"
+            app:labelVisibilityMode="labeled"
+            app:itemIconTint="@color/cardview_dark_background"
+            app:itemTextColor="@color/cardview_dark_background"
+            app:menu="@menu/bottom_nav" />
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

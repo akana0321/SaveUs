@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_height="0dp"
+        android:layout_weight="1">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -18,7 +19,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:text="\n\가. 진행과정"/>
-
             <TextView
                 android:id="@+id/heaTV_Sub01"
                 android:layout_width="match_parent"
@@ -29,7 +29,7 @@
 
             <View android:background="#D0D0D0"
                 android:layout_width="match_parent"
-                android:layout_height="3px" /> <!-- 중간 선 표시 -->
+                android:layout_height="3px" />
 
             <TextView
                 android:id="@+id/heaTV_M02"
@@ -66,7 +66,7 @@
             <View
                 android:background="#D0D0D0"
                 android:layout_width="match_parent"
-                android:layout_height="3px" /> <!-- 중간 선 표시 -->
+                android:layout_height="3px" />
 
             <TextView
                 android:id="@+id/airTv_Sub04"
@@ -78,7 +78,7 @@
             <View
                 android:background="#D0D0D0"
                 android:layout_width="match_parent"
-                android:layout_height="3px" /> <!-- 중간 선 표시 -->
+                android:layout_height="3px" />
 
             <TextView
                 android:id="@+id/airTv_Sub05"
@@ -155,7 +155,7 @@
             <View
                 android:background="#D0D0D0"
                 android:layout_width="match_parent"
-                android:layout_height="3px" /> <!-- 중간 선 표시 -->
+                android:layout_height="3px" />
 
             <TextView
                 android:id="@+id/airTv_Sub11"
@@ -167,7 +167,7 @@
             <View
                 android:background="#D0D0D0"
                 android:layout_width="match_parent"
-                android:layout_height="3px" /> <!-- 중간 선 표시 -->
+                android:layout_height="3px" />
 
             <TextView
                 android:id="@+id/airTv_Sub12"
@@ -205,45 +205,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="3px" />
         </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/heabtn_pat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:layout_marginBottom="0dp"
+            android:text="심장수 파악" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/heabtn_pat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
-                android:layout_marginBottom="0dp"
-                android:text="심장수 파악" />
-
-            <Button
-                android:id="@+id/heabtn_aed"
-                android:layout_marginLeft="70dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="AED 위치" />
-        </LinearLayout>
-
-        <RelativeLayout
+        <Button
+            android:id="@+id/heabtn_aed"
+            android:layout_marginLeft="70dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="AED 위치" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/frBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/frBottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:background="?android:attr/windowBackground"
-                app:labelVisibilityMode="labeled"
-                app:itemIconTint="@color/cardview_dark_background"
-                app:itemTextColor="@color/cardview_dark_background"
-                app:menu="@menu/bottom_nav" />
-        </RelativeLayout>
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="?android:attr/windowBackground"
+            app:labelVisibilityMode="labeled"
+            app:itemIconTint="@color/cardview_dark_background"
+            app:itemTextColor="@color/cardview_dark_background"
+            app:menu="@menu/bottom_nav" />
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

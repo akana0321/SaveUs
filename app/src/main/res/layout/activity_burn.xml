@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_height="0dp"
+        android:layout_weight="1">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -24,14 +26,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="① 1도 화상 - 피부가 빨갛게 되면서 부어오르나 물집은 생기지 않는다. 약한 통증이 있음.\n
-                                ② 2도 화상 - 피부가 빨갛게 되고 타는 듯한 통증이 있다. 대부분 물집을 형성하며, 부종을 동반하고 심하게 통증을 느낌.\n
-                                ③ 3도 화상 - 피부 전층이 손상을 입어 피부가 건조하고 흰색 또는 검은색으로 변한다. 피부 속 깊은 곳까지 화상을 입은 상태.\n\n"
+                android:text="① 1도 화상 - 피부가 빨갛게 되면서 부어오르나 물집은 생기지 않는다. 약한 통증이 있음.\n② 2도 화상 - 피부가 빨갛게 되고 타는 듯한 통증이 있다. 대부분 물집을 형성하며, 부종을 동반하고 심하게 통증을 느낌.\n③ 3도 화상 - 피부 전층이 손상을 입어 피부가 건조하고 흰색 또는 검은색으로 변한다. 피부 속 깊은 곳까지 화상을 입은 상태.\n\n"
                 android:textSize="15dp" />
 
             <View android:background="#D0D0D0"
                 android:layout_width="match_parent"
-                android:layout_height="3px" /> <!-- 중간 선 표시 -->
+                android:layout_height="3px" />
 
             <TextView
                 android:id="@+id/burnTv_M02"
@@ -54,35 +54,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
-                android:text="1.옷을 벗기지 말고 가위로 제거합니다.\n\n
-    접촉 시간이 길어질수록 손상이 심해집니다.
-    옷은 벗기려 하지 말고 가위로 제거하는 것이 열과의 접촉 시간을 줄여주어 손상이 심해지는 것을 예방할 수 있습니다.\n"
+                android:text="1.옷을 벗기지 말고 가위로 제거합니다.\n\n\t접촉 시간이 길어질수록 손상이 심해집니다.옷은 벗기려 하지 말고 가위로 제거하는 것이 열과의 접촉 시간을 줄여주어 손상이 심해지는 것을 예방할 수 있습니다.\n"
                 android:textSize="15dp" />
             <View
                 android:background="#D0D0D0"
                 android:layout_width="match_parent"
-                android:layout_height="3px" /> <!-- 중간 선 표시 -->
+                android:layout_height="3px" />
 
             <TextView
                 android:id="@+id/burnTv_Sub03"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
-                android:text="2.화상의 범위 정도 파악한다.\n\n 1도·2도 화상은 계속해서 생리 식염수나 흐르는 찬물에 씻어 내리거나, 찬물에 담가둔다.\n
-    만약, 얼굴과 같이 물에 담그기 힘든 경우에는 화상부위에 찬물 찜질을 수행합니다.
-    광범위한 2도 · 3도 화상은 찬물로 씻거나 찬물로 담그면 안되면, 충격과 감염을 예방하기 위해, 신체를 압박하는 모든 장신구는 부종이 생기기 전에 조심스럽게 제거합니다.\n"
+                android:text="2.화상의 범위 정도 파악한다.\n\n\t1도·2도 화상은 계속해서 생리 식염수나 흐르는 찬물에 씻어 내리거나, 찬물에 담가둔다.\n\t만약, 얼굴과 같이 물에 담그기 힘든 경우에는 화상부위에 찬물 찜질을 수행합니다.광범위한 2도·3도 화상은 찬물로 씻거나 찬물로 담그면 안되면, 충격과 감염을 예방하기 위해, 신체를 압박하는 모든 장신구는 부종이 생기기 전에 조심스럽게 제거합니다.\n"
                 android:textSize="15dp" />
             <View
                 android:background="#D0D0D0"
                 android:layout_width="match_parent"
-                android:layout_height="3px" /> <!-- 중간 선 표시 -->
+                android:layout_height="3px" />
 
             <TextView
                 android:id="@+id/burnTv_Sub04"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
-                android:text="3. 깨끗하고 멸균된 드레싱으로 상처를 덮어주고 화상 부위의 이차 감염을 예방한다.\n\n너무 조이지 않게 감아야 합니다. 압박이 강한 경우에는 혈액 순환이 잘 되지 않아 상처가 깊어질 수 있으니 사용에 주의를 요합니다.\n"
+                android:text="3. 깨끗하고 멸균된 드레싱으로 상처를 덮어주고 화상 부위의 이차 감염을 예방한다.\n\n\t너무 조이지 않게 감아야 합니다. 압박이 강한 경우에는 혈액 순환이 잘 되지 않아 상처가 깊어질 수 있으니 사용에 주의를 요합니다.\n"
                 android:textSize="15dp" />
             <View
                 android:background="#D0D0D0"
@@ -96,25 +92,23 @@
                 android:padding="3dp"
                 android:text="4.수포 또는 괴사된 부위를 제거해서는 안되고 감염이 의심되면 즉시 병원으로 후송한다.\n"
                 android:textSize="15dp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.google.android.material.bottomnavigation.BottomNavigationView
-                    android:id="@+id/frBottom"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:background="?android:attr/windowBackground"
-                    app:labelVisibilityMode="labeled"
-                    app:itemIconTint="@color/cardview_dark_background"
-                    app:itemTextColor="@color/cardview_dark_background"
-                    app:menu="@menu/bottom_nav" />
-            </RelativeLayout>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/frBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="?android:attr/windowBackground"
+            app:labelVisibilityMode="labeled"
+            app:itemIconTint="@color/cardview_dark_background"
+            app:itemTextColor="@color/cardview_dark_background"
+            app:menu="@menu/bottom_nav" />
+    </LinearLayout>
+</LinearLayout>
