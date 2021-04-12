@@ -6,14 +6,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MountainActivity extends AppCompatActivity {
+public class MountainActivity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mountain);
+        actList.add(this);  // 메인의 Activity List에 추가
         setTitle("등산 중 사고 신고");
 
         /****************************************************
@@ -23,7 +23,7 @@ public class MountainActivity extends AppCompatActivity {
         /****************************************************
          *************** 인텐트 변환 메서드 ******************
          ****************************************************/
-
+        /* 20210412 - 아직 구현이 되지 않아서 바텀 네비게이션 살려두면 어플이 사망함
         // 바텀 네이게이션 각 버튼 클릭시 실행.
         BottomNavigationView frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
         frBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -31,10 +31,15 @@ public class MountainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.frBack :
-                        Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-                        startActivity(intent); // 2021.04.07 임시로 페이지가 전환되는 지 확인하기 위해 작성해 봄.
+                        finish();
                         return true;
                     case R.id.frMain :
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        // 활성화 되어 있는 모든 인텐트 삭제
+                        for (int i = 0; i < actList.size(); i++)
+                            actList.get(i).finish();
+                        startActivity(intent);
+                        finish();
                         return true;
                     case R.id.frExit :
                         moveTaskToBack(true); // 태스크를 백그라운드로 이동
@@ -45,6 +50,7 @@ public class MountainActivity extends AppCompatActivity {
                 return false;
             }
         });
+         */
     }
 
     // 상단 우측 탭 호출

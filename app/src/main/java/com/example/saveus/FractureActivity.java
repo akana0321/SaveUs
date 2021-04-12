@@ -2,41 +2,58 @@ package com.example.saveus;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
-public class FractureActivity extends AppCompatActivity {
-
-    // 유튜브 API Key와 동영상 ID 변수설정
-    private String API_KEY = "API KEY 입력"; // 개인정보라서 깃허브에 올리면 위험함
-    private String videoId = "vb7iYw_u24E";
-
-    // logcat 사용설정
-    private final String TAG = "FractureActivity";
-    BottomNavigationView frBottom;
-
+public class FractureActivity extends MainActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fracture);
+        actList.add(this);  // 메인의 Activity List에 추가
         setTitle("골절");
-        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_Fracture);  // 타인 깃허브 보고 참고해서 넣어봄.
+
+        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_fracture);  // 타인 깃허브 보고 참고해서 넣어봄.
         getLifecycle().addObserver(youTubePlayerView); // // 타인 깃허브 보고 참고해서 넣어봄.
 
+        BottomNavigationView frBottom = (BottomNavigationView)findViewById(R.id.frBottom);
+        frBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.frBack :
+                        finish();
+                        return true;
+                    case R.id.frMain :
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        // 활성화 되어 있는 모든 인텐트 삭제
+                        for (int i = 0; i < actList.size(); i++)
+                            actList.get(i).finish();
+                        startActivity(intent);
+                        finish();
+                        return true;
+                    case R.id.frExit :
+                        moveTaskToBack(true); // 태스크를 백그라운드로 이동
+                        finishAndRemoveTask(); // 액티비티 종료 + 태스크 리스트에서 지우기
+                        System.exit(0);
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) { // 상단 우측 탭 호출
         getMenuInflater().inflate(R.menu.toolbar_menu,menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items

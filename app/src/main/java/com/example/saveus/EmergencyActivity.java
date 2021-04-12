@@ -2,20 +2,17 @@ package com.example.saveus;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class EmergencyActivity extends AppCompatActivity {
+public class EmergencyActivity extends MainActivity {
     TextView EmerTv_BruTv,EmerTv_BurnTv,EmerTv_AirTv,EmerTv_SeiTv,EmerTv_StiTv,Emer_HeaTv;
     BottomNavigationView frBottom;
 
@@ -23,6 +20,7 @@ public class EmergencyActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency);
+        actList.add(this);  // 메인의 Activity List에 추가
         setTitle("응급처치");
 
         EmerTv_BruTv = (TextView)findViewById(R.id.emerTv_bru);
@@ -86,6 +84,12 @@ public class EmergencyActivity extends AppCompatActivity {
                         finish();
                         return true;
                     case R.id.frMain :
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        // 활성화 되어 있는 모든 인텐트 삭제
+                        for (int i = 0; i < actList.size(); i++)
+                            actList.get(i).finish();
+                        startActivity(intent);
+                        finish();
                         return true;
                     case R.id.frExit :
                         moveTaskToBack(true); // 태스크를 백그라운드로 이동

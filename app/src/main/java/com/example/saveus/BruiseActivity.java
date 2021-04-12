@@ -8,17 +8,17 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class BruiseActivity extends AppCompatActivity {
+public class BruiseActivity extends MainActivity {
     TextView EmerTv_fraTv, EmerTv_sprTv, EmerTv_bleTv;
     BottomNavigationView frBottom;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bruise);
+        actList.add(this);  // 메인의 Activity List에 추가
         setTitle("타박상");
 
         // 변수 선언
@@ -56,10 +56,15 @@ public class BruiseActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.frBack :
-                        Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-                        startActivity(intent); // 2021.04.07 임시로 페이지가 전환되는 지 확인하기 위해 작성해 봄.
+                        finish();
                         return true;
                     case R.id.frMain :
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        // 활성화 되어 있는 모든 인텐트 삭제
+                        for (int i = 0; i < actList.size(); i++)
+                            actList.get(i).finish();
+                        startActivity(intent);
+                        finish();
                         return true;
                     case R.id.frExit :
                         moveTaskToBack(true); // 태스크를 백그라운드로 이동

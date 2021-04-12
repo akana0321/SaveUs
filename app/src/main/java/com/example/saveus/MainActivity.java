@@ -17,9 +17,13 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     TextView MainTv_EMER, MainTv_AED, Main_MOUN,Main_PATI,Main_CONT;
     BottomNavigationView frBottom;
+
+    public static ArrayList<Activity> actList = new ArrayList<Activity>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,19 +79,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
-                    case R.id.frBack :
-                        Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-                        startActivity(intent); // 2021.04.07 임시로 페이지가 전환되는 지 확인하기 위해 작성해 봄.
-                        return true;
                     case R.id.frMain :
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        // 활성화 되어 있는 모든 인텐트 삭제
+                        for (int i = 0; i < actList.size(); i++)
+                            actList.get(i).finish();
+                        startActivity(intent);
+                        finish();
                         return true;
-                    case R.id.frExit :
+                    default :
                         moveTaskToBack(true); // 태스크를 백그라운드로 이동
                         finishAndRemoveTask(); // 액티비티 종료 + 태스크 리스트에서 지우기
                         System.exit(0);
                         return true;
                 }
-                return false;
             }
         });
 

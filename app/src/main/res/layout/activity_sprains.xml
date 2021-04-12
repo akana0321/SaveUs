@@ -8,84 +8,108 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+            <TextView
+                android:id="@+id/sprTv_M01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="\n\가. 시행 요법"/>
 
-        <TextView
-            android:id="@+id/sprTv_M01"
+            <TextView
+                android:id="@+id/sprTv_Sub01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="R.I.C.E 요법 수행 \n\n 염좌 부상에서 가장 중요한 것은 손상 후 24시간 이내에 R.I.C.E(안정 [Rest], 냉찜질 [Ice], 압박 [Compression], 거상 [Elevation])요법을 적용하는 것이다.\n\n
+    근육과 같은 연부조직이 손상을 받게 되면, 주변 혈관들도 함께 손상을 받아 이로 인해 혈액이 손상부위에 모이며 인접한 조직들이 압박을 받게 된다.\n
+    이러한 압박은 이차적인 조직의 손상을 유발하게 되므로 손상부위의 출혈을 최소화 하여야 된다."
+                android:textSize="15dp" />
+
+            <View android:background="#D0D0D0"
+                android:layout_width="match_parent"
+                android:layout_height="3px" />
+
+            <TextView
+                android:id="@+id/sprTv_M02"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="3dp"
+                android:textSize="20dp"
+                android:text="\n나. 시행순서\n"/>
+
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/youtube_player_sprains"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:videoId="4D0Kk5owWP4"
+                app:autoPlay="false"
+                app:showFullScreenButton="false" />
+
+            <TextView
+                android:id="@+id/sprTv_Sub02"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="① 안정,휴식(Rest)\n\n 부상을 당했다면 우선 활동을 멈추어야 한다. 그렇지 않으면 출혈이 많아지고 붓기도 심해집니다. 다리를 다쳤다면 즉시 목발을 사용하거나 주변사람들의 부축을 받아 활동을 최소화하여야 합니다. 팔을 다쳤다면 다치지 않은 팔로 부상당한 팔의 움직임을 최소화 하여야 합니다.\n"
+                android:textSize="15dp" />
+            <View
+                android:background="#D0D0D0"
+                android:layout_width="match_parent"
+                android:layout_height="3px" />
+
+            <TextView
+                android:id="@+id/sprTv_Sub03"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="② 냉찜질(Ice)\n\n 손상직후 바로 냉찜질법을 적용해야 하며 이는 손상부위의 대사활동을 감소시켜줍니다. 손상 후 1-2시간 마다 한번씩 15분 정도 냉찜질을해줍니다. 젤의 형태나 팩 형태의 얼음주머니를 사용합니다.\n"
+                android:textSize="15dp" />
+            <View
+                android:background="#D0D0D0"
+                android:layout_width="match_parent"
+                android:layout_height="3px" />
+
+            <TextView
+                android:id="@+id/sprTv_Sub04"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="③ 압박(Compression) \n\n 압박은 흔히 탄력붕대를 사용하는 것이 좋은 방법입니다. 손상부위의 적절한 압박은 손상부위의 출혈 및 부종을 감소시켜줍니다. \n압박은 냉찜질 전, 후에 실시하여야 하며. 압박붕대를 감을 때 주의점은 단단히 감는 것은 좋으나 통증이 있을 정도의 단단함은 좋지 않습니다. 또한 심장에서 먼 곳 에서 가까운 쪽으로 감아주는 것이 좋습니다.\n"
+                android:textSize="15dp" />
+            <View
+                android:background="#D0D0D0"
+                android:layout_width="match_parent"
+                android:layout_height="3px" />
+
+            <TextView
+                android:id="@+id/sprTv_Sub05"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="④ 거상(Elevation) \n\n 거상은 부상부위를 심장높이 보다 높게 들어 올려주는 것입니다. 손상부위의 거상은 손상부위의 압력을 낮춰주어 붓기를 줄여줍니다.\n"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="\n\가. 시행 요법"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/sprTv_Sub01"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="R.I.C.E 요법 수행 \n\n 염좌 부상에서 가장 중요한 것은 손상 후 24시간 이내에 R.I.C.E(안정 [Rest], 냉찜질 [Ice], 압박 [Compression], 거상 [Elevation])요법을 적용하는 것이다.\n\n
-근육과 같은 연부조직이 손상을 받게 되면, 주변 혈관들도 함께 손상을 받아 이로 인해 혈액이 손상부위에 모이며 인접한 조직들이 압박을 받게 된다.\n
-이러한 압박은 이차적인 조직의 손상을 유발하게 되므로 손상부위의 출혈을 최소화 하여야 된다."
-            android:textSize="15dp" />
-
-        <View android:background="#D0D0D0"
-            android:layout_width="match_parent"
-            android:layout_height="3px" />
-
-        <TextView
-            android:id="@+id/sprTv_M02"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="3dp"
-            android:textSize="20dp"
-            android:text="\n나. 시행순서\n"/>
-
-        <com.google.android.youtube.player.YouTubePlayerView
-            android:id="@+id/youTubePlayerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/sprTv_Sub02"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="3dp"
-            android:text="① 안정,휴식(Rest)\n\n 부상을 당했다면 우선 활동을 멈추어야 한다. 그렇지 않으면 출혈이 많아지고 붓기도 심해집니다. 다리를 다쳤다면 즉시 목발을 사용하거나 주변사람들의 부축을 받아 활동을 최소화하여야 합니다. 팔을 다쳤다면 다치지 않은 팔로 부상당한 팔의 움직임을 최소화 하여야 합니다.\n"
-            android:textSize="15dp" />
-        <View
-            android:background="#D0D0D0"
-            android:layout_width="match_parent"
-            android:layout_height="3px" />
-
-        <TextView
-            android:id="@+id/sprTv_Sub03"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="3dp"
-            android:text="② 냉찜질(Ice)\n\n 손상직후 바로 냉찜질법을 적용해야 하며 이는 손상부위의 대사활동을 감소시켜줍니다. 손상 후 1-2시간 마다 한번씩 15분 정도 냉찜질을해줍니다. 젤의 형태나 팩 형태의 얼음주머니를 사용합니다.\n"
-            android:textSize="15dp" />
-        <View
-            android:background="#D0D0D0"
-            android:layout_width="match_parent"
-            android:layout_height="3px" />
-
-        <TextView
-            android:id="@+id/sprTv_Sub04"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="3dp"
-            android:text="③ 압박(Compression) \n\n 압박은 흔히 탄력붕대를 사용하는 것이 좋은 방법입니다. 손상부위의 적절한 압박은 손상부위의 출혈 및 부종을 감소시켜줍니다. \n압박은 냉찜질 전, 후에 실시하여야 하며. 압박붕대를 감을 때 주의점은 단단히 감는 것은 좋으나 통증이 있을 정도의 단단함은 좋지 않습니다. 또한 심장에서 먼 곳 에서 가까운 쪽으로 감아주는 것이 좋습니다.\n"
-            android:textSize="15dp" />
-        <View
-            android:background="#D0D0D0"
-            android:layout_width="match_parent"
-            android:layout_height="3px" />
-
-        <TextView
-            android:id="@+id/sprTv_Sub05"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="3dp"
-            android:text="④ 거상(Elevation) \n\n 거상은 부상부위를 심장높이 보다 높게 들어 올려주는 것입니다. 손상부위의 거상은 손상부위의 압력을 낮춰주어 붓기를 줄여줍니다.\n"
-            android:textSize="15dp" />
-
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/frBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="?android:attr/windowBackground"
+                app:labelVisibilityMode="labeled"
+                app:itemIconTint="@color/cardview_dark_background"
+                app:itemTextColor="@color/cardview_dark_background"
+                app:menu="@menu/bottom_nav" />
+        </RelativeLayout>
     </LinearLayout>
 </ScrollView>

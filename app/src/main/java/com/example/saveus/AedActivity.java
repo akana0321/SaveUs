@@ -6,14 +6,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class AedActivity extends AppCompatActivity {
+public class AedActivity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aed);
+        actList.add(this);  // 메인의 Activity List에 추가
         setTitle("AED 위치");
 
         /****************************************************
@@ -24,6 +24,7 @@ public class AedActivity extends AppCompatActivity {
          *************** 인텐트 변환 메서드 ******************
          ****************************************************/
 
+        /* 20210412 - 아직 구현이 되지 않아서 바텀 네비게이션 살려두면 어플이 사망함
         // 바텀 네이게이션 각 버튼 클릭시 실행.
         BottomNavigationView frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
         frBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -35,6 +36,12 @@ public class AedActivity extends AppCompatActivity {
                         startActivity(intent); // 2021.04.07 임시로 페이지가 전환되는 지 확인하기 위해 작성해 봄.
                         return true;
                     case R.id.frMain :
+                        intent = new Intent(getApplicationContext(), MainActivity.class);
+                        // 활성화 되어 있는 모든 인텐트 삭제
+                        for (int i = 0; i < actList.size(); i++)
+                            actList.get(i).finish();
+                        startActivity(intent);
+                        finish();
                         return true;
                     case R.id.frExit :
                         moveTaskToBack(true); // 태스크를 백그라운드로 이동
@@ -45,6 +52,7 @@ public class AedActivity extends AppCompatActivity {
                 return false;
             }
         });
+         */
     }
 
     // 상단 우측 탭 호출

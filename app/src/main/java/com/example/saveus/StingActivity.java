@@ -1,176 +1,83 @@
 package com.example.saveus;
 
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
-//import com.google.android.youtube.player.YouTubeBaseActivity;
-//import com.google.android.youtube.player.YouTubeInitializationResult;
-//import com.google.android.youtube.player.YouTubePlayer;
-//import com.google.android.youtube.player.YouTubePlayerView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
-public class StingActivity extends AppCompatActivity {
-    // 객체 선언
-    //YouTubePlayerView playerView_Animal, playerView_Snake, playerView_Bee; // 동물, 뱀, 벌 동영상 2개이므로
-   // YouTubePlayer player_Animal, player_Snake, player_Bee; // 동물, 뱀, 벌 동영상 3개이므로
 
-    // 유튜브 API Key와 동영상 ID 변수설정
-    private String API_KEY = "API KEY 입력"; // 개인정보라서 깃허브에 올리면 위험함
-    private String videoId_Animal = "YcKSwrV8q3w";
-    private String videoId_Snake = "kuEphbssvBI";
-    private String videoId_Bee = "OiWefNZ0wK0";
-
-    // logcat 사용설정
-    private final String TAG = "StingActivity";
-
+public class StingActivity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sting);
+        actList.add(this);  // 메인의 Activity List에 추가
         setTitle("쏘임/물림");
 
-        //initPlayer();   // 유튜브 플레이어 가져오기
-    }
+        YouTubePlayerView youTubePlayerView_ANIMAL = findViewById(R.id.youtube_player_animal);
+        YouTubePlayerView youTubePlayerView_SNAKE = findViewById(R.id.youtube_player_snake);
+        YouTubePlayerView youTubePlayerView_BEE = findViewById(R.id.youtube_player_bee);
+        getLifecycle().addObserver(youTubePlayerView_ANIMAL);
+        getLifecycle().addObserver(youTubePlayerView_SNAKE);
+        getLifecycle().addObserver(youTubePlayerView_BEE);
 
-    // 유튜브 플레이어를 가져오는 메서드
-    /*
-    private void initPlayer() {
-        playerView_Animal = findViewById(R.id.youTubePlayerView_animal);
-        playerView_Snake = findViewById(R.id.youTubePlayerView_snake);
-        playerView_Bee = findViewById(R.id.youTubePlayerView_bee);
-
-        playerView_Animal.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
+        BottomNavigationView frBottom = (BottomNavigationView)findViewById(R.id.frBottom);
+        frBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                player_Animal = youTubePlayer;
-                player_Animal.cueVideo(videoId_Animal);
-
-                player_Animal.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
-                    @Override
-                    public void onLoading() {
-                    }
-                    @Override
-                    public void onLoaded(String id) {
-                        Log.d(TAG, "onLoaded : " + id); // 정상적으로 load가 되면 TAG에 상태 저장
-                    }
-                    @Override
-                    public void onAdStarted() {
-
-                    }
-                    @Override
-                    public void onVideoStarted() {
-
-                    }
-                    @Override
-                    public void onVideoEnded() {
-
-                    }
-                    @Override
-                    public void onError(YouTubePlayer.ErrorReason errorReason) {
-                        Log.d(TAG, "onError : " + errorReason);
-                        // 에러가 나면 에러 이유를 TAG에 상태 저장
-                    }
-                });
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-            }
-        });
-
-        playerView_Snake.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                player_Snake = youTubePlayer;
-                player_Snake.cueVideo(videoId_Snake);
-
-                player_Snake.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
-                    @Override
-                    public void onLoading() {
-
-                    }
-
-                    @Override
-                    public void onLoaded(String s) {
-                        Log.d(TAG, "onLoaded : " + s); // 정상적으로 load가 되면 TAG에 상태 저장
-                    }
-
-                    @Override
-                    public void onAdStarted() {
-
-                    }
-
-                    @Override
-                    public void onVideoStarted() {
-
-                    }
-
-                    @Override
-                    public void onVideoEnded() {
-
-                    }
-
-                    @Override
-                    public void onError(YouTubePlayer.ErrorReason errorReason) {
-                        Log.d(TAG, "onError : " + errorReason);
-                        // 에러가 나면 에러 이유를 TAG에 상태 저장
-                    }
-                });
-            }
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-
-            }
-        });
-
-        playerView_Bee.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                player_Bee = youTubePlayer;
-                player_Bee.cueVideo(videoId_Bee);
-
-                player_Bee.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
-                    @Override
-                    public void onLoading() {
-
-                    }
-
-                    @Override
-                    public void onLoaded(String s) {
-                        Log.d(TAG, "onLoaded : " + s); // 정상적으로 load가 되면 TAG에 상태 저장
-                    }
-
-                    @Override
-                    public void onAdStarted() {
-
-                    }
-
-                    @Override
-                    public void onVideoStarted() {
-
-                    }
-
-                    @Override
-                    public void onVideoEnded() {
-
-                    }
-
-                    @Override
-                    public void onError(YouTubePlayer.ErrorReason errorReason) {
-                        Log.d(TAG, "onError : " + errorReason);
-                        // 에러가 나면 에러 이유를 TAG에 상태 저장
-                    }
-                });
-            }
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.frBack :
+                        finish();
+                        return true;
+                    case R.id.frMain :
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        // 활성화 되어 있는 모든 인텐트 삭제
+                        for (int i = 0; i < actList.size(); i++)
+                            actList.get(i).finish();
+                        startActivity(intent);
+                        finish();
+                        return true;
+                    case R.id.frExit :
+                        moveTaskToBack(true); // 태스크를 백그라운드로 이동
+                        finishAndRemoveTask(); // 액티비티 종료 + 태스크 리스트에서 지우기
+                        System.exit(0);
+                        return true;
+                }
+                return false;
             }
         });
     }
-    */
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.tbEmer :
+                Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
+                startActivity(intent); // 응급처치 기능 클릭시 페이지 전환
+                return true;
+            case R.id.tbAed:
+                intent = new Intent(getApplicationContext(), AedActivity.class);
+                startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
+                return true;
+            case R.id.tbMoun:
+                intent = new Intent(getApplicationContext(), MountainActivity.class);
+                startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
+                return true;
+            case R.id.tbPati:
+                intent = new Intent(getApplicationContext(), PatientActivity.class);
+                startActivity(intent); //환자 상태파악 클릭시 페이지 전환
+                return true;
+            case R.id.tbCont:
+                intent = new Intent(getApplicationContext(), ContactActivity.class);
+                startActivity(intent); //문의하기 기능클릭시 페이지 전환
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
