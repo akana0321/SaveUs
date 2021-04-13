@@ -85,7 +85,7 @@
                 android:id="@+id/youtube_player_snake"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:videoId="kuEphbssvBI"
+                app:videoId="OiWefNZ0wK0"
                 app:autoPlay="false"
                 app:showFullScreenButton="false" />
 
@@ -121,7 +121,7 @@
                 android:id="@+id/youtube_player_bee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:videoId="OiWefNZ0wK0"
+                app:videoId="kuEphbssvBI"
                 app:autoPlay="false"
                 app:showFullScreenButton="false" />
 

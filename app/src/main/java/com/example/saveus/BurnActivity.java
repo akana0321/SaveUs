@@ -2,7 +2,6 @@ package com.example.saveus;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -46,12 +45,6 @@ public class BurnActivity extends MainActivity{
             }
         });
     }
-
-    public boolean onCreateOptionsMenu(Menu menu) { // 상단 우측 탭 호출
-        getMenuInflater().inflate(R.menu.toolbar_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items

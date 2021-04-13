@@ -48,12 +48,6 @@ public class AirwayActivity extends MainActivity {
             }
         });
     }
-
-    public boolean onCreateOptionsMenu(Menu menu) { // 상단 우측 탭 호출
-        getMenuInflater().inflate(R.menu.toolbar_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
