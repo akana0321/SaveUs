@@ -17,7 +17,7 @@ public class SprainsActivity extends MainActivity {
         actList.add(this);  // 메인의 Activity List에 추가
         setTitle("염좌");
 
-        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_sprains);  // 타인 깃허브 보고 참고해서 넣어봄.
+        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_sprains);  // Youtube 활용 라이브러리 선언
         getLifecycle().addObserver(youTubePlayerView);
 
         BottomNavigationView frBottom = (BottomNavigationView)findViewById(R.id.frBottom);

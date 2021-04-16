@@ -24,7 +24,7 @@ public class AedActivity extends MainActivity {
          *************** 인텐트 변환 메서드 ******************
          ****************************************************/
 
-        /* 20210412 - 아직 구현이 되지 않아서 바텀 네비게이션 살려두면 어플이 사망함
+
         // 바텀 네이게이션 각 버튼 클릭시 실행.
         BottomNavigationView frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
         frBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -52,13 +52,6 @@ public class AedActivity extends MainActivity {
                 return false;
             }
         });
-         */
-    }
-
-    // 상단 우측 탭 호출
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu,menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

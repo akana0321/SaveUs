@@ -52,13 +52,6 @@ public class PatientActivity extends MainActivity {
         });
          */
     }
-
-    // 상단 우측 탭 호출
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
