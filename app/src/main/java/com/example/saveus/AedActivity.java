@@ -22,9 +22,9 @@ public class AedActivity extends MainActivity {
         setTitle("AED 위치");
 
         FragmentManager fragmentManager = getSupportFragmentManager(); // 플레그먼트 매니저 생성후
-        activityMap = new MapFragment();                               // 해당 객체에 MapFragmnet 생성
-        transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.map,activityMap).commitAllowingStateLoss();    // 화면 전환
+        activityMap = new MapFragment();                               // 해당 객체에 MapFragmnet.java 객체를 생성
+        transaction = fragmentManager.beginTransaction();              // 플레그 먼트 매니저를 활용한 페이지 전환 객체 생성 후
+        transaction.replace(R.id.map,activityMap).commitAllowingStateLoss();    // 현재 xml map 객체에 해당 레이아웃 화면이 전환 되도록.
 
 
 
@@ -44,11 +44,10 @@ public class AedActivity extends MainActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.frBack :
-                        Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-                        startActivity(intent); // 2021.04.07 임시로 페이지가 전환되는 지 확인하기 위해 작성해 봄.
+                        finish();
                         return true;
                     case R.id.frMain :
-                        intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         // 활성화 되어 있는 모든 인텐트 삭제
                         for (int i = 0; i < actList.size(); i++)
                             actList.get(i).finish();
