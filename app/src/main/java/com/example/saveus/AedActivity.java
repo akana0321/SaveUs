@@ -6,15 +6,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AedActivity extends MainActivity {
+    private MapFragment activityMap; // MapFragment 자바 파일 객체 생성
+    private FragmentTransaction transaction;  //플레그먼트 화면 전환 객체생성
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aed);
         actList.add(this);  // 메인의 Activity List에 추가
         setTitle("AED 위치");
+
+        FragmentManager fragmentManager = getSupportFragmentManager(); // 플레그먼트 매니저 생성후
+        activityMap = new MapFragment();                               // 해당 객체에 MapFragmnet 생성
+        transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.map,activityMap).commitAllowingStateLoss();    // 화면 전환
+
+
 
         /****************************************************
          ****************** 변수 선언부 *********************
