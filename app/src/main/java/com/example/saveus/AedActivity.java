@@ -2,7 +2,6 @@ package com.example.saveus;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -12,7 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AedActivity extends MainActivity {
-    private MapFragment activityMap; // MapFragment 자바 파일 객체 생성
+    private MapFragmentActivity activityMap; // MapFragmentActivity 자바 파일 객체 생성
     private FragmentTransaction transaction;  //플레그먼트 화면 전환 객체생성
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +21,9 @@ public class AedActivity extends MainActivity {
         setTitle("AED 위치");
 
         FragmentManager fragmentManager = getSupportFragmentManager(); // 플레그먼트 매니저 생성후
-        activityMap = new MapFragment();                               // 해당 객체에 MapFragmnet.java 객체를 생성
+        activityMap = new MapFragmentActivity();                               // 해당 객체에 MapFragmnet.java 객체를 생성
         transaction = fragmentManager.beginTransaction();              // 플레그 먼트 매니저를 활용한 페이지 전환 객체 생성 후
-        transaction.replace(R.id.map,activityMap).commitAllowingStateLoss();    // 현재 xml map 객체에 해당 레이아웃 화면이 전환 되도록.
+        transaction.replace(R.id.map,activityMap).commitAllowingStateLoss();    // 현재 xml map 객체에 해당 activty_map xml 레이아웃 화면이 전환 되도록.
 
 
 

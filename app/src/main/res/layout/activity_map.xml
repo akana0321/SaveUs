@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/AED_map"
+        android:layout_width="460dp"
+        android:layout_height="550dp"/> <!-- 가로 세로 match_parent를 해야 확대 축소가 보임.-->
+
+</FrameLayout>
+<!--fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     android:layout_width="460dp"
     android:layout_height="550dp"
@@ -7,5 +19,5 @@
     android:name="com.google.android.gms.maps.MapFragment"
     map:cameraTargetLat="36.97"
     map:cameraTargetLng="127.87"
-    map:cameraZoom="17"> <!-- 강의 내용대로 따로 플레그 먼트 xml 파일 생성"-->
-</fragment>
+    map:cameraZoom="17">
+</fragment> -->
