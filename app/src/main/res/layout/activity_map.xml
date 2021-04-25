@@ -7,10 +7,11 @@
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/AED_map"
-        android:layout_width="460dp"
-        android:layout_height="550dp"/> <!-- 가로 세로 match_parent를 해야 확대 축소가 보임.-->
+        android:layout_width="420dp"
+        android:layout_height="550dp"/>
 
 </FrameLayout>
+
 <!--fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     android:layout_width="460dp"

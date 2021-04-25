@@ -40,7 +40,6 @@ public class MapFragmentActivity extends Fragment implements OnMapReadyCallback 
         googleMap = map;
         googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE); // 위성 모드 설정.
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(36.971567,127.870491),17)); // 위도. 경도, 줌 배율 설정.
-
         googleMap.getUiSettings().setZoomControlsEnabled(true); // 줌 확대 기능 설정.
 
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
