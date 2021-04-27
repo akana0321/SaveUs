@@ -38,7 +38,7 @@ public class PatientActivity extends MainActivity {
 
 
         try{
-            URL url = new URL("http://apis.data.go.kr/B552657/AEDInfoInqireService/getAedLcinfoInqire?WGS84_LON=127.085156592737&WGS84_LAT=37.4881325624879&pageNo=1&numOfRows=1&ServiceKey=zsXZlLKntZ%2FCbsosKL7YaKFv15A2gTyu4Mf81dNY2rXE9H5GUzInG3VXV8c8EIW8g3qI3DJrhw88FzXegbFcGA%3D%3D"
+            URL url = new URL("http://apis.data.go.kr/B552657/AEDInfoInqireService/getAedLcinfoInqire?WGS84_LON=127.8730596106769&WGS84_LAT=36.97442747612218&pageNo=1&numOfRows=1&ServiceKey=zsXZlLKntZ%2FCbsosKL7YaKFv15A2gTyu4Mf81dNY2rXE9H5GUzInG3VXV8c8EIW8g3qI3DJrhw88FzXegbFcGA%3D%3D"
             ); //검색 URL부분
 
             XmlPullParserFactory parserCreator = XmlPullParserFactory.newInstance();

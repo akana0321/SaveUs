@@ -8,7 +8,8 @@
     <com.google.android.gms.maps.MapView
     android:id="@+id/AED_map"
     android:layout_width="420dp"
-    android:layout_height="550dp"/>
+    android:layout_height="550dp"
+    android:name="com.google.android.gms.maps.MapFragment"/>
 
 </FrameLayout>
 
