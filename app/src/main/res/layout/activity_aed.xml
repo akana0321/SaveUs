@@ -7,14 +7,16 @@
 
     <FrameLayout
         android:id="@+id/map"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="12"
         android:orientation="vertical">  <!-- 본문 내용 리니어 레이아웃 // 프레임 레이아웃을 선언한 이유 강의 내용중에 map 플레그먼트로 지정하셔서, 프레그먼트를 받아올수 있는 프레임 레이아웃 설정. -->
     </FrameLayout>
-
+                                <!-- 실제 휴대폰 어플 실행시 화면 잘림현상을 weight 설정 후 개선함. -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical">
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/frBottom"
