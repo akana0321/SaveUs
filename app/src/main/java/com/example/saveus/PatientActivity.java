@@ -24,21 +24,22 @@ public class PatientActivity extends MainActivity {
         actList.add(this);  // 메인의 Activity List에 추가
         setTitle("환자 상태 파악");
 
-        StrictMode.enableDefaults();
+        //StrictMode.enableDefaults();
         status1 = (TextView) findViewById(R.id.result);
 
-
+/*
         boolean initem = false, inRnum = false, inwgs84Lon = false, inWgs84Lat = false, inOrg = false, inMfg = false;
-        boolean inbuildPlace = false, inclerkTel = false, inbuildAddress = false, inManager = false, inmanagerTel=false;
-        boolean inModel = false, inZipcode1 = false, inZipcode2 = false, inCnt =false, inDistance = false;
+        boolean inbuildPlace = false, inclerkTel = false, inbuildAddress = false, inManager = false, inmanagerTel = false;
+        boolean inModel = false, inZipcode1 = false, inZipcode2 = false, inCnt = false, inDistance = false;
 
         String rnum = null;
-        String wgs84Lon = null, wgs84Lat = null, org = null, mfg = null, buildPlace = null, clerkTel=null, buildAddress=null, manager=null;
-        String managerTel = null, model = null, zipcode1 = null , zipcode2 = null, cnt = null, distance = null;
+        String wgs84Lon = null, wgs84Lat = null, org = null, mfg = null, buildPlace = null, clerkTel = null, buildAddress = null, manager = null;
+        String managerTel = null, model = null, zipcode1 = null, zipcode2 = null, cnt = null, distance = null;
 
 
         try{
-            URL url = new URL("http://apis.data.go.kr/B552657/AEDInfoInqireService/getAedLcinfoInqire?WGS84_LON=127.8730596106769&WGS84_LAT=36.97442747612218&pageNo=1&numOfRows=1&ServiceKey=zsXZlLKntZ%2FCbsosKL7YaKFv15A2gTyu4Mf81dNY2rXE9H5GUzInG3VXV8c8EIW8g3qI3DJrhw88FzXegbFcGA%3D%3D"
+            URL url = new URL("http://apis.data.go.kr/B552657/AEDInfoInqireService/getAedLcinfoInqire?WGS84_LON=127.8730596106769&WGS84_LAT=36.97442747612218&pageNo=1&numOfRows=1&" +
+                    "ServiceKey=zsXZlLKntZ%2FCbsosKL7YaKFv15A2gTyu4Mf81dNY2rXE9H5GUzInG3VXV8c8EIW8g3qI3DJrhw88FzXegbFcGA%3D%3D"
             ); //검색 URL부분
 
             XmlPullParserFactory parserCreator = XmlPullParserFactory.newInstance();
@@ -183,7 +184,7 @@ public class PatientActivity extends MainActivity {
         }
     }
 
-
+*/
         /****************************************************
          ****************** 변수 선언부 *********************
          ****************************************************/
@@ -219,34 +220,35 @@ public class PatientActivity extends MainActivity {
             }
         });
          */
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.tbEmer :
-                Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-                startActivity(intent); // 응급처치 기능 클릭시 페이지 전환
-                return true;
-            case R.id.tbAed:
-                intent = new Intent(getApplicationContext(), AedActivity.class);
-                startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
-                return true;
-            case R.id.tbMoun:
-                intent = new Intent(getApplicationContext(), MountainActivity.class);
-                startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
-                return true;
-            case R.id.tbPati:
-                intent = new Intent(getApplicationContext(), PatientActivity.class);
-                startActivity(intent); //환자 상태파악 클릭시 페이지 전환
-                return true;
-            case R.id.tbCont:
-                intent = new Intent(getApplicationContext(), ContactActivity.class);
-                startActivity(intent); //문의하기 기능클릭시 페이지 전환
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        /*
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            // Handle presses on the action bar items
+            switch (item.getItemId()) {
+                case R.id.tbEmer :
+                    Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
+                    startActivity(intent); // 응급처치 기능 클릭시 페이지 전환
+                    return true;
+                case R.id.tbAed:
+                    intent = new Intent(getApplicationContext(), AedActivity.class);
+                    startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
+                    return true;
+                case R.id.tbMoun:
+                    intent = new Intent(getApplicationContext(), MountainActivity.class);
+                    startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
+                    return true;
+                case R.id.tbPati:
+                    intent = new Intent(getApplicationContext(), PatientActivity.class);
+                    startActivity(intent); //환자 상태파악 클릭시 페이지 전환
+                    return true;
+                case R.id.tbCont:
+                    intent = new Intent(getApplicationContext(), ContactActivity.class);
+                    startActivity(intent); //문의하기 기능클릭시 페이지 전환
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }*/
         }
+
+
     }
-}
