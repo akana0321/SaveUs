@@ -3,7 +3,7 @@ package com.example.saveus;
 public class AedPoint {
     private double wgs84Lon; // 경도 값
     private double wgs84Lat; // 위도 값
-    private String builPlace; // 설치 위치
+    private String buildPlace; // 설치 위치
     private String buildAddress; // 설치기관 주소
     private String clerkTel; // 설치기관 전화번호
 
@@ -11,10 +11,10 @@ public class AedPoint {
         super();
     }
 
-    public AedPoint(double wgs84Lon, double wgs84Lat, String builPlace, String buildAddress, String clerkTel){
+    public AedPoint(double wgs84Lon, double wgs84Lat, String buildPlace, String buildAddress, String clerkTel){
         this.wgs84Lon = wgs84Lon;
         this.wgs84Lat = wgs84Lat;
-        this.builPlace = builPlace;
+        this.buildPlace = buildPlace;
         this.buildAddress = buildAddress;
         this.clerkTel = clerkTel;
     }
@@ -23,8 +23,8 @@ public class AedPoint {
         return wgs84Lat;
     }
 
-    public String getBuilPlace() { // 설치장소 가져오기.
-        return builPlace;
+    public String getbuildPlace() { // 설치장소 가져오기.
+        return buildPlace;
     }
 
     public String getBuildAddress() { // 설치기관 주소 가져오기
@@ -47,8 +47,8 @@ public class AedPoint {
         this.wgs84Lat = wgs84Lat;
     }
 
-    public void setBuilPlace(String builPlace) { // 설치장소 가져오기.
-        this.builPlace = builPlace;
+    public void setBuilPlace(String buildPlace) { // 설치장소 가져오기.
+        this.buildPlace= buildPlace;
     }
 
     public void setBuildAddress(String buildAddress) { // 설치기관 주소 설정하기

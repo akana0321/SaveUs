@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -136,6 +137,9 @@ public class MapFragmentActivity extends Fragment implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true); // 줌 확대 기능 설정.
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         setDefaultLocation(); // GPS를 찾지 못하는 장소에 있을 경우 지도의 초기 위치가 필요함.
         getLocationPermission();
         updateLocationUI();
@@ -367,7 +371,7 @@ public class MapFragmentActivity extends Fragment implements OnMapReadyCallback 
             for (AedPoint entity : aedPoint){
                 MarkerOptions mOption = new MarkerOptions();
                 mOption.position(new LatLng(aedPoint.get(i).getWgs84Lat(), aedPoint.get(i).getWgs84Lon()));
-                mOption.title(i+"번째");
+                mOption.title(entity+"번째");
                 mMap.addMarker(mOption);
             }
         }
