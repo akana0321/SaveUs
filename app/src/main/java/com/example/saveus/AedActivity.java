@@ -62,15 +62,6 @@ public class AedActivity extends MainActivity {
             transaction.replace(R.id.map, activityMap).commitAllowingStateLoss();    // 현재 xml map 객체에 해당 activty_map xml 레이아웃 화면이 전환 되도록.
             //transaction.commit();
 
-            /****************************************************
-             ****************** 변수 선언부 *********************
-             ****************************************************/
-
-            /****************************************************
-             *************** 인텐트 변환 메서드 ******************
-             ****************************************************/
-
-
             // 바텀 네이게이션 각 버튼 클릭시 실행.
             BottomNavigationView frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
             frBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
