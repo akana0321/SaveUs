@@ -81,12 +81,16 @@ public class AedApi extends AppCompatActivity {
                         if (startTag.equals("item")) {
                             aedpoint = new AedPoint();
                             Log.d(TAG, "aed 추가");
+                        }else if(startTag.equals("rnum")){
+                            aedpoint.setRnum(xmlPullParser.nextText());
+                            Log.d(TAG,aedpoint.getRnum());
+                            Log.d(TAG,"AED 연번");
                         } else if (startTag.equals("wgs84Lon")) {
                             aedpoint.setWgs84Lon(xmlPullParser.nextText());
                         } else if (startTag.equals("wgs84Lat")) {
                             aedpoint.setWgs84Lat(xmlPullParser.nextText());
-                        } else if (startTag.equals("builPlace")) {
-                            aedpoint.setBuilPlace(xmlPullParser.nextText());
+                        } else if (startTag.equals("buildPlace")) {
+                            aedpoint.setBuildPlace(xmlPullParser.nextText());
                         } else if (startTag.equals("buildAddress")) {
                             aedpoint.setBuildAddress(xmlPullParser.nextText());
                         } else if (startTag.equals("clerkTel")) {
@@ -96,7 +100,7 @@ public class AedApi extends AppCompatActivity {
                     case XmlPullParser.END_TAG:
                         String endTag = xmlPullParser.getName();
                         Log.i(TAG, "End TAG : " + endTag);
-                        if (endTag.equals("Row")) {
+                        if (endTag.equals("item")) {
                             aedpointList.add(aedpoint);
                         }
                         break;

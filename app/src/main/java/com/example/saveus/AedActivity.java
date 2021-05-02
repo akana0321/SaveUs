@@ -1,15 +1,20 @@
 package com.example.saveus;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.location.Location;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.MenuItem;
 
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -19,7 +24,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterManager;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -35,10 +43,12 @@ import java.util.ArrayList;
 public class AedActivity extends MainActivity implements OnMapReadyCallback{
 
     GoogleMap gMap;
-    ArrayList<AedPoint> aedpoint;
+    ArrayList<AedPoint> aedpoints;
     ArrayList<Location> aedpoint_address;
     Context context = this;
     final String TAG = "LogAedActivity";
+
+    private ClusterManager<AedItem> clusterManager;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +56,8 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback{
         actList.add(this);  // 메인의 Activity List에 추가
         setTitle("AED 위치");
 
+        aedpoints = (ArrayList<AedPoint>)getIntent().getSerializableExtra("aedsite");
+        aedpoint_address = (ArrayList<Location>)getIntent().getSerializableExtra("aed_address");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -112,10 +124,68 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback{
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
         gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(36.971567,127.870491),17));
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(36.971567, 127.870491), 17));
         gMap.getUiSettings().setZoomControlsEnabled(true);
 
+        clusterManager = new ClusterManager<>(this,gMap);
+
+        gMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                Log.d(TAG,"Load");
+                LatLng latLng = new LatLng(37.564214,127.001699);
+                for(int i = 0 ; i < aedpoints.size(); i++) {
+                    AedItem clinicItem = new AedItem(aedpoint_address.get(i).getLatitude(), aedpoint_address.get(i).getLongitude(),
+                            aedpoints.get(i).getBuildPlace());
+                    clusterManager.addItem(clinicItem);
+                } // 개수만큼 item 추가
+            }
+        });
+
+        clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<AedItem>() {
+            @Override
+            public boolean onClusterClick(Cluster<AedItem> cluster) {
+
+                LatLng latLng = new LatLng(cluster.getPosition().latitude,cluster.getPosition().longitude);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng,15);
+                gMap.moveCamera(cameraUpdate);
+                return false;
+            }
+        });
+
+
+        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                String marker_number = null;
+                for (int i = 0; i < aedpoints.size(); i++) {
+                    if (aedpoints.get(i).findIndex(marker.getTitle()) != null) {
+                        marker_number = aedpoints.get(i).findIndex(marker.getTitle());
+                        Log.d(TAG, "marker_number " + marker_number);
+                    }
+                } // marker title로 clinic을 검색하여 number 반환받아옴
+                final int marker_ID_number = Integer.parseInt(marker_number);
+                Log.d(TAG, "marker number = " + String.valueOf(marker_ID_number));
+                Log.d(TAG, "marker clinic name = " + aedpoints.get(marker_ID_number).getBuildPlace());
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("병원정보");
+                builder.setMessage(
+                        "설치 장소: " + aedpoints.get(marker_ID_number - 1).getBuildPlace() +
+                                "\n 설치 주소 : " + aedpoints.get(marker_ID_number - 1).getBuildAddress() +
+                                "\n 전화번호 : " +aedpoints.get(marker_ID_number - 1).getClerkTel()
+                );
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });// 마커 클릭 시 Alert Dialog가 나오도록 설정
     }
+
 }
 
     /*
