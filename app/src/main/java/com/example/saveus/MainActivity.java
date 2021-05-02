@@ -131,4 +131,10 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    protected void onActivityCreated(Bundle savedInstanceState) {
+    }
+
+    protected void onDestroyView() {
+    }
 }

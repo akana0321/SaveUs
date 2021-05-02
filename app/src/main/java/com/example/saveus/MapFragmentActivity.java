@@ -53,7 +53,7 @@ public class MapFragmentActivity extends Fragment implements OnMapReadyCallback 
 
     private FragmentActivity mContext;
     private static final String Tag = AedActivity.class.getSimpleName(); // 간단한 태그값.
-    private MapView mapView; // txt 파일 출처 표기 / activty_map xml 파일에 해당하는 맵뷰 객체 생성
+    private MapView mapView; // txt 파일 출처 표기 / activty_map raw 파일에 해당하는 맵뷰 객체 생성
     private GoogleMap mMap; // 구글 맵 객체 생성
     private Marker currentMarker = null; // 마커값 미정.
     private FusedLocationProviderClient mFusedLocationProviderClient; // Deprecated된 FusedLocationApi를 대체
@@ -86,7 +86,7 @@ public class MapFragmentActivity extends Fragment implements OnMapReadyCallback 
             CameraPosition mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
         View layout = inflater.inflate(R.layout.activity_map, container, false);
-        mapView = (MapView) layout.findViewById(R.id.AED_map);
+        //mapView = (MapView) layout.findViewById(R.id.AED_map);
         if (mapView != null) {
             mapView.onCreate(savedInstanceState);
         }
@@ -127,7 +127,7 @@ public class MapFragmentActivity extends Fragment implements OnMapReadyCallback 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mapView = (MapView) view.findViewById(R.id.AED_map); // activty_map xml 파일 맵 뷰 id 인 AED_map 객체 연결
+        //mapView = (MapView) view.findViewById(R.id.AED_map); // activty_map raw 파일 맵 뷰 id 인 AED_map 객체 연결
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
@@ -144,7 +144,7 @@ public class MapFragmentActivity extends Fragment implements OnMapReadyCallback 
         getLocationPermission();
         updateLocationUI();
         getDeviceLocation();
-        setUpAedMap();// 마커 표시 메서드
+        //setUpAedMap();// 마커 표시 메서드
     }
     private void updateLocationUI() {
         if (mMap == null) {
@@ -358,6 +358,7 @@ public class MapFragmentActivity extends Fragment implements OnMapReadyCallback 
         mapView.onDestroy();
     }
 
+    /*
     private void setUpAedMap(){  //AED 마커 표시 하는 메서드
         AedApi parser = new AedApi();
         ArrayList<AedPoint> aedPoint = new ArrayList<AedPoint>();
@@ -375,7 +376,7 @@ public class MapFragmentActivity extends Fragment implements OnMapReadyCallback 
                 mMap.addMarker(mOption);
             }
         }
-    }
+    }*/
 
 
     /*
