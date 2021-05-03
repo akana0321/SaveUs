@@ -2,18 +2,19 @@ package com.example.saveus;
 
 public class AedPoint {
     private String rnum; // 순번
-    private String wgs84Lon; // 경도 값
-    private String wgs84Lat; // 위도 값
-    private String buildPlace; // 설치 위치
-    private String buildAddress; // 설치기관 주소
-    private String clerkTel; // 설치기관 전화번호
+    private String org; // 설치장소명
+    private double wgs84Lon; // 경도 값
+    private double wgs84Lat; // 위도 값
+    private String buildPlace; // 설치 대략적 위치
+    private String buildAddress; // 설치 전체 주소
+    private String clerkㄴTel; // 설치기관 전화번호
 
     public AedPoint(){
         super();
     }
 
     public String getRnum(){ return  rnum; }
-    public String getWgs84Lat() {  // 위도 값 가져오기
+    public double getWgs84Lat() {  // 위도 값 가져오기
         return wgs84Lat;
     }
 
@@ -28,7 +29,7 @@ public class AedPoint {
         return clerkTel;
     }
 
-    public String getWgs84Lon() { // 경도 값 가져오기
+    public double getWgs84Lon() { // 경도 값 가져오기
         return wgs84Lon;
     }
 
@@ -36,11 +37,11 @@ public class AedPoint {
         this.rnum = rnum;
     }
 
-    public void setWgs84Lon(String wgs84Lon) { // 경도 값 설정하기
+    public void setWgs84Lon(double wgs84Lon) { // 경도 값 설정하기
         this.wgs84Lon = wgs84Lon;
     }
 
-    public void setWgs84Lat(String wgs84Lat) {  // 위도 값 설정하기
+    public void setWgs84Lat(double wgs84Lat) {  // 위도 값 설정하기
         this.wgs84Lat = wgs84Lat;
     }
 

@@ -54,7 +54,7 @@ public class AedApi extends AppCompatActivity {
     private ArrayList<AedPoint> apiParserSearch(){
 
         ArrayList<AedPoint> aedpointList = new ArrayList<>();
-        InputStream inputStream = getResources().openRawResource(R.raw.last_aed);
+        InputStream inputStream = getResources().openRawResource(R.raw.modified_aed);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         BufferedReader reader = new BufferedReader(inputStreamReader);
 
@@ -85,10 +85,6 @@ public class AedApi extends AppCompatActivity {
                             aedpoint.setRnum(xmlPullParser.nextText());
                             Log.d(TAG,aedpoint.getRnum());
                             Log.d(TAG,"AED 연번");
-                        } else if (startTag.equals("wgs84Lon")) {
-                            aedpoint.setWgs84Lon(xmlPullParser.nextText());
-                        } else if (startTag.equals("wgs84Lat")) {
-                            aedpoint.setWgs84Lat(xmlPullParser.nextText());
                         } else if (startTag.equals("buildPlace")) {
                             aedpoint.setBuildPlace(xmlPullParser.nextText());
                         } else if (startTag.equals("buildAddress")) {
