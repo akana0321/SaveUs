@@ -4,42 +4,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ContactActivity extends MainActivity {
-    EditText contTitle, contContents;
-    Button contBtn;
-    private  String[] receiver = {"1670015@a.ut.ac.kr"};
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
         actList.add(this);  // 메인의 Activity List에 추가
         setTitle("문의하기");
 
-        contTitle = (EditText) findViewById(R.id.contTitle);
-        contContents = (EditText) findViewById(R.id.contContents);
-        contBtn = (Button) findViewById(R.id.contBtn);
+        /****************************************************
+         ****************** 변수 선언부 *********************
+         ****************************************************/
 
-        contBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("plain/text");
-                intent.putExtra(Intent.EXTRA_EMAIL, receiver);
-                intent.putExtra(Intent.EXTRA_SUBJECT, contTitle.getText().toString());
-                intent.putExtra(Intent.EXTRA_TEXT, contContents.getText().toString());
-                startActivity(intent);
-            }
-        });
+        /****************************************************
+         *************** 인텐트 변환 메서드 ******************
+         ****************************************************/
 
-        BottomNavigationView frBottom = (BottomNavigationView)findViewById(R.id.frBottom);
+        /* 20210412 - 아직 구현이 되지 않아서 바텀 네비게이션 살려두면 어플이 사망함
+        // 바텀 네이게이션 각 버튼 클릭시 실행.
+        BottomNavigationView frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
         frBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -64,7 +51,15 @@ public class ContactActivity extends MainActivity {
                 return false;
             }
         });
+         */
     }
+
+    // 상단 우측 탭 호출
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
