@@ -61,6 +61,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
     ArrayList aedLng = new ArrayList<>();   // AED 경도
     ArrayList aedPlace = new ArrayList<>(); // AED 세부적지리 위치
 
+
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
     private Location location;
@@ -85,6 +86,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
                 aedLng.add(dataObj.getDouble("wgs84Lon"));
                 aedOrg.add(dataObj.getString("org")); // AED 대표건물 값 받기
                 aedPlace.add(dataObj.getString("buildPlace"));
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -172,6 +174,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
 
 
         //다중 마커 표시
+
         for(int idx =0; idx <aedPlace.size(); idx++){
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(new LatLng((Double) aedLat.get(idx), (Double) aedLng.get(idx)));
