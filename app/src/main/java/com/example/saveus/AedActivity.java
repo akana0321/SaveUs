@@ -277,7 +277,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
     private String getJsonString() {  //json 파싱 성공
         String ret = "";
         try {
-            InputStream inputStream = getAssets().open("Gyeonggi-do.json");
+            InputStream inputStream = getAssets().open("mix AED.json");
 
             if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
