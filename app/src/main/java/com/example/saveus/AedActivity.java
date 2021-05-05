@@ -232,7 +232,6 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
             //markerOptions.title(aedOrg.get(idx) + "건물 \t" + aedPlace.get(idx));
             gMap.addMarker(markerOptions);
         }
-
         gMap.setOnCameraIdleListener(clusterManager);
         gMap.setOnMarkerClickListener(clusterManager);
         setDefaultLocation();
