@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -220,10 +222,13 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
         gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(36.971567, 127.870491), 17));
-        gMap.getUiSettings().setZoomControlsEnabled(true);
 
+
+        gMap.getUiSettings().setZoomControlsEnabled(true);
         clusterManager = new ClusterManager<>(this,gMap);
+        BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.aed_marker);
+        Bitmap b = bitmapdraw.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b,200,200,false);
 
         /*
         //다중 마커 표시
@@ -259,7 +264,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
             }
         });
         //addItems();// 클러스터 표시
-        gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(37.5248,126.92723)));
+        //gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(37.5248,126.92723)));
 
         /*
         for(int i =0; i <aedPlace.size(); i++){
@@ -471,12 +476,12 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
     }
 
 
-    //화면 전환에 마커 할당.
+    //화면 이동 과 확대 축소시 마커 재할당.
     public void findMarker(double left, double top, double right,double bottom){
         for(int i =0 ; i<aedPlace.size(); i++){
             if((Double) aedLng.get(i)>= left && (Double) aedLng.get(i)<= right){
                 if((Double) aedLat.get(i)>= bottom &&(Double)aedLat.get(i)<=top){
-                    AedItem offsetItem = new AedItem((Double) aedLat.get(i),(Double) aedLng.get(i),"위치");
+                    AedItem offsetItem = new AedItem((Double) aedLat.get(i),(Double) aedLng.get(i),aedPlace.get(i).toString());
                     clusterManager.addItem(offsetItem);
                 }
             }
