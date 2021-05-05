@@ -4,19 +4,29 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 
+import android.os.Looper;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,10 +35,12 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
@@ -47,28 +59,42 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
 public class AedActivity extends MainActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
 
+    private FusedLocationProviderClient mFusedLocationProviderClient; // Deprecated된 FusedLocationApi를 대체
+    private LocationRequest locationRequest;
+    private Location mCurrentLocatiion;
+    private Marker currentMarker = null;
+    private final LatLng mDefaultLocation = new LatLng(37.56, 126.97);
+    private static final int DEFAULT_ZOOM = 15;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private boolean mLocationPermissionGranted;
+
+    private static final int GPS_ENABLE_REQUEST_CODE = 2001;
+    private static final int UPDATE_INTERVAL_MS = 1000 * 60 * 15;  // LOG 찍어보니 이걸 주기로 하지 않는듯
+    private static final int FASTEST_UPDATE_INTERVAL_MS = 1000 * 30 ; // 30초 단위로 화면 갱신
+
+    private static final String KEY_CAMERA_POSITION = "camera_position";
+    private static final String KEY_LOCATION = "location";
+
     GoogleMap gMap;
     final String TAG = "LogAedActivity";
-
-
     ArrayList aedOrg = new ArrayList<>(); // AED 설치기관 주된 이름
     ArrayList aedLat = new ArrayList<>();   // AED 위도
     ArrayList aedLng = new ArrayList<>();   // AED 경도
     ArrayList aedPlace = new ArrayList<>(); // AED 세부적지리 위치
-
-
-    private FusedLocationProviderClient mFusedLocationClient;
-    private LocationRequest locationRequest;
-    private Location location;
+    ClusterManager clusterManager;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +117,12 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(locationRequest);
+        // Construct a FusedLocationProviderClient.
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
 
         /* 충주시 항목
         // AED 파싱한 내용 배열에 저장하는 구문,
@@ -118,8 +150,6 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
             System.out.println(aedLat.get(i));
         }
         */
-
-
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -190,19 +220,44 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(36.971567, 127.870491), 17));
         gMap.getUiSettings().setZoomControlsEnabled(true);
 
+        clusterManager = new ClusterManager<>(this,gMap);
 
 
         //다중 마커 표시
         for(int idx =0; idx <aedPlace.size(); idx++){
+            double offset = idx / 200d;
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(new LatLng((Double) aedLat.get(idx), (Double) aedLng.get(idx)));
             markerOptions.title((String) aedPlace.get(idx));
             //markerOptions.title(aedOrg.get(idx) + "건물 \t" + aedPlace.get(idx));
             gMap.addMarker(markerOptions);
         }
+
+        gMap.setOnCameraIdleListener(clusterManager);
+        gMap.setOnMarkerClickListener(clusterManager);
+        setDefaultLocation();
+        getLocationPermission();
+        updateLocationUI();
+        getDeviceLocation();
+
+        /* 화면 전환에 따른 마커 표시 실패
+        gMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                VisibleRegion vr = gMap.getProjection().getVisibleRegion();
+                double left = vr.latLngBounds.southwest.longitude;
+                double top = vr.latLngBounds.northeast.latitude;
+                double right = vr.latLngBounds.northeast.longitude;
+                double bottom = vr.latLngBounds.southwest.latitude;
+                Log.d(TAG,"ieft = " + String.valueOf(left)+ " top = " + String.valueOf(top)+" right = "+String.valueOf(right) + " bottom = "+String.valueOf(bottom));
+                if(clusterManager != null) clusterManager.clearItems();
+                findMarker(left,top,right,bottom);
+            }
+        });
+        */
+
+        //addItems();// 클러스터 표시
         gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(37.5248,126.92723)));
-
-
 
         /*
         for(int i =0; i <aedPlace.size(); i++){
@@ -241,6 +296,202 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         }
         return ret;
     }
+
+    private void updateLocationUI() {
+        if (gMap == null) {
+            return;
+        }
+        try {
+            if (mLocationPermissionGranted) {
+                gMap.setMyLocationEnabled(true);
+                gMap.getUiSettings().setMyLocationButtonEnabled(true);
+            } else {
+                gMap.setMyLocationEnabled(false);
+                gMap.getUiSettings().setMyLocationButtonEnabled(false);
+                mCurrentLocatiion = null;
+                getLocationPermission();
+            }
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+    private void setDefaultLocation() {
+        if (currentMarker != null) currentMarker.remove();
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(mDefaultLocation);
+        markerOptions.title("위치정보 가져올 수 없음");
+        markerOptions.snippet("위치 퍼미션과 GPS 활성 여부 확인하세요");
+        markerOptions.draggable(true);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        currentMarker = gMap.addMarker(markerOptions);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mDefaultLocation, 15);
+        gMap.moveCamera(cameraUpdate);
+    }
+
+    String getCurrentAddress(LatLng latlng) {
+        // 위치 정보와 지역으로부터 주소 문자열을 구한다.
+        List<Address> addressList = null ;
+        Geocoder geocoder = new Geocoder( this, Locale.getDefault());
+        // 지오코더를 이용하여 주소 리스트를 구한다.
+        try {
+            addressList = geocoder.getFromLocation(latlng.latitude,latlng.longitude,1);
+        } catch (IOException e) {
+            Toast. makeText( this, "위치로부터 주소를 인식할 수 없습니다. 네트워크가 연결되어 있는지 확인해 주세요.", Toast.LENGTH_SHORT ).show();
+            e.printStackTrace();
+            return "주소 인식 불가" ;
+        }
+        if (addressList.size() < 1) { // 주소 리스트가 비어있는지 비어 있으면
+            return "해당 위치에 주소 없음" ;
+        }
+        // 주소를 담는 문자열을 생성하고 리턴
+        Address address = addressList.get(0);
+        StringBuilder addressStringBuilder = new StringBuilder();
+        for (int i = 0; i <= address.getMaxAddressLineIndex(); i++) {
+            addressStringBuilder.append(address.getAddressLine(i));
+            if (i < address.getMaxAddressLineIndex())
+                addressStringBuilder.append("\n");
+        }
+        return addressStringBuilder.toString();
+    }
+    LocationCallback locationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            super.onLocationResult(locationResult);
+
+            List<Location> locationList = locationResult.getLocations();
+
+            if (locationList.size() > 0) {
+                Location location = locationList.get(locationList.size() - 1);
+
+                LatLng currentPosition
+                        = new LatLng(location.getLatitude(), location.getLongitude());
+
+                String markerTitle = getCurrentAddress(currentPosition);
+                String markerSnippet = "위도:" + String.valueOf(location.getLatitude())
+                        + " 경도:" + String.valueOf(location.getLongitude());
+
+                Log.d(TAG, "Time :" + CurrentTime() + " onLocationResult : " + markerSnippet);
+
+                // Update 주기를 확인해보려고 시간을 찍어보았음.
+                //현재 위치에 마커 생성하고 이동
+                setCurrentLocation(location, markerTitle, markerSnippet);
+                mCurrentLocatiion = location;
+            }
+        }
+    };
+    private String CurrentTime(){
+        Date today = new Date();
+        SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat time = new SimpleDateFormat("hh:mm:ss a");
+        return time.format(today);
+    }
+
+    public void setCurrentLocation(Location location, String markerTitle, String markerSnippet) {
+        if (currentMarker != null) currentMarker.remove();
+
+        LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(currentLatLng);
+        markerOptions.title(markerTitle);
+        markerOptions.snippet(markerSnippet);
+        markerOptions.draggable(true);
+
+        currentMarker = gMap.addMarker(markerOptions);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
+        gMap.moveCamera(cameraUpdate);
+    }
+    private void getDeviceLocation() {
+        try {
+            if (mLocationPermissionGranted) {
+                mFusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+            }
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+    private void getLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        mLocationPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mLocationPermissionGranted = true;
+                }
+            }
+        }
+        updateLocationUI();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mLocationPermissionGranted) {
+            Log.d(TAG, "onStart : requestLocationUpdates");
+            mFusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
+            if (gMap!=null)
+                gMap.setMyLocationEnabled(true);
+        }
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mFusedLocationProviderClient != null) {
+            Log.d(TAG, "onStop : removeLocationUpdates");
+            mFusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mFusedLocationProviderClient != null) {
+            Log.d(TAG, "onDestroy : removeLocationUpdates");
+            mFusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        }
+    }
+
+
+    /* 화면 전환에 따라서 마커 표시 실패
+    public void findMarker(double left, double top, double right,double bottom){
+        for(int i =0 ; i<aedLat.size(); i++){
+            if((Double) aedLat.get(i)>= left && (Double) aedLng.get(i)<= right){
+                if((Double) aedLat.get(i)>= bottom &&(Double)aedLng.get(i)<=top){
+                    AedItem offsetItem = new AedItem((Double) aedLat.get(i),(Double) aedLng.get(i),"위치");
+                    clusterManager.addItem(offsetItem);
+                }
+            }
+        }
+    }
+     */
+
+/*
+    private void addItems() {  // 클러스터 표시
+        for (int idx = 0; idx < aedPlace.size(); idx++) {
+            double offset = idx / 60d;
+            AedItem offsetItem = new AedItem(((Double) aedLat.get(idx))+offset,((Double) aedLng.get(idx))+offset,"Title" + idx);
+            clusterManager.addItem(offsetItem);
+        }
+    }
+    */
+
 }
 
     /* 파싱 작업 전 원본주석
