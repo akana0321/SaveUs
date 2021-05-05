@@ -103,6 +103,8 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         setTitle("AED 위치");
 
 
+
+
         // AED 파싱한 내용 배열에 저장하는 구문, 경기도 AED 정보 저장하기
         try {
             JSONObject obj;
@@ -117,6 +119,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(locationRequest);
@@ -222,7 +225,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
 
         clusterManager = new ClusterManager<>(this,gMap);
 
-
+        /*
         //다중 마커 표시
         for(int idx =0; idx <aedPlace.size(); idx++){
             double offset = idx / 200d;
@@ -232,6 +235,8 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
             //markerOptions.title(aedOrg.get(idx) + "건물 \t" + aedPlace.get(idx));
             gMap.addMarker(markerOptions);
         }
+         */
+
         gMap.setOnCameraIdleListener(clusterManager);
         gMap.setOnMarkerClickListener(clusterManager);
         setDefaultLocation();
@@ -239,7 +244,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         updateLocationUI();
         getDeviceLocation();
 
-        /* 화면 전환에 따른 마커 표시 실패
+        // 화면 전환에 따른 마커 표시 실패
         gMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
@@ -253,8 +258,6 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
                 findMarker(left,top,right,bottom);
             }
         });
-        */
-
         //addItems();// 클러스터 표시
         gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(37.5248,126.92723)));
 
@@ -468,18 +471,18 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
     }
 
 
-    /* 화면 전환에 따라서 마커 표시 실패
+    //화면 전환에 마커 할당.
     public void findMarker(double left, double top, double right,double bottom){
-        for(int i =0 ; i<aedLat.size(); i++){
-            if((Double) aedLat.get(i)>= left && (Double) aedLng.get(i)<= right){
-                if((Double) aedLat.get(i)>= bottom &&(Double)aedLng.get(i)<=top){
+        for(int i =0 ; i<aedPlace.size(); i++){
+            if((Double) aedLng.get(i)>= left && (Double) aedLng.get(i)<= right){
+                if((Double) aedLat.get(i)>= bottom &&(Double)aedLat.get(i)<=top){
                     AedItem offsetItem = new AedItem((Double) aedLat.get(i),(Double) aedLng.get(i),"위치");
                     clusterManager.addItem(offsetItem);
                 }
             }
         }
     }
-     */
+
 
 /*
     private void addItems() {  // 클러스터 표시
