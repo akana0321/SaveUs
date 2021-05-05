@@ -48,13 +48,17 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class AedActivity extends MainActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
 
     GoogleMap gMap;
     final String TAG = "LogAedActivity";
+
 
     ArrayList aedOrg = new ArrayList<>(); // AED 설치기관 주된 이름
     ArrayList aedLat = new ArrayList<>();   // AED 위도
@@ -66,8 +70,6 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
     private LocationRequest locationRequest;
     private Location location;
 
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aed);
@@ -75,6 +77,22 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         setTitle("AED 위치");
 
 
+        // AED 파싱한 내용 배열에 저장하는 구문, 경기도 AED 정보 저장하기
+        try {
+            JSONObject obj;
+            obj = new JSONObject(getJsonString());
+            JSONArray arr = obj.getJSONArray("item");
+            for(int i = 0; i < arr.length(); i++) {
+                JSONObject dataObj = arr.getJSONObject(i);
+                aedPlace.add(dataObj.getString("buildPlace")); // AED 건물명 가져오기
+                aedLat.add(dataObj.getDouble("wgs84Lat"));
+                aedLng.add(dataObj.getDouble("wgs84Lon"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        /* 충주시 항목
         // AED 파싱한 내용 배열에 저장하는 구문,
         try {
             JSONObject obj;
@@ -94,7 +112,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         //Log.d(TAG, String.valueOf(aedLat.size()));
         //Log.d(TAG, String.valueOf(aedLng.size()));
 
-
+        */
         /* aed 배열 리스트 값 확인을 위한 반복문.
         for(int i =0; i<aedLat.size();i++){
             System.out.println(aedLat.get(i));
@@ -173,21 +191,36 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         gMap.getUiSettings().setZoomControlsEnabled(true);
 
 
-        //다중 마커 표시
 
+        //다중 마커 표시
         for(int idx =0; idx <aedPlace.size(); idx++){
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(new LatLng((Double) aedLat.get(idx), (Double) aedLng.get(idx)));
-            markerOptions.title(aedOrg.get(idx) + "건물 \t" + aedPlace.get(idx));
+            markerOptions.title((String) aedPlace.get(idx));
+            //markerOptions.title(aedOrg.get(idx) + "건물 \t" + aedPlace.get(idx));
             gMap.addMarker(markerOptions);
         }
         gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(37.5248,126.92723)));
+
+
+
+        /*
+        for(int i =0; i <aedPlace.size(); i++){
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(new LatLng(Double.parseDouble(aedLat[i]), Double.parseDouble(aedLng[i])));
+            markerOptions.title(aedPlace[i]);
+            //markerOptions.title(aedOrg.get(idx) + "건물 \t" + aedPlace.get(idx));
+            gMap.addMarker(markerOptions);
+
+        }
+        */
+
     }
 
     private String getJsonString() {  //json 파싱 성공
         String ret = "";
         try {
-            InputStream inputStream = getAssets().open("chungju.json");
+            InputStream inputStream = getAssets().open("Gyeonggi-do.json");
 
             if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);

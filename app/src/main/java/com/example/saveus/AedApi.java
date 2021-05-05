@@ -33,24 +33,10 @@ public class AedApi extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ArrayList<AedPoint> aedsite = apiParserSearch();
-                ArrayList<Location> aed_address = new ArrayList<Location>();
-                for(int i = 0 ; i < aedsite.size(); i++) {
-                    Log.d(TAG, "convert");
-                    aed_address.add(addrToPoint(context, aedsite.get(i).getBuildAddress()));
-                } // 병원 주소만 위도경보로 변환하여 모아놓음
 
-                Intent intent = new Intent(AedApi.this, AedActivity.class);
-                intent.putExtra("aedsite", aedsite);
-                intent.putExtra("aed_address", aed_address);
-                startActivity(intent);
-            }
-        }).start();
+
     }
-
+}/*
     private ArrayList<AedPoint> apiParserSearch(){
 
         ArrayList<AedPoint> aedpointList = new ArrayList<>();
@@ -146,7 +132,7 @@ public class AedApi extends AppCompatActivity {
 
 }
 
-
+*/
 
 
 
