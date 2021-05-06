@@ -85,7 +85,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
 
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int UPDATE_INTERVAL_MS = 1000 * 60 * 15;  // LOG 찍어보니 이걸 주기로 하지 않는듯
-    private static final int FASTEST_UPDATE_INTERVAL_MS = 1000 * 30 ; // 30초 단위로 화면 갱신
+    private static final int FASTEST_UPDATE_INTERVAL_MS = 1000 * 30; // 30초 단위로 화면 갱신
 
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
@@ -105,14 +105,12 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         setTitle("AED 위치");
 
 
-
-
         // AED 파싱한 내용 배열에 저장하는 구문, 경기도 AED 정보 저장하기
         try {
             JSONObject obj;
             obj = new JSONObject(getJsonString());
             JSONArray arr = obj.getJSONArray("item");
-            for(int i = 0; i < arr.length(); i++) {
+            for (int i = 0; i < arr.length(); i++) {
                 JSONObject dataObj = arr.getJSONObject(i);
                 aedPlace.add(dataObj.getString("buildPlace")); // AED 건물명 가져오기
                 aedLat.add(dataObj.getDouble("wgs84Lat"));
@@ -223,24 +221,8 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         gMap = googleMap;
         gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-
         gMap.getUiSettings().setZoomControlsEnabled(true);
-        clusterManager = new ClusterManager<>(this,gMap);
-        BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.aed_marker);
-        Bitmap b = bitmapdraw.getBitmap();
-        Bitmap smallMarker = Bitmap.createScaledBitmap(b,200,200,false);
-
-        /*
-        //다중 마커 표시
-        for(int idx =0; idx <aedPlace.size(); idx++){
-            double offset = idx / 200d;
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(new LatLng((Double) aedLat.get(idx), (Double) aedLng.get(idx)));
-            markerOptions.title((String) aedPlace.get(idx));
-            //markerOptions.title(aedOrg.get(idx) + "건물 \t" + aedPlace.get(idx));
-            gMap.addMarker(markerOptions);
-        }
-         */
+        clusterManager = new ClusterManager<>(this, gMap);
 
         gMap.setOnCameraIdleListener(clusterManager);
         gMap.setOnMarkerClickListener(clusterManager);
@@ -248,8 +230,8 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         getLocationPermission();
         updateLocationUI();
         getDeviceLocation();
-
-        // 화면 전환에 따른 마커 표시 실패
+        clusterManager.setAnimation(false);
+        // 화면 전환에 따른 마커 표시
         gMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
@@ -258,24 +240,14 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
                 double top = vr.latLngBounds.northeast.latitude;
                 double right = vr.latLngBounds.northeast.longitude;
                 double bottom = vr.latLngBounds.southwest.latitude;
-                Log.d(TAG,"ieft = " + String.valueOf(left)+ " top = " + String.valueOf(top)+" right = "+String.valueOf(right) + " bottom = "+String.valueOf(bottom));
-                if(clusterManager != null) clusterManager.clearItems();
-                findMarker(left,top,right,bottom);
+                Log.d(TAG, "ieft = " + String.valueOf(left) + " top = " + String.valueOf(top) + " right = " + String.valueOf(right) + " bottom = " + String.valueOf(bottom));
+                if (clusterManager != null) clusterManager.clearItems();
+                findMarker(left, top, right, bottom);
             }
         });
-        //addItems();// 클러스터 표시
+
         //gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(37.5248,126.92723)));
 
-        /*
-        for(int i =0; i <aedPlace.size(); i++){
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(new LatLng(Double.parseDouble(aedLat[i]), Double.parseDouble(aedLng[i])));
-            markerOptions.title(aedPlace[i]);
-            //markerOptions.title(aedOrg.get(idx) + "건물 \t" + aedPlace.get(idx));
-            gMap.addMarker(markerOptions);
-
-        }
-        */
 
     }
 
@@ -318,7 +290,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
                 mCurrentLocatiion = null;
                 getLocationPermission();
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
@@ -331,7 +303,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         markerOptions.title("위치정보 가져올 수 없음");
         markerOptions.snippet("위치 퍼미션과 GPS 활성 여부 확인하세요");
         markerOptions.draggable(true);
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
         currentMarker = gMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mDefaultLocation, 15);
@@ -340,18 +312,18 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
 
     String getCurrentAddress(LatLng latlng) {
         // 위치 정보와 지역으로부터 주소 문자열을 구한다.
-        List<Address> addressList = null ;
-        Geocoder geocoder = new Geocoder( this, Locale.getDefault());
+        List<Address> addressList = null;
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         // 지오코더를 이용하여 주소 리스트를 구한다.
         try {
-            addressList = geocoder.getFromLocation(latlng.latitude,latlng.longitude,1);
+            addressList = geocoder.getFromLocation(latlng.latitude, latlng.longitude, 1);
         } catch (IOException e) {
-            Toast. makeText( this, "위치로부터 주소를 인식할 수 없습니다. 네트워크가 연결되어 있는지 확인해 주세요.", Toast.LENGTH_SHORT ).show();
+            Toast.makeText(this, "위치로부터 주소를 인식할 수 없습니다. 네트워크가 연결되어 있는지 확인해 주세요.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
-            return "주소 인식 불가" ;
+            return "주소 인식 불가";
         }
         if (addressList.size() < 1) { // 주소 리스트가 비어있는지 비어 있으면
-            return "해당 위치에 주소 없음" ;
+            return "해당 위치에 주소 없음";
         }
         // 주소를 담는 문자열을 생성하고 리턴
         Address address = addressList.get(0);
@@ -363,6 +335,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         }
         return addressStringBuilder.toString();
     }
+
     LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
@@ -389,7 +362,8 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
             }
         }
     };
-    private String CurrentTime(){
+
+    private String CurrentTime() {
         Date today = new Date();
         SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
         SimpleDateFormat time = new SimpleDateFormat("hh:mm:ss a");
@@ -412,12 +386,13 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
         gMap.moveCamera(cameraUpdate);
     }
+
     private void getDeviceLocation() {
         try {
             if (mLocationPermissionGranted) {
                 mFusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
@@ -454,10 +429,11 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         if (mLocationPermissionGranted) {
             Log.d(TAG, "onStart : requestLocationUpdates");
             mFusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
-            if (gMap!=null)
+            if (gMap != null)
                 gMap.setMyLocationEnabled(true);
         }
     }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -466,6 +442,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
             mFusedLocationProviderClient.removeLocationUpdates(locationCallback);
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -477,28 +454,16 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
 
 
     //화면 이동 과 확대 축소시 마커 재할당.
-    public void findMarker(double left, double top, double right,double bottom){
-        for(int i =0 ; i<aedPlace.size(); i++){
-            if((Double) aedLng.get(i)>= left && (Double) aedLng.get(i)<= right){
-                if((Double) aedLat.get(i)>= bottom &&(Double)aedLat.get(i)<=top){
-                    AedItem offsetItem = new AedItem((Double) aedLat.get(i),(Double) aedLng.get(i),aedPlace.get(i).toString());
+    public void findMarker(double left, double top, double right, double bottom) {
+        for (int i = 0; i < aedPlace.size(); i++) {
+            if ((Double) aedLng.get(i) >= left && (Double) aedLng.get(i) <= right) {
+                if ((Double) aedLat.get(i) >= bottom && (Double) aedLat.get(i) <= top) {
+                    AedItem offsetItem = new AedItem((Double) aedLat.get(i), (Double) aedLng.get(i), aedPlace.get(i).toString());
                     clusterManager.addItem(offsetItem);
                 }
             }
         }
     }
-
-
-/*
-    private void addItems() {  // 클러스터 표시
-        for (int idx = 0; idx < aedPlace.size(); idx++) {
-            double offset = idx / 60d;
-            AedItem offsetItem = new AedItem(((Double) aedLat.get(idx))+offset,((Double) aedLng.get(idx))+offset,"Title" + idx);
-            clusterManager.addItem(offsetItem);
-        }
-    }
-    */
-
 }
 
     /* 파싱 작업 전 원본주석
@@ -815,9 +780,9 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback{
              ****************** 변수 선언부 *********************
              ****************************************************/
 
-            /****************************************************
-             *************** 인텐트 변환 메서드 ******************
-             ****************************************************/
+/****************************************************
+ *************** 인텐트 변환 메서드 ******************
+ ****************************************************/
 
 /*
             // 바텀 네이게이션 각 버튼 클릭시 실행.

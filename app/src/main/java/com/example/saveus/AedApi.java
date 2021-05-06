@@ -1,138 +1,111 @@
 package com.example.saveus;
 
-import android.content.Context;
-import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
-public class AedApi extends AppCompatActivity {
-    Context context = this;
-    final String TAG = "AedApi";
+public class AedApi {
+    private static String ServiceKey = "zsXZlLKntZ%2FCbsosKL7YaKFv15A2gTyu4Mf81dNY2rXE9H5GUzInG3VXV8c8EIW8g3qI3DJrhw88FzXegbFcGA%3D%3D"; //공공데이터 사이트를 통해 발급 받은 API키
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
-
-
-    }
-}/*
-    private ArrayList<AedPoint> apiParserSearch(){
-
-        ArrayList<AedPoint> aedpointList = new ArrayList<>();
-        InputStream inputStream = getResources().openRawResource(R.raw.modified_aed);
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-        BufferedReader reader = new BufferedReader(inputStreamReader);
-
-
-        XmlPullParserFactory xmlPullParserFactory = null;
-        XmlPullParser xmlPullParser = null;
-
+    public AedApi() {
         try {
-            xmlPullParserFactory = XmlPullParserFactory.newInstance();
-            xmlPullParser = xmlPullParserFactory.newPullParser();
-            xmlPullParser.setInput(reader);
-
-            AedPoint aedpoint = null;
-            int eventType = xmlPullParser.getEventType();
-
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                switch (eventType) {
-                    case XmlPullParser.START_DOCUMENT:
-                        Log.i(TAG, "xml START");
-                        break;
-                    case XmlPullParser.START_TAG:
-                        String startTag = xmlPullParser.getName();
-                        Log.i(TAG, "Start TAG :" + startTag);
-                        if (startTag.equals("item")) {
-                            aedpoint = new AedPoint();
-                            Log.d(TAG, "aed 추가");
-                        }else if(startTag.equals("rnum")){
-                            aedpoint.setRnum(xmlPullParser.nextText());
-                            Log.d(TAG,aedpoint.getRnum());
-                            Log.d(TAG,"AED 연번");
-                        } else if (startTag.equals("buildPlace")) {
-                            aedpoint.setBuildPlace(xmlPullParser.nextText());
-                        } else if (startTag.equals("buildAddress")) {
-                            aedpoint.setBuildAddress(xmlPullParser.nextText());
-                        } else if (startTag.equals("clerkTel")) {
-                            aedpoint.setClerkTel(xmlPullParser.nextText());
-                        }
-                        break;
-                    case XmlPullParser.END_TAG:
-                        String endTag = xmlPullParser.getName();
-                        Log.i(TAG, "End TAG : " + endTag);
-                        if (endTag.equals("item")) {
-                            aedpointList.add(aedpoint);
-                        }
-                        break;
-                }
-                try {
-                    eventType = xmlPullParser.next();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (XmlPullParserException e) {
+            apiParserSearch();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (reader != null) reader.close();
-                if (inputStreamReader != null) inputStreamReader.close();
-                if (inputStream != null) inputStream.close();
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
         }
-        return aedpointList;
     }
 
-    public static Location addrToPoint(Context context, String addr) {
-        Location location = new Location("");
-        Geocoder geocoder = new Geocoder(context);
-        List<Address> addresses = null;
+    public ArrayList<AedPoint> apiParserSearch() throws Exception {
 
-        try {
-            addresses = geocoder.getFromLocationName(addr,3);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if(addresses != null) {
-            for(int i = 0 ; i < addresses.size() ; i++) {
-                Address lating = addresses.get(i);
-                location.setLatitude(lating.getLatitude());
-                location.setLongitude(lating.getLongitude());
+        URL url = new URL(getURLParam(null));
+
+        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+        XmlPullParser xpp = factory.newPullParser();
+        factory.setNamespaceAware(true);
+        BufferedInputStream bis = new BufferedInputStream(url.openStream());
+        xpp.setInput(bis, "utf-8");
+
+
+        String tag = null;
+        int event_type = xpp.getEventType();
+
+        ArrayList<AedPoint> mapPoint = new ArrayList<AedPoint>();
+
+        String facility_wgs84Lon = null, facility_wgs84Lat = null; // 위도, 경도 값 초기화; // double형이 아닌 문자열로 우선 받음.
+        String facility_buildPlace = null, facility_buildAddress = null, facility_clerkTel = null; // 설치 장소, 주소, 전화번호 초기화
+
+        boolean bfacility_wgs84Lon = false, bfacility_wgs84Lat = false, bfacility_buildPlace = false, bfacility_buildAddress = false, bfacility_clerkTel = false;
+
+        while (event_type != XmlPullParser.END_DOCUMENT) {
+            if (event_type == XmlPullParser.START_TAG) {
+                tag = xpp.getName();
+                if (tag.equals("wgs84Lon")) {
+                    bfacility_wgs84Lon = true;
+                }
+                if (tag.equals("wgs84Lat")) {
+                    bfacility_wgs84Lat = true;
+                }
+                if (tag.equals("buildPlace")) {
+                    bfacility_buildPlace = true;
+                }
+                if (tag.equals("buildAddress")) {
+                    bfacility_buildAddress = true;
+                }
+                if (tag.equals("clerkTel")) {
+                    bfacility_clerkTel = true;
+                }
+            } else if (event_type == XmlPullParser.TEXT) {
+                if (bfacility_wgs84Lon == true) {
+                    facility_wgs84Lon = xpp.getText();
+                    bfacility_wgs84Lon = false;
+                } else if (bfacility_wgs84Lat == true) {
+                    facility_wgs84Lat = xpp.getText();
+                    bfacility_wgs84Lat = false;
+                } else if (bfacility_buildPlace == true) {
+                    facility_buildPlace = xpp.getText();
+                    bfacility_buildPlace = false;
+                } else if (bfacility_buildAddress == true) {
+                    facility_buildAddress = xpp.getText();
+                    bfacility_buildAddress = false;
+                } else if (bfacility_clerkTel == true) {
+                    facility_clerkTel = xpp.getText();
+                    bfacility_clerkTel = false;
+                }
+
+            } else if (event_type == XmlPullParser.END_TAG) {
+                tag = xpp.getName();
+                if (tag.equals("row")) {
+                    AedPoint entity = new AedPoint();
+                    entity.setWgs84Lon(Double.valueOf(facility_wgs84Lon));
+                    entity.setWgs84Lat(Double.valueOf(facility_wgs84Lat));
+                    entity.setBuilPlace(facility_buildPlace);
+                    entity.setBuildAddress(facility_buildAddress);
+                    entity.setClerkTel(facility_clerkTel);
+                    mapPoint.add(entity);
+                    System.out.println(mapPoint.size());
+                }
             }
+            event_type = xpp.next();
         }
-        return location;
-    } // 주소명으로 위도 경도를 구하는 메소드
+        System.out.println(mapPoint.size());
+
+        return mapPoint;
+    }
 
 
+    private String getURLParam(String search){
+        String url = "http://apis.data.go.kr/B552657/AEDInfoInqireService/getAedLcinfoInqire?WGS84_LON=127.8730596106769&WGS84_LAT=36.97442747612218&pageNo=1&numOfRows=30&ServiceKey="+ServiceKey;
+        return url;
+    }
+
+    public static void main(String[] args) {
+        new AedApi();
+    }
 }
-
-*/
 
 
 
@@ -189,7 +162,7 @@ public class AedApi {
         // 불리언 값으로 지정하여 1차로 확인 하기위해 사용.
 
         while (event_type != XmlPullParser.END_DOCUMENT){
-            if(event_type == XmlPullParser.START_TAG){ // 처음 raw 각 항목의 일치 여부 조건문
+            if(event_type == XmlPullParser.START_TAG){ // 처음 xml 각 항목의 일치 여부 조건문
                 tag = xpp.getName();
                 if(tag.equals("wgs84Lon")){ // 태그 값이 경도 값이면 참으로 변경.
                     bfacility_wgs84Lon = true;

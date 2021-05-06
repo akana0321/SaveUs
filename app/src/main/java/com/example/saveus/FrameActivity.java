@@ -46,7 +46,7 @@ public class FrameActivity extends AppCompatActivity {
 
         content = (FrameLayout)findViewById(R.id.content_layout);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(activity_main,content,true); // 1. 메인 페이지 raw 가져오기
+        inflater.inflate(activity_main,content,true); // 1. 메인 페이지 xml 가져오기
 
 
 
