@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,9 +40,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.shape.MarkerEdgeTreatment;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -134,10 +137,14 @@ public class MapFragmentActivity extends Fragment implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true); // 줌 확대 기능 설정.
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         setDefaultLocation(); // GPS를 찾지 못하는 장소에 있을 경우 지도의 초기 위치가 필요함.
         getLocationPermission();
         updateLocationUI();
         getDeviceLocation();
+        setUpAedMap();// 마커 표시 메서드
     }
     private void updateLocationUI() {
         if (mMap == null) {
@@ -349,6 +356,25 @@ public class MapFragmentActivity extends Fragment implements OnMapReadyCallback 
         // Destroy 할 때는, 반대로 OnDestroyView에서 View를 제거하고, OnDestroy()를 호출한다.
         super.onDestroy();
         mapView.onDestroy();
+    }
+
+    private void setUpAedMap(){  //AED 마커 표시 하는 메서드
+        AedApi parser = new AedApi();
+        ArrayList<AedPoint> aedPoint = new ArrayList<AedPoint>();
+
+        try{
+            aedPoint = parser.apiParserSearch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i<aedPoint.size(); i++){
+            for (AedPoint entity : aedPoint){
+                MarkerOptions mOption = new MarkerOptions();
+                mOption.position(new LatLng(aedPoint.get(i).getWgs84Lat(), aedPoint.get(i).getWgs84Lon()));
+                mOption.title(entity+"번째");
+                mMap.addMarker(mOption);
+            }
+        }
     }
 
 
