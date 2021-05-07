@@ -77,7 +77,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
     private LocationRequest locationRequest;
     private Location mCurrentLocatiion;
     private Marker currentMarker = null;
-    private final LatLng mDefaultLocation = null;
+    private final LatLng mDefaultLocation = new LatLng(36.4,127.05);
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
@@ -86,8 +86,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
     private static final int UPDATE_INTERVAL_MS = 1000 * 60 * 15;  // LOG 찍어보니 이걸 주기로 하지 않는듯
     private static final int FASTEST_UPDATE_INTERVAL_MS = 1000 * 30; // 30초 단위로 화면 갱신
 
-    private static final String KEY_CAMERA_POSITION = "camera_position";
-    private static final String KEY_LOCATION = "location";
+    final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
     GoogleMap gMap;
     final String TAG = "LogAedActivity";
@@ -230,7 +229,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
 
         gMap.setOnCameraIdleListener(clusterManager);
         gMap.setOnMarkerClickListener(clusterManager);
-        //setDefaultLocation();
+        setDefaultLocation();
         getLocationPermission();
         updateLocationUI();
         getDeviceLocation();
@@ -311,50 +310,6 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         }
     }
 
-    private  void setDefaultLocation() {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE); //사용자의 현재 위치
-        Location userLocation = getMyLocation();
-        if( userLocation != null ) {
-            double latitude = userLocation.getLatitude();
-            double longitude = userLocation.getLongitude();
-            System.out.println("////////////현재 내 위치값 : " + latitude + "," + longitude);
-        }
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(new LatLng(userLocation.getLatitude(),userLocation.getLongitude()));
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-        markerOptions.title("현위치");
-        markerOptions.snippet("경도 : " + String.valueOf(userLocation.getLatitude()) + "\t 위도 :" + String.valueOf(userLocation.getLongitude()));
-        markerOptions.draggable(true);
-
-        currentMarker = gMap.addMarker(markerOptions);
-
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(userLocation.getLatitude(),userLocation.getLongitude()), 15);
-        gMap.moveCamera(cameraUpdate);
-    }
-
-    private Location getMyLocation() {
-        Location currentLocation = null;
-        // Register the listener with the Location Manager to receive location updates
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("////////////사용자에게 권한을 요청해야함");
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, this.REQUEST_CODE_LOCATION);
-            getMyLocation(); //이건 써도되고 안써도 되지만, 전 권한 승인하면 즉시 위치값 받아오려고 썼습니다!
-        }
-        else {
-            System.out.println("////////////권한요청 안해도됨");
-            // 수동으로 위치 구하기
-            String locationProvider = LocationManager.GPS_PROVIDER;
-            currentLocation = locationManager.getLastKnownLocation(locationProvider);
-            if (currentLocation != null) {
-                double lng = currentLocation.getLongitude();
-                double lat = currentLocation.getLatitude();
-            }
-        }
-        return currentLocation;
-    }
-
-    /*
     private void setDefaultLocation() {  //
         if (currentMarker != null) currentMarker.remove();
 
@@ -370,7 +325,6 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         gMap.moveCamera(cameraUpdate);
     }
 
-     */
     String getCurrentAddress(LatLng latlng) {
         // 위치 정보와 지역으로부터 주소 문자열을 구한다.
         List<Address> addressList = null;
