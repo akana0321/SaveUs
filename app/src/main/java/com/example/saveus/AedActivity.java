@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
@@ -73,11 +74,12 @@ import java.util.Map;
 
 public class AedActivity extends MainActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
 
+    private GpsTracker gpsTracker; // 현위치를 가져오기 위해 이와 관련한 클래스 객체 생성
     private FusedLocationProviderClient mFusedLocationProviderClient; // Deprecated된 FusedLocationApi를 대체
     private LocationRequest locationRequest;
     private Location mCurrentLocatiion;
     private Marker currentMarker = null;
-    private final LatLng mDefaultLocation = new LatLng(36.4,127.05);
+    //private final LatLng mDefaultLocation = new LatLng(36.4,127.05);
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
@@ -86,26 +88,19 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
     private static final int UPDATE_INTERVAL_MS = 1000 * 60 * 15;  // LOG 찍어보니 이걸 주기로 하지 않는듯
     private static final int FASTEST_UPDATE_INTERVAL_MS = 1000 * 30; // 30초 단위로 화면 갱신
 
-    final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
     GoogleMap gMap;
     final String TAG = "LogAedActivity";
-    ArrayList aedAddress = new ArrayList<>(); // AED 설치기관 주된 이름
-    ArrayList aedLat = new ArrayList<>();   // AED 위도
-    ArrayList aedLng = new ArrayList<>();   // AED 경도
-    ArrayList aedPlace = new ArrayList<>(); // AED 세부적지리 위치
-    ClusterManager clusterManager;
-
-
-    private LocationManager locationManager;
-    private static final int REQUEST_CODE_LOCATION = 2;
+    ArrayList aedAddress = new ArrayList<>(); // AED 설치 주소 정보
+    ArrayList aedLat = new ArrayList<>();   // AED 위도 정보
+    ArrayList aedLng = new ArrayList<>();   // AED 경도 정보
+    ArrayList aedPlace = new ArrayList<>(); // AED 세부적인 건물 표시
+    ClusterManager clusterManager; // 화면 전환시 클러스터매니저를 통한 마커 재생성 and 다수의 마커 분포도 표시
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aed);
         actList.add(this);  // 메인의 Activity List에 추가
         setTitle("AED 위치");
-
 
         // AED 파싱한 내용 배열에 저장하는 구문, 경기도 AED 정보 저장하기
         try {
@@ -115,9 +110,9 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject dataObj = arr.getJSONObject(i);
                 aedPlace.add(dataObj.getString("buildPlace")); // AED 건물명 가져오기
-                aedLat.add(dataObj.getDouble("wgs84Lat"));
-                aedLng.add(dataObj.getDouble("wgs84Lon"));
-                aedAddress.add(dataObj.getString("buildAddress"));
+                aedLat.add(dataObj.getDouble("wgs84Lat")); // AED 위도
+                aedLng.add(dataObj.getDouble("wgs84Lon")); // AED 경도
+                aedAddress.add(dataObj.getString("buildAddress")); // AED 주소 가져오기
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -128,34 +123,6 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         builder.addLocationRequest(locationRequest);
         // Construct a FusedLocationProviderClient.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-
-        /* 충주시 항목
-        // AED 파싱한 내용 배열에 저장하는 구문,
-        try {
-            JSONObject obj;
-            obj = new JSONObject(getJsonString());
-            JSONArray arr = obj.getJSONArray("item");
-            for(int i = 0; i < arr.length(); i++) {
-                JSONObject dataObj = arr.getJSONObject(i);
-                aedLat.add(dataObj.getDouble("wgs84Lat"));
-                aedLng.add(dataObj.getDouble("wgs84Lon"));
-                aedOrg.add(dataObj.getString("org")); // AED 대표건물 값 받기
-                aedPlace.add(dataObj.getString("buildPlace"));
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //Log.d(TAG, String.valueOf(aedLat.size()));
-        //Log.d(TAG, String.valueOf(aedLng.size()));
-
-        */
-        /* aed 배열 리스트 값 확인을 위한 반복문.
-        for(int i =0; i<aedLat.size();i++){
-            System.out.println(aedLat.get(i));
-        }
-        */
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -229,8 +196,8 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
 
         gMap.setOnCameraIdleListener(clusterManager);
         gMap.setOnMarkerClickListener(clusterManager);
-        setDefaultLocation();
-        getLocationPermission();
+        setDefaultLocation(); // 초기 위치 -> 페이지 클릭시 곧바로 현위치 보여주는 메소드
+        getLocationPermission(); // 권한 확인 메소드
         updateLocationUI();
         getDeviceLocation();
         clusterManager.setAnimation(false);
@@ -310,6 +277,25 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         }
     }
 
+    private void setDefaultLocation() {  //초기 페이지 전환시 현재위치 보여주는 메소드
+        gpsTracker = new GpsTracker(AedActivity.this);
+        double latitude = gpsTracker.getLatitude(); // 위도
+        double longitude = gpsTracker.getLongitude(); //경도
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.title("현위치");
+        markerOptions.position(new LatLng(latitude,longitude));
+        markerOptions.draggable(true);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+        currentMarker = gMap.addMarker(markerOptions);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 15);
+        gMap.moveCamera(cameraUpdate);
+
+
+    }
+
+    /*
     private void setDefaultLocation() {  //
         if (currentMarker != null) currentMarker.remove();
 
@@ -324,7 +310,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mDefaultLocation, 15);
         gMap.moveCamera(cameraUpdate);
     }
-
+*/
     String getCurrentAddress(LatLng latlng) {
         // 위치 정보와 지역으로부터 주소 문자열을 구한다.
         List<Address> addressList = null;
