@@ -10,10 +10,12 @@ import com.google.maps.android.clustering.ClusterManager;
 public class AedItem implements ClusterItem {
     private final LatLng mPosition;
     private final String mTitle;
+    private final String mAddress;
 
-    public AedItem(double lat, double lng, String title){
+    public AedItem(double lat, double lng, String title,String Address){
         mPosition = new LatLng(lat,lng);
         mTitle = title;
+        mAddress = Address;
     }
 
     @NonNull
@@ -28,9 +30,11 @@ public class AedItem implements ClusterItem {
         return mTitle;
     }
 
+
     @Nullable
     @Override
     public String getSnippet() {
-        return null;
+
+        return mAddress;
     }
 }

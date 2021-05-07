@@ -3,15 +3,14 @@ package com.example.saveus;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
-
 import android.os.Looper;
 import android.util.Log;
 import android.view.MenuItem;
@@ -46,7 +45,7 @@ import com.google.android.gms.maps.model.VisibleRegion;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
-
+import android.Manifest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,7 +77,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
     private LocationRequest locationRequest;
     private Location mCurrentLocatiion;
     private Marker currentMarker = null;
-    private final LatLng mDefaultLocation = new LatLng(37.56, 126.97);
+    private final LatLng mDefaultLocation = null;
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
@@ -92,11 +91,15 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
 
     GoogleMap gMap;
     final String TAG = "LogAedActivity";
-    ArrayList aedOrg = new ArrayList<>(); // AED 설치기관 주된 이름
+    ArrayList aedAddress = new ArrayList<>(); // AED 설치기관 주된 이름
     ArrayList aedLat = new ArrayList<>();   // AED 위도
     ArrayList aedLng = new ArrayList<>();   // AED 경도
     ArrayList aedPlace = new ArrayList<>(); // AED 세부적지리 위치
     ClusterManager clusterManager;
+
+
+    private LocationManager locationManager;
+    private static final int REQUEST_CODE_LOCATION = 2;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +118,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
                 aedPlace.add(dataObj.getString("buildPlace")); // AED 건물명 가져오기
                 aedLat.add(dataObj.getDouble("wgs84Lat"));
                 aedLng.add(dataObj.getDouble("wgs84Lon"));
+                aedAddress.add(dataObj.getString("buildAddress"));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -217,7 +221,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap) {  // AED 페이지 클릭 시 바로 시작되는 내용
         gMap = googleMap;
         gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
@@ -226,7 +230,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
 
         gMap.setOnCameraIdleListener(clusterManager);
         gMap.setOnMarkerClickListener(clusterManager);
-        setDefaultLocation();
+        //setDefaultLocation();
         getLocationPermission();
         updateLocationUI();
         getDeviceLocation();
@@ -276,6 +280,18 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         return ret;
     }
 
+    //화면 이동 과 확대 축소시 마커 재할당.
+    public void findMarker(double left, double top, double right, double bottom) {
+        for (int i = 0; i < aedPlace.size(); i++) {
+            if ((Double) aedLng.get(i) >= left && (Double) aedLng.get(i) <= right) {
+                if ((Double) aedLat.get(i) >= bottom && (Double) aedLat.get(i) <= top) {
+                    AedItem offsetItem = new AedItem((Double) aedLat.get(i), (Double) aedLng.get(i), aedPlace.get(i).toString(),aedAddress.get(i).toString());
+                    clusterManager.addItem(offsetItem);
+                }
+            }
+        }
+    }
+
     private void updateLocationUI() {
         if (gMap == null) {
             return;
@@ -295,7 +311,51 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         }
     }
 
-    private void setDefaultLocation() {
+    private  void setDefaultLocation() {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE); //사용자의 현재 위치
+        Location userLocation = getMyLocation();
+        if( userLocation != null ) {
+            double latitude = userLocation.getLatitude();
+            double longitude = userLocation.getLongitude();
+            System.out.println("////////////현재 내 위치값 : " + latitude + "," + longitude);
+        }
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(new LatLng(userLocation.getLatitude(),userLocation.getLongitude()));
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+        markerOptions.title("현위치");
+        markerOptions.snippet("경도 : " + String.valueOf(userLocation.getLatitude()) + "\t 위도 :" + String.valueOf(userLocation.getLongitude()));
+        markerOptions.draggable(true);
+
+        currentMarker = gMap.addMarker(markerOptions);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(userLocation.getLatitude(),userLocation.getLongitude()), 15);
+        gMap.moveCamera(cameraUpdate);
+    }
+
+    private Location getMyLocation() {
+        Location currentLocation = null;
+        // Register the listener with the Location Manager to receive location updates
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            System.out.println("////////////사용자에게 권한을 요청해야함");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, this.REQUEST_CODE_LOCATION);
+            getMyLocation(); //이건 써도되고 안써도 되지만, 전 권한 승인하면 즉시 위치값 받아오려고 썼습니다!
+        }
+        else {
+            System.out.println("////////////권한요청 안해도됨");
+            // 수동으로 위치 구하기
+            String locationProvider = LocationManager.GPS_PROVIDER;
+            currentLocation = locationManager.getLastKnownLocation(locationProvider);
+            if (currentLocation != null) {
+                double lng = currentLocation.getLongitude();
+                double lat = currentLocation.getLatitude();
+            }
+        }
+        return currentLocation;
+    }
+
+    /*
+    private void setDefaultLocation() {  //
         if (currentMarker != null) currentMarker.remove();
 
         MarkerOptions markerOptions = new MarkerOptions();
@@ -310,6 +370,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         gMap.moveCamera(cameraUpdate);
     }
 
+     */
     String getCurrentAddress(LatLng latlng) {
         // 위치 정보와 지역으로부터 주소 문자열을 구한다.
         List<Address> addressList = null;
@@ -452,18 +513,6 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         }
     }
 
-
-    //화면 이동 과 확대 축소시 마커 재할당.
-    public void findMarker(double left, double top, double right, double bottom) {
-        for (int i = 0; i < aedPlace.size(); i++) {
-            if ((Double) aedLng.get(i) >= left && (Double) aedLng.get(i) <= right) {
-                if ((Double) aedLat.get(i) >= bottom && (Double) aedLat.get(i) <= top) {
-                    AedItem offsetItem = new AedItem((Double) aedLat.get(i), (Double) aedLng.get(i), aedPlace.get(i).toString());
-                    clusterManager.addItem(offsetItem);
-                }
-            }
-        }
-    }
 }
 
     /* 파싱 작업 전 원본주석
