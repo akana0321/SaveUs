@@ -1,22 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <FrameLayout
-        android:id="@+id/mountainMap"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="12"
-        android:orientation="vertical">  <!-- 본문 내용 리니어 레이아웃 // 프레임 레이아웃을 선언한 이유 강의 내용중에 map 플레그먼트로 지정하셔서, 프레그먼트를 받아올수 있는 프레임 레이아웃 설정. -->
-    </FrameLayout>
-    <!-- 실제 휴대폰 어플 실행시 화면 잘림현상을 weight 설정 후 개선함. -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="12"
+        android:orientation="vertical">
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:id="@+id/Mount_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.3"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/btn_MounLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="61dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="242dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="현재 위치" />
+        <Button
+            android:id="@+id/btn_Moun_119"
+            android:layout_width="wrap_content"
+            android:layout_height="58dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="63dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="25dp"
+            android:text="119 신고" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
         android:orientation="vertical">
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/frBottom"
@@ -31,3 +63,21 @@
 
     </RelativeLayout>
 </LinearLayout>
+
+
+    <!--  MapfragMent 방식
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/mountainMap"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="12"
+            android:orientation="vertical">
+        </FrameLayout>
+
+    -->
