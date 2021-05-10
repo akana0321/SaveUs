@@ -167,6 +167,38 @@ public class MountainActivity extends MainActivity implements OnMapReadyCallback
         updateLocationUI();
         getDeviceLocation();
 
+
+        // 답십리 공원 라인 파싱 후 도중 튕김.
+        Gpx parsedGpx = null;
+        try {
+            InputStream in = getAssets().open("PMNTN_답십리공원_112300204.gpx");
+            parsedGpx = mParser.parse(in); // consider using a background thread
+        } catch (IOException | XmlPullParserException e) {
+            Log.d(TAG,"파일 형식이 맞지 않습니다.");
+        }
+        if (parsedGpx == null) {
+            Log.d(TAG,"파일이 담겨져 있지 않습니다.");
+        } else {
+            List<Track> tracks = parsedGpx.getTracks();
+            for (int i = 0; i < tracks.size(); i++) {
+                Track track = tracks.get(i);
+                //Log.d(TAG, "track " + i + ":");
+                List<TrackSegment> segments = track.getTrackSegments();
+                for (int j = 0; j < segments.size(); j++) {
+                    TrackSegment segment = segments.get(j);
+                    //Log.d(TAG, "  segment " + j + ":");
+                    for (TrackPoint trackPoint : segment.getTrackPoints()) {
+                        Log.d(TAG, "    point: lat " + trackPoint.getLatitude() + ", lon " + trackPoint.getLongitude());
+                        mountLat.add(trackPoint.getLatitude());
+                        mountLat.add(trackPoint.getLongitude());
+                    }
+                }
+            }
+        }
+
+
+
+        /*
         // 등산로 GPX파일_spot을 파싱하는 구문
         Gpx parsedGpx = null;
         try {
@@ -189,11 +221,14 @@ public class MountainActivity extends MainActivity implements OnMapReadyCallback
 
         }
 
+        */
+
+        // 위도 경도를 같이 담아서 Arraylist 각각 분리된 위도 경도 삽입.
         for(int i= 0 ; i<mountLat.size(); i++){
             places.add(new LatLng((double)mountLat.get(i),(double)mountLong.get(i)));
         }
 
-
+        // 라인선 그리는 작업
         for(int i=0; i<places.size()-1; i++){
             LatLng src = places.get(i);
             LatLng dest = places.get(i+1);
