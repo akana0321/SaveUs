@@ -3,6 +3,7 @@ package com.example.saveus;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -36,6 +37,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -180,6 +183,19 @@ public class MountainActivity extends MainActivity implements OnMapReadyCallback
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 15);
         gMap.moveCamera(cameraUpdate);
+
+        Polyline polyline1 = gMap.addPolyline(new PolylineOptions().clickable(true).add(
+
+                new LatLng(36.97161259371074, 127.87048475208792),
+                new LatLng(36.97185329140523, 127.87080862186518),
+                new LatLng(36.971787099615135, 127.87120781019526),
+                new LatLng(36.97138393019593, 127.87108730051071),
+                new LatLng(36.970932618611286, 127.87130572431396),
+                new LatLng(36.97053546220316, 127.87199865500016),
+                new LatLng(36.970066092867334, 127.87181789047332),
+                new LatLng(36.96831978678853, 127.87158110745536),
+                new LatLng(36.9667125901397, 127.87157234244111)).width(5).color(Color.RED).geodesic(true));
+
     }
 
     String getCurrentAddress(LatLng latlng) {
