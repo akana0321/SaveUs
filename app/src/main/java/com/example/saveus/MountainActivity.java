@@ -43,12 +43,25 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import org.w3c.dom.EntityReference;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import io.ticofab.androidgpxparser.parser.GPXParser;
+import io.ticofab.androidgpxparser.parser.domain.Gpx;
+import io.ticofab.androidgpxparser.parser.domain.Track;
+import io.ticofab.androidgpxparser.parser.domain.TrackPoint;
+import io.ticofab.androidgpxparser.parser.domain.TrackSegment;
+import io.ticofab.androidgpxparser.parser.domain.WayPoint;
 
 public class MountainActivity extends MainActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
     private GpsTracker gpsTracker; // 현위치를 가져오기 위해 이와 관련한 클래스 객체 생성
@@ -65,8 +78,13 @@ public class MountainActivity extends MainActivity implements OnMapReadyCallback
     private static final int UPDATE_INTERVAL_MS = 1000 * 60 * 15;  // LOG 찍어보니 이걸 주기로 하지 않는듯
     private static final int FASTEST_UPDATE_INTERVAL_MS = 1000 * 30; // 30초 단위로 화면 갱신
 
+    GPXParser mParser = new GPXParser();
     GoogleMap gMap;
     final String TAG = "LogMountainActivity";
+    List<LatLng> places = new ArrayList<LatLng>();
+    ArrayList mountLat = new ArrayList<>(); // 등산로 위도 담을 배열.
+    ArrayList mountLong = new ArrayList<>();// 등산로 경도 담을 배열.
+    Polyline polyline1;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,6 +166,54 @@ public class MountainActivity extends MainActivity implements OnMapReadyCallback
         getLocationPermission(); // 권한 확인 메소드
         updateLocationUI();
         getDeviceLocation();
+
+        // 등산로 GPX파일_spot을 파싱하는 구문
+        Gpx parsedGpx = null;
+        try {
+            InputStream in = getAssets().open("PMNTN_SPOT_답십리공원_112300204.gpx");
+            parsedGpx = mParser.parse(in); // consider using a background thread
+        } catch (IOException | XmlPullParserException e) {
+            Log.d(TAG,"파일 형식이 맞지 않습니다.");
+        }
+        if (parsedGpx == null) {
+            Log.d(TAG,"파일이 담겨져 있지 않습니다.");
+        } else {
+            List<WayPoint> wayPoints = parsedGpx.getWayPoints();
+            for (int i = 0; i < wayPoints.size(); i++) {
+                WayPoint wayPoint = wayPoints.get(i);
+                //Log.d(TAG, String.valueOf(wayPoint.getLatitude()));
+                //Log.d(TAG,String.valueOf(wayPoint.getLongitude()));
+                mountLat.add(wayPoint.getLatitude());
+                mountLong.add(wayPoint.getLongitude());
+            }
+
+        }
+
+        for(int i= 0 ; i<mountLat.size(); i++){
+            places.add(new LatLng((double)mountLat.get(i),(double)mountLong.get(i)));
+        }
+
+
+        for(int i=0; i<places.size()-1; i++){
+            LatLng src = places.get(i);
+            LatLng dest = places.get(i+1);
+            Polyline line = gMap.addPolyline(new PolylineOptions().add(
+                new LatLng(src.latitude,src.longitude),
+                new LatLng(dest.latitude,dest.longitude)
+            ).width(5).color(Color.BLUE).geodesic(true));
+        }
+
+
+        /* 실행 안됨
+        for(int i = 0; i<mountLat.size(); i++){
+            polyline1 = gMap.addPolyline(new PolylineOptions().clickable(true).add(
+                    new LatLng((Double) mountLat.get(i),(Double)mountLong.get(i))
+            ).width(10).color(Color.RED).geodesic(true));
+            Log.d(TAG, String.valueOf(mountLat.get(i)));
+            Log.d(TAG,String.valueOf(mountLong.get(i)));
+        }
+        */
+
     }
 
     private void updateLocationUI() {
@@ -176,14 +242,15 @@ public class MountainActivity extends MainActivity implements OnMapReadyCallback
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.title("현위치");
-        markerOptions.position(new LatLng(latitude,longitude));
+        markerOptions.position(new LatLng(latitude, longitude));
         markerOptions.draggable(true);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
         currentMarker = gMap.addMarker(markerOptions);
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 15);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15);
         gMap.moveCamera(cameraUpdate);
 
+        /* 교통대 공실관 경로
         Polyline polyline1 = gMap.addPolyline(new PolylineOptions().clickable(true).add(
 
                 new LatLng(36.97161259371074, 127.87048475208792),
@@ -195,6 +262,7 @@ public class MountainActivity extends MainActivity implements OnMapReadyCallback
                 new LatLng(36.970066092867334, 127.87181789047332),
                 new LatLng(36.96831978678853, 127.87158110745536),
                 new LatLng(36.9667125901397, 127.87157234244111)).width(5).color(Color.RED).geodesic(true));
+        */
 
     }
 
