@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.maps.android.data.kml.KmlLayer;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -167,7 +168,19 @@ public class MountainActivity extends MainActivity implements OnMapReadyCallback
         updateLocationUI();
         getDeviceLocation();
 
+        try {
+            InputStream in = getAssets().open("W2313110100.kml"); // 계명산_ 충청북도 충주시 목행동 소재 W2313110100.kml 적용시, 잘나타남.
+            // 가리왕산_ 강원도 평창군 진부면 등산로 W2211050100.kml 적용시, 산 중반 부터 선이 형성되어 있어 확실치 않음.
+            KmlLayer layer = new KmlLayer(gMap,in,getApplicationContext());
+            layer.addLayerToMap();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        }
+
+        /*
         // 답십리 공원 라인 파싱 후 도중 튕김.
         Gpx parsedGpx = null;
         try {
@@ -195,7 +208,7 @@ public class MountainActivity extends MainActivity implements OnMapReadyCallback
                 }
             }
         }
-
+        */
 
 
         /*
