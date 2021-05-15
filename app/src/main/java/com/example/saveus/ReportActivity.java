@@ -4,11 +4,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,9 +21,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -39,8 +43,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.klinker.android.send_message.Message;
+import com.klinker.android.send_message.Settings;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -71,18 +76,28 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
     List<LatLng> places = new ArrayList<LatLng>();
     ArrayList mountLat = new ArrayList<>(); // 등산로 위도 담을 배열.
     ArrayList mountLong = new ArrayList<>();// 등산로 경도 담을 배열.
+
+
     Button Btn_Report_Location, Btn_Report_119;
     EditText OtherTypeAccident,AdditionalDelivery;
     Spinner TypeSpinner;
     Button NoBtn,SendBtn;
-
     Dialog dialog_119; // 119버튼 메뉴상자.
+    String itemText = null, additon_Message = null; // 사고 유형 저장 문자열
+    static Double Latitude , Longitude;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
         actList.add(this);  // 메인의 Activity List에 추가
         setTitle("위급 상황 신고");
+
+        gpsTracker= new GpsTracker(ReportActivity.this);      // 가상머신 제대로 출력이 안되지만, 실제 폰은 출력 됨.
+        Latitude = gpsTracker.getLatitude(); // 위도            // 위급 상황 신고 페이지가 열리면 바로 현재 위치 위도 경도 좌표 저장함.
+        Longitude = gpsTracker.getLongitude(); //경도
+
+
+
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(locationRequest);
@@ -150,42 +165,123 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
     }
 
     public void showDialog_119(){
-        dialog_119.show();
+        dialog_119.show(); //119 신고 메소드(xml 저장 되어 있는 형태) 보여줌.
 
-        OtherTypeAccident = dialog_119.findViewById(R.id.edt_other_type_accident);
-        AdditionalDelivery = dialog_119.findViewById(R.id.edt_Additional_delivery);
-        TypeSpinner = dialog_119.findViewById(R.id.TypeSpinner);
-        String itemText = (String) TypeSpinner.getSelectedItem();
+        OtherTypeAccident = dialog_119.findViewById(R.id.edt_other_type_accident);  // 기타 유형 사고 객체 선언 후 연결.
+        AdditionalDelivery = dialog_119.findViewById(R.id.edt_Additional_delivery); // 추가 전달사항 객체 선언 후 연결.
+        TypeSpinner = dialog_119.findViewById(R.id.TypeSpinner); // 유형 사고 드롭박스 객체 선언 후 연결.
 
         TypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
+                itemText = item.toString();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
 
+        OtherTypeAccident.addTextChangedListener(new TextWatcher() {  // 기타 유형 사고 선택시, 하위 항목 텍스트 값 전달.
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length()>0){
+                    itemText = OtherTypeAccident.getText().toString();
+                }
+            }
+        });
+
         NoBtn = dialog_119.findViewById(R.id.noBtn);
         SendBtn = dialog_119.findViewById(R.id.SendBtn);
-        NoBtn.setOnClickListener(new View.OnClickListener() {
+        NoBtn.setOnClickListener(new View.OnClickListener() { // 닫기 버튼 클릭시.
             @Override
             public void onClick(View v) {
                 dialog_119.dismiss();
             }
         });
-        SendBtn.setOnClickListener(new View.OnClickListener() {
+
+        SendBtn.setOnClickListener(new View.OnClickListener() { // 보내기 버튼 클릭시.
             @Override
             public void onClick(View v) {
 
+
+                if(AdditionalDelivery.getText().toString().equals("")|| AdditionalDelivery.getText().toString()==null){
+                    additon_Message = "신속한 이송 부탁드립니다.";  // 추가 전달 사항에 값이 없는 경우.
+                }else {
+                    additon_Message = AdditionalDelivery.getText().toString();
+                }
+
+                Log.d(TAG, "sendMMS(Method) : " + "start");
+                String phone = "01077414253";
+                String subject = "[긴급 구조 요청 신고]"; // MMS 제목 부분.
+                String text = null; // MMS 내용 초기화.
+
+                text = "[사고유형] " + itemText + "사고"+
+                        "\n 사고 발생 위치 \n - 위도 : " + Latitude + "\n - 경도 : " + Longitude +
+                        "\n 추가 전달 사항 \n " + additon_Message;
+
+                Log.d(TAG, "subject : " + subject);
+                Log.d(TAG, "text : " + text);
+
+                Settings settings = new Settings();
+                settings.setUseSystemSending(true);
+
+                Transaction transaction = new Transaction(ReportActivity.this, settings);
+
+                // 제목이 있을경우
+                Message message = new Message(text, phone, subject);
+
+                //제목이 없을경우
+                //Message message = new Message(text, phone);
+
+                long id = android.os.Process.getThreadPriority(android.os.Process.myTid());
+                transaction.sendNewMessage(message, id);
+
             }
         });
+
     }
 
+    /*
+    public void sendMMS(String phone) {
 
+        Log.d(TAG, "sendMMS(Method) : " + "start");
+        String subject = "[긴급 구조 요청 신고]"; // MMS 제목 부분.
+        String text = null; // MMS 내용 부분.
+
+        text = "[사고유형] " + ietm
+        // 예시 (절대경로) : String imagePath = "/storage/emulated/0/Pictures/Screenshots/Screenshot_20190312-181007.png";
+
+        Log.d(TAG, "subject : " + subject);
+        Log.d(TAG, "text : " + text);
+
+        Settings settings = new Settings();
+        settings.setUseSystemSending(true);
+
+        // TODO : 이 Transaction 클래스를 위에 링크에서 다운받아서 써야함
+        Transaction transaction = new Transaction(this, settings);
+
+        // 제목이 있을경우
+         Message message = new Message(text, phone, subject);
+
+        //제목이 없을경우
+        //Message message = new Message(text, phone);
+
+        long id = android.os.Process.getThreadPriority(android.os.Process.myTid());
+        transaction.sendNewMessage(message, id);
+    }
+    */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items

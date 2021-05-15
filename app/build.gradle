@@ -36,4 +36,5 @@ dependencies {
     implementation 'gun0912.ted:tedpermission:2.0.0'
     implementation 'com.google.maps.android:android-maps-utils:2.2.0'
     implementation 'com.github.ticofab:android-gpx-parser:2.0.0'
+    implementation 'com.klinkerapps:android-smsmms:5.1.0'
 }
