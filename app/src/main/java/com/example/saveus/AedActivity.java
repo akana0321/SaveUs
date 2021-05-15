@@ -1,15 +1,10 @@
 package com.example.saveus;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -18,13 +13,11 @@ import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
@@ -32,7 +25,6 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -44,32 +36,22 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
-import android.Manifest;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 
 public class AedActivity extends MainActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -170,7 +152,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
                 startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
                 return true;
             case R.id.tbMoun:
-                intent = new Intent(getApplicationContext(), MountainActivity.class);
+                intent = new Intent(getApplicationContext(), ReportActivity.class);
                 startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
                 return true;
             case R.id.tbPati:
@@ -551,7 +533,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
                 startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
                 return true;
             case R.id.tbMoun:
-                intent = new Intent(getApplicationContext(), MountainActivity.class);
+                intent = new Intent(getApplicationContext(), ReportActivity.class);
                 startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
                 return true;
             case R.id.tbPati:
@@ -637,7 +619,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback{
                 startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
                 return true;
             case R.id.tbMoun:
-                intent = new Intent(getApplicationContext(), MountainActivity.class);
+                intent = new Intent(getApplicationContext(), ReportActivity.class);
                 startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
                 return true;
             case R.id.tbPati:
@@ -817,7 +799,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback{
                 startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
                 return true;
             case R.id.tbMoun:
-                intent = new Intent(getApplicationContext(), MountainActivity.class);
+                intent = new Intent(getApplicationContext(), ReportActivity.class);
                 startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
                 return true;
             case R.id.tbPati:

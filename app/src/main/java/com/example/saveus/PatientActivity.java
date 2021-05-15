@@ -347,7 +347,7 @@ public class PatientActivity extends MainActivity {
                 startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
                 return true;
             case R.id.tbMoun:
-                intent = new Intent(getApplicationContext(), MountainActivity.class);
+                intent = new Intent(getApplicationContext(), ReportActivity.class);
                 startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
                 return true;
             case R.id.tbPati:

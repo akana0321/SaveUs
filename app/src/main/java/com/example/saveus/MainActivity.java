@@ -7,12 +7,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -55,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         Main_MOUN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MountainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
                 startActivity(intent);
             }
         });
@@ -116,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
                 return true;
             case R.id.tbMoun:
-                intent = new Intent(getApplicationContext(), MountainActivity.class);
+                intent = new Intent(getApplicationContext(), ReportActivity.class);
                 startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
                 return true;
             case R.id.tbPati:

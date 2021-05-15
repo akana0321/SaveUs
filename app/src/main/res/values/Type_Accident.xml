@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="type">
+        <item>골절</item>
+        <item>출혈</item>
+        <item>화상</item>
+        <item>기도 폐쇄</item>
+        <item>발작</item>
+        <item>쏘임/물림</item>
+        <item>심장마비</item>
+        <item>기타</item>
+    </string-array>
+</resources>

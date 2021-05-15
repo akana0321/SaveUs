@@ -1,20 +1,15 @@
 package com.example.saveus;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -24,9 +19,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import static com.example.saveus.R.layout.activity_aed;
 import static com.example.saveus.R.layout.activity_contact;
 import static com.example.saveus.R.layout.activity_emergency;
-import static com.example.saveus.R.layout.activity_fracture;
 import static com.example.saveus.R.layout.activity_main;
-import static com.example.saveus.R.layout.activity_mountain;
+import static com.example.saveus.R.layout.activity_report;
 import static com.example.saveus.R.layout.activity_patient;
 
 public class FrameActivity extends AppCompatActivity {
@@ -110,7 +104,7 @@ public class FrameActivity extends AppCompatActivity {
                 view = inflater.inflate(activity_aed, frame, false);
                 break;
             case 2 :
-                view = inflater.inflate(activity_mountain, frame, false);
+                view = inflater.inflate(activity_report, frame, false);
                 break;
             case 3 :
                 view = inflater.inflate(activity_patient, frame, false);

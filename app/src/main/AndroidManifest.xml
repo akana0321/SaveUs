@@ -45,7 +45,7 @@
         <activity android:name=".EmergencyActivity" android:label="응급처치"/>
         <activity android:name=".FractureActivity" android:label="골절" />
         <activity android:name=".HeartActivity" android:label="심장마비"/>
-        <activity android:name=".MountainActivity" android:label="등산 중 사고신고" />
+        <activity android:name=".ReportActivity" android:label="등산 중 사고신고" />
         <activity android:name=".PatientActivity" android:label="환자상태 파악"/>
         <activity android:name=".SeizureActivity" android:label="발작" />
         <activity android:name=".SprainsActivity" android:label="염좌"/>

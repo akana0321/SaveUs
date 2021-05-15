@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
-            android:text="등산 중 사고 신고"
+            android:text="위급 상황 신고"
             android:textSize="25dp" />
 
         <TextView

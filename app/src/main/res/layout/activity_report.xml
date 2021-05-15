@@ -23,7 +23,7 @@
         android:layout_weight="1.3"
         android:orientation="vertical">
         <Button
-            android:id="@+id/btn_MounLocation"
+            android:id="@+id/btn_ReportLocation"
             android:layout_width="wrap_content"
             android:layout_height="61dp"
             android:layout_alignParentTop="true"
@@ -34,7 +34,7 @@
             android:paddingRight="30dp"
             android:text="현재 위치" />
         <Button
-            android:id="@+id/btn_Moun_119"
+            android:id="@+id/btn_Report_119"
             android:layout_width="wrap_content"
             android:layout_height="58dp"
             android:layout_alignParentTop="true"
@@ -63,21 +63,3 @@
 
     </RelativeLayout>
 </LinearLayout>
-
-
-    <!--  MapfragMent 방식
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <FrameLayout
-            android:id="@+id/mountainMap"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="12"
-            android:orientation="vertical">
-        </FrameLayout>
-
-    -->
