@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/round_bg">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_Latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:padding="15dp"
+            android:text="위도 : "/>
+        <TextView
+            android:id="@+id/Rep_Latitude"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:hint="실제 위도 값"
+            android:gravity="center"
+            android:layout_toRightOf="@+id/tv_Latitude"
+            android:layout_alignBottom="@+id/tv_Latitude"/>
+        <TextView
+            android:id="@+id/tv_Longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_Latitude"
+            android:padding="15dp"
+            android:text="경도 : "/>
+
+        <TextView
+            android:id="@+id/Rep_Longitude"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:hint="실제 경도 값"
+            android:gravity="center"
+            android:layout_toRightOf="@+id/tv_Longitude"
+            android:layout_alignBottom="@+id/tv_Longitude"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_OK"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="확인"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

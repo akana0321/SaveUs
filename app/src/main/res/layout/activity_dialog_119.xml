@@ -58,22 +58,19 @@
                 android:scrollbars="vertical"
                 android:layout_below="@+id/tv_Additional_delivery"
                 android:layout_alignLeft="@id/tv_Additional_delivery"
+                android:gravity="center"
                 android:hint="추가 전달사항 입력"
                 android:textSize="20dp" />
-
-
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <Button
             android:id="@+id/noBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="닫기" />
-
         <Button
             android:id="@+id/SendBtn"
             android:layout_width="0dp"

@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.Manifest;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -22,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
@@ -82,9 +85,11 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
 
     Button Btn_Report_Location, Btn_Report_119;
     EditText OtherTypeAccident,AdditionalDelivery;
+    TextView ReportLatitude,ReportLongitude;
     Spinner TypeSpinner;
-    Button NoBtn,SendBtn;
+    Button NoBtn,SendBtn,BtnOK;
     Dialog dialog_119; // 119버튼 메뉴상자.
+    Dialog dialog_CurrentLocation; // 현재 위치 버튼 메뉴 상자.
     String itemText = null, additon_Message = null; // 사고 유형 저장 문자열
     static Double Latitude , Longitude;
 
@@ -99,6 +104,7 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         gpsTracker= new GpsTracker(ReportActivity.this);      // 가상머신 제대로 출력이 안되지만, 실제 폰은 출력 됨.
         Latitude = gpsTracker.getLatitude(); // 위도            // 위급 상황 신고 페이지가 열리면 바로 현재 위치 위도 경도 좌표 저장함.
         Longitude = gpsTracker.getLongitude(); //경도
+
 
         int permissonCheck= ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
         if(permissonCheck == PackageManager.PERMISSION_GRANTED){ Toast.makeText(getApplicationContext(), "SMS 수신권한 있음", Toast.LENGTH_SHORT).show();
@@ -125,17 +131,21 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         mapFragment.getMapAsync(this);
 
         Btn_Report_Location = (Button)findViewById(R.id.btn_ReportLocation);
-        Btn_Report_119 = (Button)findViewById(R.id.btn_Report_119);
+        dialog_CurrentLocation = new Dialog(ReportActivity.this);
+        dialog_CurrentLocation.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog_CurrentLocation.setContentView(R.layout.activity_dialog_location);
 
+
+        Btn_Report_119 = (Button)findViewById(R.id.btn_Report_119);
         dialog_119 = new Dialog(ReportActivity.this);
         dialog_119.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog_119.setContentView(R.layout.activity_dialog_119);
 
         // 바텀 네이게이션 각 버튼 클릭시 실행.
-        BottomNavigationView frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
-        frBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                BottomNavigationView frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
+                frBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.frBack:
                         finish();
@@ -161,15 +171,18 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         Btn_Report_Location.setOnClickListener(new View.OnClickListener() { // 현재위치 버튼 클릭 시, 현위치의 위도와 경도 좌표 출력.
             @Override
             public void onClick(View v) {
-                gpsTracker= new GpsTracker(ReportActivity.this);      // 가상머신 제대로 출력이 안되지만, 실제 폰은 출력 됨.
-                double latitude = gpsTracker.getLatitude(); // 위도
-                double longitude = gpsTracker.getLongitude(); //경도
+                //gpsTracker= new GpsTracker(ReportActivity.this);      // 가상머신 제대로 출력이 안되지만, 실제 폰은 출력 됨.
+                //double latitude = gpsTracker.getLatitude(); // 위도
+                //double longitude = gpsTracker.getLongitude(); //경도
+                showDialog_Location();
 
+                /*
                 AlertDialog.Builder dlg  = new AlertDialog.Builder(ReportActivity.this);
                 dlg.setTitle("현재 위치");
                 dlg.setMessage("○ 위도:"+latitude +"\n○ 경도:" + longitude);
                 dlg.setNegativeButton("닫기",null);
                 dlg.show();
+                */
             }
         });
         Btn_Report_119.setOnClickListener(new View.OnClickListener() {  // 119 버튼 클릭 시, 실행되는 메소드.
@@ -177,6 +190,28 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
             public void onClick(View v) {
                 showDialog_119();
 
+            }
+        });
+    }
+
+    public void showDialog_Location(){
+       dialog_CurrentLocation.show();
+       dialog_CurrentLocation.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 투명 배경.
+       ReportLatitude = dialog_CurrentLocation.findViewById(R.id.Rep_Latitude);
+       ReportLongitude = dialog_CurrentLocation.findViewById(R.id.Rep_Longitude);
+
+        gpsTracker= new GpsTracker(ReportActivity.this);      // 가상머신 제대로 출력이 안되지만, 실제 폰은 출력 됨.
+        double latitude = gpsTracker.getLatitude(); // 위도
+        double longitude = gpsTracker.getLongitude(); //경도
+
+        ReportLatitude.setText(String.valueOf(latitude)); // 경도 값을 텍스트 뷰에 삽입.
+        ReportLongitude.setText(String.valueOf(longitude)); // 위도 값을 텍스트 뷰에 삽입.
+
+        BtnOK = dialog_CurrentLocation.findViewById(R.id.btn_OK);
+        BtnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_CurrentLocation.dismiss();
             }
         });
     }
@@ -286,7 +321,6 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         Settings settings = new Settings();
         settings.setUseSystemSending(true);
 
-        // TODO : 이 Transaction 클래스를 위에 링크에서 다운받아서 써야함
         Transaction transaction = new Transaction(this, settings);
 
         // 제목이 있을경우
@@ -525,7 +559,5 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
             mFusedLocationProviderClient.removeLocationUpdates(locationCallback);
         }
     }
-
-
 }
 
