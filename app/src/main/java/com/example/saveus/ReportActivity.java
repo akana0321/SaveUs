@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.Manifest;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
@@ -22,11 +23,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -64,6 +65,7 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
     private Marker currentMarker = null;
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static final int SMS_RECEIVE_PERMISSON=2;
     private boolean mLocationPermissionGranted;
 
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -86,6 +88,8 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
     String itemText = null, additon_Message = null; // 사고 유형 저장 문자열
     static Double Latitude , Longitude;
 
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
@@ -96,7 +100,20 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         Latitude = gpsTracker.getLatitude(); // 위도            // 위급 상황 신고 페이지가 열리면 바로 현재 위치 위도 경도 좌표 저장함.
         Longitude = gpsTracker.getLongitude(); //경도
 
-
+        int permissonCheck= ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
+        if(permissonCheck == PackageManager.PERMISSION_GRANTED){ Toast.makeText(getApplicationContext(), "SMS 수신권한 있음", Toast.LENGTH_SHORT).show();
+        }else{ Toast.makeText(getApplicationContext(), "SMS 수신권한 없음", Toast.LENGTH_SHORT).show();
+        //권한설정 dialog에서 거부를 누르면
+            // ActivityCompat.shouldShowRequestPermissionRationale 메소드의 반환값이 true가 된다.
+            // 단, 사용자가 "Don't ask again"을 체크한 경우
+            // 거부하더라도 false를 반환하여, 직접 사용자가 권한을 부여하지 않는 이상, 권한을 요청할 수 없게 된다.
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECEIVE_SMS)){
+                //이곳에 권한이 왜 필요한지 설명하는 Toast나 dialog를 띄워준 후, 다시 권한을 요청한다.
+                Toast.makeText(getApplicationContext(), "SMS권한이 필요합니다", Toast.LENGTH_SHORT).show();
+                ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.RECEIVE_SMS}, SMS_RECEIVE_PERMISSON);
+            }else{ ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.RECEIVE_SMS}, SMS_RECEIVE_PERMISSON);
+            }
+        }
 
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
@@ -467,6 +484,14 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
                 }
+            }
+            case SMS_RECEIVE_PERMISSON: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "SMS권한 승인함", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "SMS권한 거부함", Toast.LENGTH_SHORT).show();
+                }
+                break;
             }
         }
         updateLocationUI();
