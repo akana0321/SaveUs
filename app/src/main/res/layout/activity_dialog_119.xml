@@ -31,10 +31,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_Type_of_accident"
             android:padding="15dp"
-            android:text="기타 선택시 입력하는 공간"/>
+            android:text="기타 사고 유형"/>
         <EditText
             android:id="@+id/edt_other_type_accident"
-            android:layout_width="100dp"
+            android:layout_width="172dp"
             android:layout_height="50dp"
             android:layout_toRightOf="@+id/tv_Other_Type_accident"
             android:layout_alignTop="@+id/tv_Other_Type_accident"/>

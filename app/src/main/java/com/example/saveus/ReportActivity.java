@@ -171,18 +171,7 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         Btn_Report_Location.setOnClickListener(new View.OnClickListener() { // 현재위치 버튼 클릭 시, 현위치의 위도와 경도 좌표 출력.
             @Override
             public void onClick(View v) {
-                //gpsTracker= new GpsTracker(ReportActivity.this);      // 가상머신 제대로 출력이 안되지만, 실제 폰은 출력 됨.
-                //double latitude = gpsTracker.getLatitude(); // 위도
-                //double longitude = gpsTracker.getLongitude(); //경도
                 showDialog_Location();
-
-                /*
-                AlertDialog.Builder dlg  = new AlertDialog.Builder(ReportActivity.this);
-                dlg.setTitle("현재 위치");
-                dlg.setMessage("○ 위도:"+latitude +"\n○ 경도:" + longitude);
-                dlg.setNegativeButton("닫기",null);
-                dlg.show();
-                */
             }
         });
         Btn_Report_119.setOnClickListener(new View.OnClickListener() {  // 119 버튼 클릭 시, 실행되는 메소드.
@@ -218,7 +207,6 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
 
     public void showDialog_119(){
         dialog_119.show(); //119 신고 메소드(xml 저장 되어 있는 형태) 보여줌.
-
         OtherTypeAccident = dialog_119.findViewById(R.id.edt_other_type_accident);  // 기타 유형 사고 객체 선언 후 연결.
         AdditionalDelivery = dialog_119.findViewById(R.id.edt_Additional_delivery); // 추가 전달사항 객체 선언 후 연결.
         TypeSpinner = dialog_119.findViewById(R.id.TypeSpinner); // 유형 사고 드롭박스 객체 선언 후 연결.
