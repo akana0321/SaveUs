@@ -247,7 +247,7 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
 
                 long id = android.os.Process.getThreadPriority(android.os.Process.myTid());
                 transaction.sendNewMessage(message, id);
-
+                Toast.makeText(getApplicationContext(),"메세지를 전송하였습니다.",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -321,94 +321,6 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         getLocationPermission(); // 권한 확인 메소드
         updateLocationUI();
         getDeviceLocation();
-
-
-        /* Kml 파일 등산로 경로 표시
-        try {
-                InputStream in = getAssets().open("W2313110100.kml"); // 계명산_ 충청북도 충주시 목행동 소재 W2313110100.kml 적용시, 잘나타남.
-                // 가리왕산_ 강원도 평창군 진부면 등산로 W2211050100.kml 적용시, 산 중반 부터 선이 형성되어 있어 확실치 않음.
-                KmlLayer layer = new KmlLayer(gMap,in,getApplicationContext());
-                layer.addLayerToMap();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        }
-        */
-
-
-        /*
-        // 답십리 공원 라인 파싱 후 도중 튕김.
-        Gpx parsedGpx = null;
-        try {
-            InputStream in = getAssets().open("PMNTN_답십리공원_112300204.gpx");
-            parsedGpx = mParser.parse(in); // consider using a background thread
-        } catch (IOException | XmlPullParserException e) {
-            Log.d(TAG,"파일 형식이 맞지 않습니다.");
-        }
-        if (parsedGpx == null) {
-            Log.d(TAG,"파일이 담겨져 있지 않습니다.");
-        } else {
-            List<Track> tracks = parsedGpx.getTracks();
-            for (int i = 0; i < tracks.size(); i++) {
-                Track track = tracks.get(i);
-                //Log.d(TAG, "track " + i + ":");
-                List<TrackSegment> segments = track.getTrackSegments();
-                for (int j = 0; j < segments.size(); j++) {
-                    TrackSegment segment = segments.get(j);
-                    //Log.d(TAG, "  segment " + j + ":");
-                    for (TrackPoint trackPoint : segment.getTrackPoints()) {
-                        Log.d(TAG, "    point: lat " + trackPoint.getLatitude() + ", lon " + trackPoint.getLongitude());
-                        mountLat.add(trackPoint.getLatitude());
-                        mountLat.add(trackPoint.getLongitude());
-                    }
-                }
-            }
-        }
-        */
-
-
-        /*
-        // 등산로 GPX파일_spot을 파싱하는 구문
-        Gpx parsedGpx = null;
-        try {
-            InputStream in = getAssets().open("buk.gpx");
-            parsedGpx = mParser.parse(in); // consider using a background thread
-        } catch (IOException | XmlPullParserException e) {
-            Log.d(TAG,"파일 형식이 맞지 않습니다.");
-        }
-        if (parsedGpx == null) {
-            Log.d(TAG,"파일이 담겨져 있지 않습니다.");
-        } else {
-            List<WayPoint> wayPoints = parsedGpx.getWayPoints();
-            for (int i = 0; i < wayPoints.size(); i++) {
-                WayPoint wayPoint = wayPoints.get(i);
-                //Log.d(TAG, String.valueOf(wayPoint.getLatitude()));
-                //Log.d(TAG,String.valueOf(wayPoint.getLongitude()));
-                mountLat.add(wayPoint.getLatitude());
-                mountLong.add(wayPoint.getLongitude());
-            }
-
-        }
-
-
-        // 위도 경도를 같이 담아서 Arraylist 각각 분리된 위도 경도 삽입.
-        for(int i= 0 ; i<mountLat.size(); i++){
-            places.add(new LatLng((double)mountLat.get(i),(double)mountLong.get(i)));
-        }
-
-        // 라인선 그리는 작업
-        for(int i=0; i<places.size()-1; i++){
-            LatLng src = places.get(i);
-            LatLng dest = places.get(i+1);
-            Polyline line = gMap.addPolyline(new PolylineOptions().add(
-                new LatLng(src.latitude,src.longitude),
-                new LatLng(dest.latitude,dest.longitude)
-            ).width(5).color(Color.BLUE).geodesic(true));
-        }
-        */
-
     }
 
     private void updateLocationUI() {

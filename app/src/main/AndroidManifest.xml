@@ -38,7 +38,6 @@
         android:usesCleartextTraffic="true"
         android:networkSecurityConfig="@xml/network_config"
         android:theme="@style/AppTheme">
-        <service android:name="com.android.mms.bakTransaction.TransactionService"/>
         <activity android:name=".FrameActivity" />
         <activity android:name=".MainActivity"/>
         <activity android:name=".SplashActivity">
@@ -61,7 +60,7 @@
         <activity android:name=".SeizureActivity" android:label="발작" />
         <activity android:name=".SprainsActivity" android:label="염좌"/>
         <activity android:name=".StingActivity" android:label="쏘임/물림" />
-
+        <service android:name="com.android.mms.transaction.TransactionService"/>
         <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyDUkspVdUhBxbln7_dU6ovp_Eyx1lS_BfA"/>
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
     </application>
