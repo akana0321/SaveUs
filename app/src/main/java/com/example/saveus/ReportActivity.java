@@ -90,9 +90,8 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
     Button NoBtn,SendBtn,BtnOK;
     Dialog dialog_119; // 119버튼 메뉴상자.
     Dialog dialog_CurrentLocation; // 현재 위치 버튼 메뉴 상자.
-    String itemText = null, additon_Message = null; // 사고 유형 저장 문자열
+    String itemText = null, additon_Message = null; // 사고 유형, 추가전달사항 저장 문자열
     static Double Latitude , Longitude;
-
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,14 +101,14 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         setTitle("위급 상황 신고");
 
         gpsTracker= new GpsTracker(ReportActivity.this);      // 가상머신 제대로 출력이 안되지만, 실제 폰은 출력 됨.
-        Latitude = gpsTracker.getLatitude(); // 위도            // 위급 상황 신고 페이지가 열리면 바로 현재 위치 위도 경도 좌표 저장함.
+        Latitude = gpsTracker.getLatitude(); // 위도                  // 위급 상황 신고 페이지가 열리면 바로 현재 위치 위도 경도 좌표 저장함.
         Longitude = gpsTracker.getLongitude(); //경도
 
-
+        //sms 권한 요청 메소드 , 참고 https://satisfactoryplace.tistory.com/
         int permissonCheck= ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
         if(permissonCheck == PackageManager.PERMISSION_GRANTED){ Toast.makeText(getApplicationContext(), "SMS 수신권한 있음", Toast.LENGTH_SHORT).show();
         }else{ Toast.makeText(getApplicationContext(), "SMS 수신권한 없음", Toast.LENGTH_SHORT).show();
-        //권한설정 dialog에서 거부를 누르면
+            //권한설정 dialog에서 거부를 누르면
             // ActivityCompat.shouldShowRequestPermissionRationale 메소드의 반환값이 true가 된다.
             // 단, 사용자가 "Don't ask again"을 체크한 경우
             // 거부하더라도 false를 반환하여, 직접 사용자가 권한을 부여하지 않는 이상, 권한을 요청할 수 없게 된다.
@@ -131,15 +130,14 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         mapFragment.getMapAsync(this);
 
         Btn_Report_Location = (Button)findViewById(R.id.btn_ReportLocation);
-        dialog_CurrentLocation = new Dialog(ReportActivity.this);
-        dialog_CurrentLocation.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog_CurrentLocation.setContentView(R.layout.activity_dialog_location);
-
+        dialog_CurrentLocation = new Dialog(ReportActivity.this); // 현위치 대화상자 출력하기 위하기 위한 다이얼로그 생성.
+        dialog_CurrentLocation.requestWindowFeature(Window.FEATURE_NO_TITLE);   // 현위치 대화상자 제목부분 삭제.
+        dialog_CurrentLocation.setContentView(R.layout.activity_dialog_location); // 현위치 대화상자를 출력하기 위한 다이얼로그 xml 연결.
 
         Btn_Report_119 = (Button)findViewById(R.id.btn_Report_119);
-        dialog_119 = new Dialog(ReportActivity.this);
-        dialog_119.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog_119.setContentView(R.layout.activity_dialog_119);
+        dialog_119 = new Dialog(ReportActivity.this);        // 119 대화상자를 출력하기 위한 다이얼로그 생성.
+        dialog_119.requestWindowFeature(Window.FEATURE_NO_TITLE);    // 119 대화상자 제목부분 삭제.
+        dialog_119.setContentView(R.layout.activity_dialog_119);     // 119 대화상자를 출력하기 위한 다이얼로그 xml 연결.
 
         // 바텀 네이게이션 각 버튼 클릭시 실행.
                 BottomNavigationView frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
@@ -168,26 +166,26 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
             }
         });
 
-        Btn_Report_Location.setOnClickListener(new View.OnClickListener() { // 현재위치 버튼 클릭 시, 현위치의 위도와 경도 좌표 출력.
+        Btn_Report_Location.setOnClickListener(new View.OnClickListener() { // 현재위치 버튼 클릭 시, 현위치의 위도와 경도 좌표 출력하기 위한 다이얼로그 호출.
             @Override
             public void onClick(View v) {
-                showDialog_Location();
+                showDialog_Location();  // 메소드를 통한 다이얼로그 호출.
             }
         });
-        Btn_Report_119.setOnClickListener(new View.OnClickListener() {  // 119 버튼 클릭 시, 실행되는 메소드.
+        Btn_Report_119.setOnClickListener(new View.OnClickListener() {  // 119 버튼 클릭 시, 사고 유형 선택 하기 위한 다이얼로그 호출.
             @Override
             public void onClick(View v) {
-                showDialog_119();
+                showDialog_119();  // 메소드를 통한 다이얼로그 호출.
 
             }
         });
     }
 
     public void showDialog_Location(){
-       dialog_CurrentLocation.show();
+       dialog_CurrentLocation.show(); // 현위치 다이얼로그 띄우기.
        dialog_CurrentLocation.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 투명 배경.
-       ReportLatitude = dialog_CurrentLocation.findViewById(R.id.Rep_Latitude);
-       ReportLongitude = dialog_CurrentLocation.findViewById(R.id.Rep_Longitude);
+       ReportLatitude = dialog_CurrentLocation.findViewById(R.id.Rep_Latitude);    // xml 객체 연결
+       ReportLongitude = dialog_CurrentLocation.findViewById(R.id.Rep_Longitude);  // xml 객체 연결
 
         gpsTracker= new GpsTracker(ReportActivity.this);      // 가상머신 제대로 출력이 안되지만, 실제 폰은 출력 됨.
         double latitude = gpsTracker.getLatitude(); // 위도
@@ -197,7 +195,7 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         ReportLongitude.setText(String.valueOf(longitude)); // 위도 값을 텍스트 뷰에 삽입.
 
         BtnOK = dialog_CurrentLocation.findViewById(R.id.btn_OK);
-        BtnOK.setOnClickListener(new View.OnClickListener() {
+        BtnOK.setOnClickListener(new View.OnClickListener() {   // 확인 버튼 클릭시 다이얼로그 종료하기.
             @Override
             public void onClick(View v) {
                 dialog_CurrentLocation.dismiss();
@@ -206,7 +204,7 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
     }
 
     public void showDialog_119(){
-        dialog_119.show(); //119 신고 메소드(xml 저장 되어 있는 형태) 보여줌.
+        dialog_119.show(); //119 신고 다이얼로그 띄우기.
         OtherTypeAccident = dialog_119.findViewById(R.id.edt_other_type_accident);  // 기타 유형 사고 객체 선언 후 연결.
         AdditionalDelivery = dialog_119.findViewById(R.id.edt_Additional_delivery); // 추가 전달사항 객체 선언 후 연결.
         TypeSpinner = dialog_119.findViewById(R.id.TypeSpinner); // 유형 사고 드롭박스 객체 선언 후 연결.
@@ -215,7 +213,7 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
-                itemText = item.toString();
+                itemText = item.toString();  // 사고 유형 선택시, 값 저장.
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -226,14 +224,10 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         OtherTypeAccident.addTextChangedListener(new TextWatcher() {  // 기타 유형 사고 선택시, 하위 항목 텍스트 값 전달.
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
-
             @Override
             public void afterTextChanged(Editable s) {
                 if(s.length()>0){
@@ -241,6 +235,22 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
                 }
             }
         });
+
+        additon_Message = "신속한 이송 부탁드립니다."; // 추가 전달사항 초기값 설정.
+        AdditionalDelivery.addTextChangedListener(new TextWatcher() { // 추가 전달사항 항목을 입력하면, 내용이 저장.
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                additon_Message = AdditionalDelivery.getText().toString();
+            }
+        });
+
 
         NoBtn = dialog_119.findViewById(R.id.noBtn);
         SendBtn = dialog_119.findViewById(R.id.SendBtn);
@@ -253,15 +263,7 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
 
         SendBtn.setOnClickListener(new View.OnClickListener() { // 보내기 버튼 클릭시.
             @Override
-            public void onClick(View v) {
-
-
-                if(AdditionalDelivery.getText().toString().equals("")|| AdditionalDelivery.getText().toString()==null){
-                    additon_Message = "신속한 이송 부탁드립니다.";  // 추가 전달 사항에 값이 없는 경우.
-                }else {
-                    additon_Message = AdditionalDelivery.getText().toString();
-                }
-
+            public void onClick(View v) {   //  라이브러리 통한  MMS 메세지 전송.
                 Log.d(TAG, "sendMMS(Method) : " + "start");
                 String phone = "01077414253";
                 String subject = "[긴급 구조 요청 신고]"; // MMS 제목 부분.
@@ -276,12 +278,10 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
 
                 Settings settings = new Settings();
                 settings.setUseSystemSending(true);
-
                 Transaction transaction = new Transaction(ReportActivity.this, settings);
 
                 // 제목이 있을경우
                 Message message = new Message(text, phone, subject);
-
                 //제목이 없을경우
                 //Message message = new Message(text, phone);
 
@@ -293,7 +293,7 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
 
     }
 
-    /*
+    /* sendMMS 메소드를 선언을 통해서도 전송할 수 있음.
     public void sendMMS(String phone) {
 
         Log.d(TAG, "sendMMS(Method) : " + "start");
