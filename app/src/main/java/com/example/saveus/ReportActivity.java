@@ -85,7 +85,7 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
 
     Button Btn_Report_Location, Btn_Report_119;
     EditText OtherTypeAccident,AdditionalDelivery;
-    TextView ReportLatitude,ReportLongitude;
+    TextView OtherTypeAccidentTv,ReportLatitude,ReportLongitude;
     Spinner TypeSpinner;
     Button NoBtn,SendBtn,BtnOK;
     Dialog dialog_119; // 119버튼 메뉴상자.
@@ -106,8 +106,8 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
 
         //sms 권한 요청 메소드 , 참고 https://satisfactoryplace.tistory.com/
         int permissonCheck= ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
-        if(permissonCheck == PackageManager.PERMISSION_GRANTED){ Toast.makeText(getApplicationContext(), "SMS 수신권한 있음", Toast.LENGTH_SHORT).show();
-        }else{ Toast.makeText(getApplicationContext(), "SMS 수신권한 없음", Toast.LENGTH_SHORT).show();
+        if(permissonCheck == PackageManager.PERMISSION_DENIED){
+            Toast.makeText(getApplicationContext(), "SMS 수신권한 없음", Toast.LENGTH_SHORT).show();
             //권한설정 dialog에서 거부를 누르면
             // ActivityCompat.shouldShowRequestPermissionRationale 메소드의 반환값이 true가 된다.
             // 단, 사용자가 "Don't ask again"을 체크한 경우
@@ -176,16 +176,15 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
             @Override
             public void onClick(View v) {
                 showDialog_119();  // 메소드를 통한 다이얼로그 호출.
-
             }
         });
     }
 
     public void showDialog_Location(){
-       dialog_CurrentLocation.show(); // 현위치 다이얼로그 띄우기.
-       dialog_CurrentLocation.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 투명 배경.
-       ReportLatitude = dialog_CurrentLocation.findViewById(R.id.Rep_Latitude);    // xml 객체 연결
-       ReportLongitude = dialog_CurrentLocation.findViewById(R.id.Rep_Longitude);  // xml 객체 연결
+        dialog_CurrentLocation.show(); // 현위치 다이얼로그 띄우기.
+        dialog_CurrentLocation.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 투명 배경.
+        ReportLatitude = dialog_CurrentLocation.findViewById(R.id.Rep_Latitude);    // xml 객체 연결
+        ReportLongitude = dialog_CurrentLocation.findViewById(R.id.Rep_Longitude);  // xml 객체 연결
 
         gpsTracker= new GpsTracker(ReportActivity.this);      // 가상머신 제대로 출력이 안되지만, 실제 폰은 출력 됨.
         double latitude = gpsTracker.getLatitude(); // 위도
@@ -205,7 +204,8 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
 
     public void showDialog_119(){
         dialog_119.show(); //119 신고 다이얼로그 띄우기.
-        OtherTypeAccident = dialog_119.findViewById(R.id.edt_other_type_accident);  // 기타 유형 사고 객체 선언 후 연결.
+        OtherTypeAccidentTv = dialog_119.findViewById(R.id.tv_Other_Type_accident); // 기타 사고 유형 텍스트뷰
+        OtherTypeAccident = dialog_119.findViewById(R.id.edt_other_type_accident);  // 기타 사고 유형 객체 선언 후 연결.
         AdditionalDelivery = dialog_119.findViewById(R.id.edt_Additional_delivery); // 추가 전달사항 객체 선언 후 연결.
         TypeSpinner = dialog_119.findViewById(R.id.TypeSpinner); // 유형 사고 드롭박스 객체 선언 후 연결.
 
@@ -214,6 +214,10 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
                 itemText = item.toString();  // 사고 유형 선택시, 값 저장.
+                if (itemText.equals("기타")) {
+                    OtherTypeAccidentTv.setVisibility(View.VISIBLE);
+                    OtherTypeAccident.setVisibility(View.VISIBLE);
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -264,33 +268,37 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         SendBtn.setOnClickListener(new View.OnClickListener() { // 보내기 버튼 클릭시.
             @Override
             public void onClick(View v) {   //  라이브러리 통한  MMS 메세지 전송.
-                Log.d(TAG, "sendMMS(Method) : " + "start");
-                String phone = "01077414253";
-                String subject = "[긴급 구조 요청 신고]"; // MMS 제목 부분.
-                String text = null; // MMS 내용 초기화.
+                int SMSpermissonCheck = ContextCompat.checkSelfPermission(ReportActivity.this, Manifest.permission.RECEIVE_SMS);
+                if (SMSpermissonCheck == PackageManager.PERMISSION_DENIED) {
+                    Toast.makeText(getApplicationContext(), "SMS 권한이 허용되지 않았습니다", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.d(TAG, "sendMMS(Method) : " + "start");
+                    String phone = "0000"; // 전화번호 설정
+                    String subject = "[긴급 구조 요청 신고]"; // MMS 제목 부분.
+                    String text = null; // MMS 내용 초기화.
 
-                text = "[사고유형] " + itemText + "사고"+
-                        "\n 사고 발생 위치 \n - 위도 : " + Latitude + "\n - 경도 : " + Longitude +
-                        "\n 추가 전달 사항 \n " + additon_Message;
+                    text = "[사고유형] " + itemText + "사고" +
+                            "\n 사고 발생 위치 \n - 위도 : " + Latitude + "\n - 경도 : " + Longitude +
+                            "\n 추가 전달 사항 \n " + additon_Message;
 
-                Log.d(TAG, "subject : " + subject);
-                Log.d(TAG, "text : " + text);
+                    Log.d(TAG, "subject : " + subject);
+                    Log.d(TAG, "text : " + text);
 
-                Settings settings = new Settings();
-                settings.setUseSystemSending(true);
-                Transaction transaction = new Transaction(ReportActivity.this, settings);
+                    Settings settings = new Settings();
+                    settings.setUseSystemSending(true);
+                    Transaction transaction = new Transaction(ReportActivity.this, settings);
 
-                // 제목이 있을경우
-                Message message = new Message(text, phone, subject);
-                //제목이 없을경우
-                //Message message = new Message(text, phone);
+                    // 제목이 있을경우
+                    Message message = new Message(text, phone, subject);
+                    //제목이 없을경우
+                    //Message message = new Message(text, phone);
 
-                long id = android.os.Process.getThreadPriority(android.os.Process.myTid());
-                transaction.sendNewMessage(message, id);
-                Toast.makeText(getApplicationContext(),"메세지를 전송하였습니다.",Toast.LENGTH_LONG).show();
+                    long id = android.os.Process.getThreadPriority(android.os.Process.myTid());
+                    transaction.sendNewMessage(message, id);
+                    Toast.makeText(getApplicationContext(), "메세지를 전송하였습니다.", Toast.LENGTH_LONG).show();
+                }
             }
         });
-
     }
 
     /* sendMMS 메소드를 선언을 통해서도 전송할 수 있음.

@@ -30,12 +30,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_Type_of_accident"
+            android:visibility="invisible"
             android:padding="15dp"
             android:text="기타 사고 유형"/>
         <EditText
             android:id="@+id/edt_other_type_accident"
             android:layout_width="172dp"
             android:layout_height="50dp"
+            android:visibility="invisible"
+            android:hint="기타 사고 유형 입력"
             android:layout_toRightOf="@+id/tv_Other_Type_accident"
             android:layout_alignTop="@+id/tv_Other_Type_accident"/>
 
@@ -49,18 +52,20 @@
             android:text="추가 전달사항"/>
 
 
-            <EditText
-                android:id="@+id/edt_Additional_delivery"
-                android:layout_width="275dp"
-                android:layout_height="300dp"
-                android:paddingLeft="10dp"
-                android:lines="8"
-                android:scrollbars="vertical"
-                android:layout_below="@+id/tv_Additional_delivery"
-                android:layout_alignLeft="@id/tv_Additional_delivery"
-                android:gravity="center"
-                android:hint="추가 전달사항 입력"
-                android:textSize="20dp" />
+        <EditText
+            android:id="@+id/edt_Additional_delivery"
+            android:layout_width="284dp"
+            android:layout_height="300dp"
+            android:layout_below="@+id/tv_Additional_delivery"
+            android:layout_alignLeft="@id/tv_Additional_delivery"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
+            android:hint="유의 사항 및 추가 전달 사항 입력"
+            android:lines="8"
+            android:paddingLeft="10dp"
+            android:scrollbars="vertical"
+            android:textSize="19dp" />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
