@@ -58,7 +58,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import io.ticofab.androidgpxparser.parser.GPXParser;
 
 public class ReportActivity extends MainActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
     private GpsTracker gpsTracker; // 현위치를 가져오기 위해 이와 관련한 클래스 객체 생성
@@ -75,13 +74,8 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
     private static final int UPDATE_INTERVAL_MS = 1000 * 60 * 15;  // LOG 찍어보니 이걸 주기로 하지 않는듯
     private static final int FASTEST_UPDATE_INTERVAL_MS = 1000 * 30; // 30초 단위로 화면 갱신
 
-    GPXParser mParser = new GPXParser();
     GoogleMap gMap;
     final String TAG = "LogReportActivity";
-    List<LatLng> places = new ArrayList<LatLng>();
-    ArrayList mountLat = new ArrayList<>(); // 등산로 위도 담을 배열.
-    ArrayList mountLong = new ArrayList<>();// 등산로 경도 담을 배열.
-
 
     Button Btn_Report_Location, Btn_Report_119;
     EditText OtherTypeAccident,AdditionalDelivery;
@@ -103,22 +97,6 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         gpsTracker= new GpsTracker(ReportActivity.this);      // 가상머신 제대로 출력이 안되지만, 실제 폰은 출력 됨.
         Latitude = gpsTracker.getLatitude(); // 위도                  // 위급 상황 신고 페이지가 열리면 바로 현재 위치 위도 경도 좌표 저장함.
         Longitude = gpsTracker.getLongitude(); //경도
-
-        //sms 권한 요청 메소드 , 참고 https://satisfactoryplace.tistory.com/
-        int permissonCheck= ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
-        if(permissonCheck == PackageManager.PERMISSION_DENIED){
-            Toast.makeText(getApplicationContext(), "SMS 수신권한 없음", Toast.LENGTH_SHORT).show();
-            //권한설정 dialog에서 거부를 누르면
-            // ActivityCompat.shouldShowRequestPermissionRationale 메소드의 반환값이 true가 된다.
-            // 단, 사용자가 "Don't ask again"을 체크한 경우
-            // 거부하더라도 false를 반환하여, 직접 사용자가 권한을 부여하지 않는 이상, 권한을 요청할 수 없게 된다.
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECEIVE_SMS)){
-                //이곳에 권한이 왜 필요한지 설명하는 Toast나 dialog를 띄워준 후, 다시 권한을 요청한다.
-                Toast.makeText(getApplicationContext(), "SMS권한이 필요합니다", Toast.LENGTH_SHORT).show();
-                ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.RECEIVE_SMS}, SMS_RECEIVE_PERMISSON);
-            }else{ ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.RECEIVE_SMS}, SMS_RECEIVE_PERMISSON);
-            }
-        }
 
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
@@ -273,7 +251,7 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
                     Toast.makeText(getApplicationContext(), "SMS 권한이 허용되지 않았습니다", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.d(TAG, "sendMMS(Method) : " + "start");
-                    String phone = "0000"; // 전화번호 설정
+                    String phone = "01077414253"; // 전화번호 설정
                     String subject = "[긴급 구조 요청 신고]"; // MMS 제목 부분.
                     String text = null; // MMS 내용 초기화.
 
@@ -365,7 +343,6 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         gMap.getUiSettings().setZoomControlsEnabled(true);
         gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(37.5248,126.92723)));
         setDefaultLocation(); // 초기 위치 -> 페이지 클릭시 곧바로 현위치 보여주는 메소드
-        getLocationPermission(); // 권한 확인 메소드
         updateLocationUI();
         getDeviceLocation();
     }
@@ -382,7 +359,6 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
                 gMap.setMyLocationEnabled(false);
                 gMap.getUiSettings().setMyLocationButtonEnabled(false);
                 mCurrentLocatiion = null;
-                getLocationPermission();
             }
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
@@ -493,39 +469,6 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         }
     }
 
-    private void getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        mLocationPermissionGranted = false;
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mLocationPermissionGranted = true;
-                }
-            }
-            case SMS_RECEIVE_PERMISSON: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getApplicationContext(), "SMS권한 승인함", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "SMS권한 거부함", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            }
-        }
-        updateLocationUI();
-    }
 
     @Override
     protected void onStart() {

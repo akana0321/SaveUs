@@ -1,19 +1,34 @@
 package com.example.saveus;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import java.security.Permission;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     TextView MainTv_EMER, MainTv_AED, Main_MOUN,Main_PATI,Main_CONT;
@@ -32,6 +47,35 @@ public class MainActivity extends AppCompatActivity {
         Main_PATI = (TextView)findViewById(R.id.mainTv_Pati);
         Main_CONT = (TextView)findViewById(R.id.mainTv_Cont);
         frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Dexter.withActivity(this)
+                    .withPermissions(
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.SEND_SMS,
+                            Manifest.permission.RECEIVE_MMS,Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_WAP_PUSH,
+                            Manifest.permission.SMS_FINANCIAL_TRANSACTIONS,Manifest.permission.RECEIVE_SMS,
+                            Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION)
+                    .withListener(new MultiplePermissionsListener() { // 권한 여부를 다 묻고 실행되는 메소드
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+                            // check if all permissions are granted (모든 권한 부여를 확인하는 조건)
+                            if (multiplePermissionsReport.areAllPermissionsGranted()) {
+                                Toast.makeText(MainActivity.this, "모든 권한 허용", Toast.LENGTH_SHORT).show(); // 권한 허용 됐다고 메세지 출력.
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+                            Toast.makeText(MainActivity.this, "list : "+list, Toast.LENGTH_LONG).show();        // 거부한 권한 항목이 저장된 list
+                            showSettingsDialog(); // 거부하면 다얼로그 출력.
+                        }
+                    })
+                    .check();
+        }
+
+
 
         // 텍스트뷰 클릭시 인텐트 전환
         MainTv_EMER.setOnClickListener(new View.OnClickListener() {  // 응급처치 클릭시 응급상황 분류 페이지 이동
@@ -93,6 +137,36 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    private void showSettingsDialog() {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Need Permissions");
+            builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
+            builder.setPositiveButton("GOTO SETTINGS", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    openSettings(); // 어플리케이션 정보 설정 페이지 띄움.
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+        }
+
+
+    private void openSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, 101);
+    }
+
 
     public boolean onCreateOptionsMenu(Menu menu) { // 상단 우측 탭 호출
         getMenuInflater().inflate(R.menu.toolbar_menu,menu);
