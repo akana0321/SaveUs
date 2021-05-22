@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     TextView MainTv_EMER, MainTv_AED, Main_MOUN,Main_PATI,Main_CONT;
     BottomNavigationView frBottom;
+    private PermissionSupport permission;
 
     public static ArrayList<Activity> actList = new ArrayList<Activity>();
     @Override
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("메인화면");
+
+        permissionCheck();
 
         MainTv_EMER = (TextView) findViewById(R.id.mainTv_Emer);
         MainTv_AED = (TextView)findViewById(R.id.mainTv_AED);
@@ -93,6 +97,29 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    // 권한 체크
+    private void permissionCheck() {
+        // SDK 23버전 이하에서는 Permission이 필요하지 않음
+        if (Build.VERSION.SDK_INT >= 23) {
+            permission = new PermissionSupport(this, this);
+
+            // 권한 체크한 후에 리턴이 false로 들어온다면 권한요청
+            if (!permission.checkPermission()) {
+                permission.requestPermission();
+            }
+        }
+    }
+
+    // Request Permission에 대한 결과값 받아오기
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // 여기서도 리턴값이 false라면 다시 Permission 요청
+        if (!permission.permissionResult(requestCode, permissions, grantResults)) {
+            permission.requestPermission();
+        }
+    }
+
 
     public boolean onCreateOptionsMenu(Menu menu) { // 상단 우측 탭 호출
         getMenuInflater().inflate(R.menu.toolbar_menu,menu);
