@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     TextView MainTv_EMER, MainTv_AED, Main_MOUN,Main_PATI,Main_CONT;
     BottomNavigationView frBottom;
+    private PermissionSupport permission;
 
     public static ArrayList<Activity> actList = new ArrayList<Activity>();
     @Override
@@ -25,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("메인화면");
+
+        // permissionCheck();
 
         MainTv_EMER = (TextView) findViewById(R.id.mainTv_Emer);
         MainTv_AED = (TextView)findViewById(R.id.mainTv_AED);
@@ -45,21 +50,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AedActivity.class);
-                startActivity(intent);
+                permissionCheck_gps(intent);
             }
         });
         Main_MOUN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
-                startActivity(intent);
+                permissionCheck_gps(intent);
             }
         });
         Main_PATI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PatientActivity.class);
-                startActivity(intent);
+                permissionCheck_camera(intent);
             }
         });
         Main_CONT.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +99,50 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // 권한 체크
+    private boolean permissionCheck_gps(Intent intent) {
+        // SDK 23버전 이하에서는 Permission이 필요하지 않음
+        if (Build.VERSION.SDK_INT >= 23) {
+            permission = new PermissionSupport(this, this);
+
+            // 권한 체크한 후에 리턴이 false로 들어온다면 권한요청
+            if (!permission.checkPermission_gps()) {
+                permission.requestPermission();
+                Toast.makeText(getApplicationContext(), "위치 권한 승인 후 다시 메뉴를 눌러주세요.", Toast.LENGTH_LONG).show();
+            } else {
+                startActivity(intent);
+                return true;
+            }
+        }
+        return true;
+    }
+    private boolean permissionCheck_camera(Intent intent) {
+        // SDK 23버전 이하에서는 Permission이 필요하지 않음
+        if (Build.VERSION.SDK_INT >= 23) {
+            permission = new PermissionSupport(this, this);
+
+            // 권한 체크한 후에 리턴이 false로 들어온다면 권한요청
+            if (!permission.checkPermission_camera()) {
+                permission.requestPermission();
+                Toast.makeText(getApplicationContext(), "카메라 권한 승인 후 다시 메뉴를 눌러주세요.", Toast.LENGTH_LONG).show();
+            } else {
+                startActivity(intent);
+                return true;
+            }
+        }
+        return true;
+    }
+
+    // Request Permission에 대한 결과값 받아오기
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // 여기서도 리턴값이 false라면 다시 Permission 요청
+        if (!permission.permissionResult(requestCode, permissions, grantResults)) {
+            permission.requestPermission();
+        }
+    }
+
+
     public boolean onCreateOptionsMenu(Menu menu) { // 상단 우측 탭 호출
         getMenuInflater().inflate(R.menu.toolbar_menu,menu);
         return super.onCreateOptionsMenu(menu);
@@ -109,16 +158,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.tbAed:
                 intent = new Intent(getApplicationContext(), AedActivity.class);
-                startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
-                return true;
+                permissionCheck_gps(intent);
             case R.id.tbMoun:
                 intent = new Intent(getApplicationContext(), ReportActivity.class);
-                startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
-                return true;
+                permissionCheck_gps(intent);
             case R.id.tbPati:
                 intent = new Intent(getApplicationContext(), PatientActivity.class);
-                startActivity(intent); //환자 상태파악 클릭시 페이지 전환
-                return true;
+                permissionCheck_gps(intent);
             case R.id.tbCont:
                 intent = new Intent(getApplicationContext(), ContactActivity.class);
                 startActivity(intent); //문의하기 기능클릭시 페이지 전환
