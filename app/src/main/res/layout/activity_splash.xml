@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="응급처치 어플리케이션"
+        android:text="생활 속 응급처치"
         android:textSize="35dp" />
 
 </LinearLayout>

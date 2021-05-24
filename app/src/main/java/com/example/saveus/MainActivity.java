@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("메인화면");
 
-        permissionCheck();
+        // permissionCheck();
 
         MainTv_EMER = (TextView) findViewById(R.id.mainTv_Emer);
         MainTv_AED = (TextView)findViewById(R.id.mainTv_AED);
@@ -49,21 +50,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AedActivity.class);
-                startActivity(intent);
+                permissionCheck_gps(intent);
             }
         });
         Main_MOUN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
-                startActivity(intent);
+                permissionCheck_gps(intent);
             }
         });
         Main_PATI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PatientActivity.class);
-                startActivity(intent);
+                permissionCheck_camera(intent);
             }
         });
         Main_CONT.setOnClickListener(new View.OnClickListener() {
@@ -99,16 +100,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 권한 체크
-    private void permissionCheck() {
+    private boolean permissionCheck_gps(Intent intent) {
         // SDK 23버전 이하에서는 Permission이 필요하지 않음
         if (Build.VERSION.SDK_INT >= 23) {
             permission = new PermissionSupport(this, this);
 
             // 권한 체크한 후에 리턴이 false로 들어온다면 권한요청
-            if (!permission.checkPermission()) {
+            if (!permission.checkPermission_gps()) {
                 permission.requestPermission();
+                Toast.makeText(getApplicationContext(), "위치 권한 승인 후 다시 메뉴를 눌러주세요.", Toast.LENGTH_LONG).show();
+            } else {
+                startActivity(intent);
+                return true;
             }
         }
+        return true;
+    }
+    private boolean permissionCheck_camera(Intent intent) {
+        // SDK 23버전 이하에서는 Permission이 필요하지 않음
+        if (Build.VERSION.SDK_INT >= 23) {
+            permission = new PermissionSupport(this, this);
+
+            // 권한 체크한 후에 리턴이 false로 들어온다면 권한요청
+            if (!permission.checkPermission_camera()) {
+                permission.requestPermission();
+                Toast.makeText(getApplicationContext(), "카메라 권한 승인 후 다시 메뉴를 눌러주세요.", Toast.LENGTH_LONG).show();
+            } else {
+                startActivity(intent);
+                return true;
+            }
+        }
+        return true;
     }
 
     // Request Permission에 대한 결과값 받아오기
@@ -136,16 +158,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.tbAed:
                 intent = new Intent(getApplicationContext(), AedActivity.class);
-                startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
-                return true;
+                permissionCheck_gps(intent);
             case R.id.tbMoun:
                 intent = new Intent(getApplicationContext(), ReportActivity.class);
-                startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
-                return true;
+                permissionCheck_gps(intent);
             case R.id.tbPati:
                 intent = new Intent(getApplicationContext(), PatientActivity.class);
-                startActivity(intent); //환자 상태파악 클릭시 페이지 전환
-                return true;
+                permissionCheck_gps(intent);
             case R.id.tbCont:
                 intent = new Intent(getApplicationContext(), ContactActivity.class);
                 startActivity(intent); //문의하기 기능클릭시 페이지 전환
