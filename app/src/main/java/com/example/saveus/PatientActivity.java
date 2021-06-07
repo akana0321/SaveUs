@@ -33,8 +33,8 @@ public class PatientActivity extends MainActivity {
     private static final String TAG = "HeartRateMonitor";
     private static final AtomicBoolean processing = new AtomicBoolean(false);
 
-    static int REQUEST_CODE_PERMISSIONS = 16715;
-    static final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA"};
+    static int REQUEST_CODE_PERMISSIONS = 1001;
+    static final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA","android.permission.WRITE_EXTERNAL_STORAGE"};
 
     private static SurfaceView preview = null;
     private static SurfaceHolder previewHolder = null;
@@ -71,6 +71,20 @@ public class PatientActivity extends MainActivity {
         setContentView(R.layout.activity_patient);
         actList.add(this);  // 메인의 Activity List에 추가
         setTitle("환자 상태 파악");
+
+        int permissonCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+
+        if (permissonCheck == PackageManager.PERMISSION_GRANTED) {
+            startCamera();
+        } else {
+            Toast.makeText(getApplicationContext(), "카메라 권한 없음", Toast.LENGTH_SHORT).show();
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                Toast.makeText(getApplicationContext(), "카메라 권한이 필요합니다", Toast.LENGTH_SHORT).show();
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_PERMISSIONS);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_PERMISSIONS);
+            }
+        }
 
         preview = (SurfaceView) findViewById(R.id.preview);
         previewHolder = preview.getHolder();
@@ -112,20 +126,27 @@ public class PatientActivity extends MainActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode != REQUEST_CODE_PERMISSIONS) {
-            if (!allPermissionsGranted()) {
+
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                startCamera();
+            } else {
                 Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show();
                 //this.finish();
             }
         }
     }
     private boolean allPermissionsGranted() {
+
         for (String permission : REQUIRED_PERMISSIONS) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                 return false;
             }
         }
         return true;
+    }
+    private void startCamera() {
+
     }
 
     /**
@@ -143,23 +164,11 @@ public class PatientActivity extends MainActivity {
     public void onResume() {
         super.onResume();
 
-        int permissonCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+        wakeLock.acquire();
 
-        if (permissonCheck != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(getApplicationContext(), "카메라 권한 없음", Toast.LENGTH_SHORT).show();
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                Toast.makeText(getApplicationContext(), "카메라 권한이 필요합니다", Toast.LENGTH_SHORT).show();
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_PERMISSIONS);
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_PERMISSIONS);
-            }
-        } else {
-            wakeLock.acquire();
+        camera = Camera.open();
 
-            camera = Camera.open();
-
-            startTime = System.currentTimeMillis();
-        }
+        startTime = System.currentTimeMillis();
     }
 
     /**
@@ -168,28 +177,13 @@ public class PatientActivity extends MainActivity {
     @Override
     public void onPause() {
         super.onPause();
-        if (wakeLock.isHeld()) {
-            wakeLock.release();
-        }
 
-        int permissonCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-        if (permissonCheck != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(getApplicationContext(), "카메라 권한 없음", Toast.LENGTH_SHORT).show();
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                finish();
-            } else {
+        wakeLock.release();
 
-            }
-        } else {
-            /*
-             퍼미션 체크 후 재시작 하려고 넣었는데 안됨...
-            startActivity(new Intent(PatientActivity.this, PatientActivity.class));
-            */
-            camera.setPreviewCallback(null);
-            camera.stopPreview();
-            camera.release();
-            camera = null;
-        }
+        camera.setPreviewCallback(null);
+        camera.stopPreview();
+        camera.release();
+        camera = null;
     }
 
     private static PreviewCallback previewCallback = new PreviewCallback() {

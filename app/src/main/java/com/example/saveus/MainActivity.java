@@ -1,10 +1,16 @@
 package com.example.saveus;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,13 +20,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import java.security.Permission;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     TextView MainTv_EMER, MainTv_AED, Main_MOUN,Main_PATI,Main_CONT;
     BottomNavigationView frBottom;
-    private PermissionSupport permission;
 
     public static ArrayList<Activity> actList = new ArrayList<Activity>();
     @Override
@@ -29,14 +41,40 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("메인화면");
 
-        // permissionCheck();
-
         MainTv_EMER = (TextView) findViewById(R.id.mainTv_Emer);
         MainTv_AED = (TextView)findViewById(R.id.mainTv_AED);
         Main_MOUN = (TextView)findViewById(R.id.mainTV_Moun);
         Main_PATI = (TextView)findViewById(R.id.mainTv_Pati);
         Main_CONT = (TextView)findViewById(R.id.mainTv_Cont);
         frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Dexter.withActivity(this)
+                    .withPermissions(
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.WAKE_LOCK,
+                            Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.SEND_SMS,Manifest.permission.READ_SMS,
+                            Manifest.permission.RECEIVE_MMS,Manifest.permission.RECEIVE_SMS
+                    )
+                    .withListener(new MultiplePermissionsListener() { // 권한 여부를 다 묻고 실행되는 메소드
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+                            // check if all permissions are granted (모든 권한 부여를 확인하는 조건)
+                            if (multiplePermissionsReport.areAllPermissionsGranted()) {
+                                Toast.makeText(MainActivity.this, "모든 권한 허용", Toast.LENGTH_SHORT).show(); // 권한 허용 됐다고 메세지 출력.
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+                            //Toast.makeText(MainActivity.this, "list : "+list, Toast.LENGTH_LONG).show();        // 거부한 권한 항목이 저장된 list
+                            showSettingsDialog(); // 거부하면 다얼로그 출력.
+                        }
+                    })
+                    .check();
+        }
 
         // 텍스트뷰 클릭시 인텐트 전환
         MainTv_EMER.setOnClickListener(new View.OnClickListener() {  // 응급처치 클릭시 응급상황 분류 페이지 이동
@@ -50,21 +88,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AedActivity.class);
-                permissionCheck_gps(intent);
+                startActivity(intent);
             }
         });
         Main_MOUN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
-                permissionCheck_gps(intent);
+                startActivity(intent);
             }
         });
         Main_PATI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PatientActivity.class);
-                permissionCheck_camera(intent);
+                startActivity(intent);
             }
         });
         Main_CONT.setOnClickListener(new View.OnClickListener() {
@@ -99,47 +137,33 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // 권한 체크
-    private boolean permissionCheck_gps(Intent intent) {
-        // SDK 23버전 이하에서는 Permission이 필요하지 않음
-        if (Build.VERSION.SDK_INT >= 23) {
-            permission = new PermissionSupport(this, this);
+    private void showSettingsDialog() {
 
-            // 권한 체크한 후에 리턴이 false로 들어온다면 권한요청
-            if (!permission.checkPermission_gps()) {
-                permission.requestPermission();
-                Toast.makeText(getApplicationContext(), "위치 권한 승인 후 다시 메뉴를 눌러주세요.", Toast.LENGTH_LONG).show();
-            } else {
-                startActivity(intent);
-                return true;
-            }
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("권한 허용 요청");
+            builder.setMessage("이 기능을 사용하려면 앱에서 권한이 필요합니다. 앱 설정에서 부여할 수 있습니다.");
+            builder.setPositiveButton("[앱 설정] 페이지로 이동", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    openSettings(); // 어플리케이션 정보 설정 페이지 띄움.
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
         }
-        return true;
-    }
-    private boolean permissionCheck_camera(Intent intent) {
-        // SDK 23버전 이하에서는 Permission이 필요하지 않음
-        if (Build.VERSION.SDK_INT >= 23) {
-            permission = new PermissionSupport(this, this);
 
-            // 권한 체크한 후에 리턴이 false로 들어온다면 권한요청
-            if (!permission.checkPermission_camera()) {
-                permission.requestPermission();
-                Toast.makeText(getApplicationContext(), "카메라 권한 승인 후 다시 메뉴를 눌러주세요.", Toast.LENGTH_LONG).show();
-            } else {
-                startActivity(intent);
-                return true;
-            }
-        }
-        return true;
-    }
 
-    // Request Permission에 대한 결과값 받아오기
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        // 여기서도 리턴값이 false라면 다시 Permission 요청
-        if (!permission.permissionResult(requestCode, permissions, grantResults)) {
-            permission.requestPermission();
-        }
+    private void openSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, 101);
     }
 
 
@@ -158,13 +182,16 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.tbAed:
                 intent = new Intent(getApplicationContext(), AedActivity.class);
-                permissionCheck_gps(intent);
+                startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
+                return true;
             case R.id.tbMoun:
                 intent = new Intent(getApplicationContext(), ReportActivity.class);
-                permissionCheck_gps(intent);
+                startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
+                return true;
             case R.id.tbPati:
                 intent = new Intent(getApplicationContext(), PatientActivity.class);
-                permissionCheck_gps(intent);
+                startActivity(intent); //환자 상태파악 클릭시 페이지 전환
+                return true;
             case R.id.tbCont:
                 intent = new Intent(getApplicationContext(), ContactActivity.class);
                 startActivity(intent); //문의하기 기능클릭시 페이지 전환
