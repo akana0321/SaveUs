@@ -70,6 +70,8 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
     private static final int UPDATE_INTERVAL_MS = 1000 * 60 * 15;  // LOG 찍어보니 이걸 주기로 하지 않는듯
     private static final int FASTEST_UPDATE_INTERVAL_MS = 1000 * 30; // 30초 단위로 화면 갱신
 
+    MainActivity main = new MainActivity();
+
     GoogleMap gMap;
     final String TAG = "LogAedActivity";
     ArrayList aedAddress = new ArrayList<>(); // AED 설치 주소 정보

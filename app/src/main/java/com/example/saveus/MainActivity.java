@@ -67,11 +67,9 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, "모든 권한 허용", Toast.LENGTH_SHORT).show(); // 권한 허용 됐다고 메세지 출력.
                             }
                         }
-
                         @Override
                         public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
                             //Toast.makeText(MainActivity.this, "list : "+list, Toast.LENGTH_LONG).show();        // 거부한 권한 항목이 저장된 list
-
                             showSettingsDialog(); // 거부하면 다얼로그 출력.
                         }
                     })
@@ -140,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void showSettingsDialog() {
+    public void showSettingsDialog() {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("권한 허용 요청");
@@ -156,7 +154,10 @@ public class MainActivity extends AppCompatActivity {
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
+                    moveTaskToBack(true); // 태스크를 백그라운드로 이동
+                    finishAndRemoveTask(); // 액티비티 종료 + 태스크 리스트에서 지우기
+                    System.exit(0);
+                    //dialog.cancel();
                 }
             });
             builder.show();
