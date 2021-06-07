@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                             Manifest.permission.SEND_SMS,Manifest.permission.READ_SMS,
                             Manifest.permission.RECEIVE_MMS,Manifest.permission.RECEIVE_SMS
                     )
+
                     .withListener(new MultiplePermissionsListener() { // 권한 여부를 다 묻고 실행되는 메소드
                         @Override
                         public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
@@ -70,11 +71,13 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
                             //Toast.makeText(MainActivity.this, "list : "+list, Toast.LENGTH_LONG).show();        // 거부한 권한 항목이 저장된 list
+
                             showSettingsDialog(); // 거부하면 다얼로그 출력.
                         }
                     })
                     .check();
         }
+
 
         // 텍스트뷰 클릭시 인텐트 전환
         MainTv_EMER.setOnClickListener(new View.OnClickListener() {  // 응급처치 클릭시 응급상황 분류 페이지 이동
@@ -143,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
             builder.setTitle("권한 허용 요청");
             builder.setMessage("이 기능을 사용하려면 앱에서 권한이 필요합니다. 앱 설정에서 부여할 수 있습니다.");
             builder.setPositiveButton("[앱 설정] 페이지로 이동", new DialogInterface.OnClickListener() {
+
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
