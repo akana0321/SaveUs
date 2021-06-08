@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void showSettingsDialog() {
+    private void showSettingsDialog() {  // 필요한 권한 4가지 중 한개라도 권한이 지정이 안되면 안내창이 바로 뜨는 메소드
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("권한 허용 요청");
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-    private void openSettings() {
+    private void openSettings() { //앱설정 페이지로 진입.
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", getPackageName(), null);
         intent.setData(uri);

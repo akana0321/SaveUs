@@ -1,7 +1,7 @@
 package com.example.saveus;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.Manifest;
@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.text.Editable;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -93,11 +95,10 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
         setContentView(R.layout.activity_report);
         actList.add(this);  // 메인의 Activity List에 추가
         setTitle("위급 상황 신고");
-
+        checkPermission(); // 21.06.08 권한 확인 메소드 생성
         gpsTracker= new GpsTracker(ReportActivity.this);      // 가상머신 제대로 출력이 안되지만, 실제 폰은 출력 됨.
         Latitude = gpsTracker.getLatitude(); // 위도                  // 위급 상황 신고 페이지가 열리면 바로 현재 위치 위도 경도 좌표 저장함.
         Longitude = gpsTracker.getLongitude(); //경도
-
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(locationRequest);
@@ -498,5 +499,42 @@ public class ReportActivity extends MainActivity implements OnMapReadyCallback, 
             mFusedLocationProviderClient.removeLocationUpdates(locationCallback);
         }
     }
+
+    private void checkPermission() { // SMS 권한은 총 4가지로 구성되어 있지만, 4가지 권한이 모두 존재해야지 수행 가능하므로 임의로 한개 지정.
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            showSettingsDialog();
+        }
+    }
+    private void showSettingsDialog() { // 권한 없는 상태에서 진입시 1차적으로 안내창이 뜨도록 함.
+
+        androidx.appcompat.app.AlertDialog.Builder builder = new AlertDialog.Builder(ReportActivity.this);
+        builder.setTitle("권한 허용 요청");
+        builder.setMessage("이 기능을 사용하려면 앱에서 권한이 필요합니다. 앱 설정에서 부여할 수 있습니다.");
+        builder.setPositiveButton("[앱 설정] 페이지로 이동", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                openSettings(); // 어플리케이션 정보 설정 페이지 띄움.
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                moveTaskToBack(true); // 태스크를 백그라운드로 이동
+                finishAndRemoveTask(); // 액티비티 종료 + 태스크 리스트에서 지우기
+                System.exit(0);
+                //dialog.cancel();
+            }
+        });
+        builder.show();
+    }
+    private void openSettings() { // 앱설정 페이지로 진입.
+        Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, 101);
+    }
+
 }
 

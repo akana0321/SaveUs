@@ -1,18 +1,22 @@
 package com.example.saveus;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-
+import android.Manifest;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -181,8 +185,9 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         gMap.setOnCameraIdleListener(clusterManager);
         gMap.setOnMarkerClickListener(clusterManager);
         setDefaultLocation(); // 초기 위치 -> 페이지 클릭시 곧바로 현위치 보여주는 메소드
-        getLocationPermission(); // 권한 확인 메소드
-        updateLocationUI();
+        checkPermission(); //21.06.08 권한 확인 메소드 생성 (
+        //getLocationPermission(); // 권한 확인 메소드
+        //updateLocationUI();
         getDeviceLocation();
         clusterManager.setAnimation(false);
         // 화면 전환에 따른 마커 표시
@@ -199,10 +204,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
                 findMarker(left, top, right, bottom);
             }
         });
-
         //gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(37.5248,126.92723)));
-
-
     }
 
     private String getJsonString() {  //json 파싱 성공
@@ -235,7 +237,7 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         for (int i = 0; i < aedPlace.size(); i++) {
             if ((Double) aedLng.get(i) >= left && (Double) aedLng.get(i) <= right) {
                 if ((Double) aedLat.get(i) >= bottom && (Double) aedLat.get(i) <= top) {
-                    AedItem offsetItem = new AedItem((Double) aedLat.get(i), (Double) aedLng.get(i), aedPlace.get(i).toString(),aedAddress.get(i).toString());
+                    AedItem offsetItem = new AedItem((Double) aedLat.get(i), (Double) aedLng.get(i), aedPlace.get(i).toString(), aedAddress.get(i).toString());
                     clusterManager.addItem(offsetItem);
                 }
             }
@@ -268,12 +270,12 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.title("현위치");
-        markerOptions.position(new LatLng(latitude,longitude));
+        markerOptions.position(new LatLng(latitude, longitude));
         markerOptions.draggable(true);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
         currentMarker = gMap.addMarker(markerOptions);
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 15);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 15);
         gMap.moveCamera(cameraUpdate);
 
 
@@ -437,386 +439,40 @@ public class AedActivity extends MainActivity implements OnMapReadyCallback, Act
         }
     }
 
-}
-
-    /* 파싱 작업 전 원본주석
-    public class AedActivity extends MainActivity {
-    Context context;
-    private MapFragmentActivity activityMap; //MapFragmentActivity 자바 파일 객체 생성
-    private FragmentTransaction transaction;  //플레그먼트 화면 전환 객체생성
-    private Fragment fragment = null; // 02. 플래그먼트 객체 생성.
-    PermissionListener permissionlistener;
-
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aed);
-        actList.add(this);  // 메인의 Activity List에 추가
-        setTitle("AED 위치");
-        context = this.getBaseContext();
-
-        permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                Toast.makeText(context, "권한 허가가 되었습니다.", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                Toast.makeText(context, "권한 허용을 하지 않으면 서비스를 이용할 수 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        if (Build.VERSION.SDK_INT >= 23) { // 마시멜로(안드로이드 6.0) 이상 권한 체크
-            TedPermission.with(context).setPermissionListener(permissionlistener)
-                    .setRationaleMessage("앱을 이용하기 위해서는 접근 권한이 필요합니다")
-                    .setDeniedMessage("앱에서 요구하는 권한설정이 필요합니다...\n [설정] > [권한] 에서 사용으로 활성화해주세요.")
-                    .setPermissions(new String[]{
-                                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                                    //android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                                    //android.Manifest.permission.WRITE_EXTERNAL_STORAGE // 기기, 사진, 미디어, 파일 엑세스 권한 }).check();}
-                            });
-
-            //FragmentManager fragmentManager = getSupportFragmentManager(); // 플레그먼트 매니저 생성후
-            //activityMap = new MapFragmentActivity();                               // 해당 객체에 MapFragmnet.java 객체를 생성
-            //transaction = fragmentManager.beginTransaction();              // 플레그 먼트 매니저를 활용한 페이지 전환 객체 생성 후
-            //transaction.replace(R.id.map, activityMap).commitAllowingStateLoss();    // 현재 raw map 객체에 해당 activty_map raw 레이아웃 화면이 전환 되도록.
-            //transaction.commit();
-
-            /****************************************************
-             ****************** 변수 선언부 *********************
-             ****************************************************/
-
-/****************************************************
- *************** 인텐트 변환 메서드 ******************
- ****************************************************/
-
-/*
-            // 바텀 네이게이션 각 버튼 클릭시 실행.
-            BottomNavigationView frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
-            frBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                    switch (menuItem.getItemId()) {
-                        case R.id.frBack:
-                            finish();
-                            return true;
-                        case R.id.frMain:
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            // 활성화 되어 있는 모든 인텐트 삭제
-                            for (int i = 0; i < actList.size(); i++)
-                                actList.get(i).finish();
-                            startActivity(intent);
-                            finish();
-                            return true;
-                        case R.id.frExit:
-                            moveTaskToBack(true); // 태스크를 백그라운드로 이동
-                            finishAndRemoveTask(); // 액티비티 종료 + 태스크 리스트에서 지우기
-                            System.exit(0);
-                            return true;
-                    }
-                    return false;
-                }
-            });
+    private void checkPermission() { // GPS 권한은 ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION 이 있지만, 두 권한이 모두 존재해야지 수행 가능하므로 임의로 한개 지정.
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            showSettingsDialog();
         }
     }
-    */
-/*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.tbEmer :
-                Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-                startActivity(intent); // 응급처치 기능 클릭시 페이지 전환
-                return true;
-            case R.id.tbAed:
-                intent = new Intent(getApplicationContext(), AedActivity.class);
-                startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
-                return true;
-            case R.id.tbMoun:
-                intent = new Intent(getApplicationContext(), ReportActivity.class);
-                startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
-                return true;
-            case R.id.tbPati:
-                intent = new Intent(getApplicationContext(), PatientActivity.class);
-                startActivity(intent); //환자 상태파악 클릭시 페이지 전환
-                return true;
-            case R.id.tbCont:
-                intent = new Intent(getApplicationContext(), ContactActivity.class);
-                startActivity(intent); //문의하기 기능클릭시 페이지 전환
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+    private void showSettingsDialog() { // 권한 없는 상태에서 진입시 1차적으로 안내창이 뜨도록 함.
 
-}
+        AlertDialog.Builder builder = new AlertDialog.Builder(AedActivity.this);
+        builder.setTitle("권한 허용 요청");
+        builder.setMessage("이 기능을 사용하려면 앱에서 권한이 필요합니다. 앱 설정에서 부여할 수 있습니다.");
+        builder.setPositiveButton("[앱 설정] 페이지로 이동", new DialogInterface.OnClickListener() {
 
-
-
-
-/* 21.05.02 작업 코딩 확인 필요
-public class AedActivity extends MainActivity implements OnMapReadyCallback{
-
-    GoogleMap gMap;
-    ArrayList<AedPoint> aedpoints;
-    ArrayList<Location> aedpoint_address;
-    Context context = this;
-    final String TAG = "LogAedActivity";
-
-    private ClusterManager<AedItem> clusterManager;
-
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aed);
-        actList.add(this);  // 메인의 Activity List에 추가
-        setTitle("AED 위치");
-
-        aedpoints = (ArrayList<AedPoint>)getIntent().getSerializableExtra("aedsite");
-        aedpoint_address = (ArrayList<Location>)getIntent().getSerializableExtra("aed_address");
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-
-        // 바텀 네이게이션 각 버튼 클릭시 실행.
-        BottomNavigationView frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
-        frBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.frBack:
-                        finish();
-                        return true;
-                    case R.id.frMain:
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        // 활성화 되어 있는 모든 인텐트 삭제
-                        for (int i = 0; i < actList.size(); i++)
-                            actList.get(i).finish();
-                        startActivity(intent);
-                        finish();
-                        return true;
-                    case R.id.frExit:
-                        moveTaskToBack(true); // 태스크를 백그라운드로 이동
-                        finishAndRemoveTask(); // 액티비티 종료 + 태스크 리스트에서 지우기
-                        System.exit(0);
-                        return true;
-                }
-                return false;
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                openSettings(); // 어플리케이션 정보 설정 페이지 띄움.
             }
         });
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.tbEmer:
-                Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-                startActivity(intent); // 응급처치 기능 클릭시 페이지 전환
-                return true;
-            case R.id.tbAed:
-                intent = new Intent(getApplicationContext(), AedActivity.class);
-                startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
-                return true;
-            case R.id.tbMoun:
-                intent = new Intent(getApplicationContext(), ReportActivity.class);
-                startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
-                return true;
-            case R.id.tbPati:
-                intent = new Intent(getApplicationContext(), PatientActivity.class);
-                startActivity(intent); //환자 상태파악 클릭시 페이지 전환
-                return true;
-            case R.id.tbCont:
-                intent = new Intent(getApplicationContext(), ContactActivity.class);
-                startActivity(intent); //문의하기 기능클릭시 페이지 전환
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        gMap = googleMap;
-        gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(36.971567, 127.870491), 17));
-        gMap.getUiSettings().setZoomControlsEnabled(true);
-
-        clusterManager = new ClusterManager<>(this,gMap);
-
-        gMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
-            public void onMapLoaded() {
-                Log.d(TAG,"Load");
-                LatLng latLng = new LatLng(37.564214,127.001699);
-                for(int i = 0 ; i < aedpoints.size(); i++) {
-                    AedItem clinicItem = new AedItem(aedpoint_address.get(i).getLatitude(), aedpoint_address.get(i).getLongitude(),
-                            aedpoints.get(i).getBuildPlace());
-                    clusterManager.addItem(clinicItem);
-                } // 개수만큼 item 추가
+            public void onClick(DialogInterface dialog, int which) {
+                moveTaskToBack(true); // 태스크를 백그라운드로 이동
+                finishAndRemoveTask(); // 액티비티 종료 + 태스크 리스트에서 지우기
+                System.exit(0);
+                //dialog.cancel();
             }
         });
-
-        clusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<AedItem>() {
-            @Override
-            public boolean onClusterClick(Cluster<AedItem> cluster) {
-
-                LatLng latLng = new LatLng(cluster.getPosition().latitude,cluster.getPosition().longitude);
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng,15);
-                gMap.moveCamera(cameraUpdate);
-                return false;
-            }
-        });
-
-
-        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                String marker_number = null;
-                for (int i = 0; i < aedpoints.size(); i++) {
-                    if (aedpoints.get(i).findIndex(marker.getTitle()) != null) {
-                        marker_number = aedpoints.get(i).findIndex(marker.getTitle());
-                        Log.d(TAG, "marker_number " + marker_number);
-                    }
-                } // marker title로 clinic을 검색하여 number 반환받아옴
-                final int marker_ID_number = Integer.parseInt(marker_number);
-                Log.d(TAG, "marker number = " + String.valueOf(marker_ID_number));
-                Log.d(TAG, "marker clinic name = " + aedpoints.get(marker_ID_number).getBuildPlace());
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("병원정보");
-                builder.setMessage(
-                        "설치 장소: " + aedpoints.get(marker_ID_number - 1).getBuildPlace() +
-                                "\n 설치 주소 : " + aedpoints.get(marker_ID_number - 1).getBuildAddress() +
-                                "\n 전화번호 : " +aedpoints.get(marker_ID_number - 1).getClerkTel()
-                );
-                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }
-        });// 마커 클릭 시 Alert Dialog가 나오도록 설정
+        builder.show();
+    }
+    private void openSettings() { // 앱설정 페이지로 진입.
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, 101);
     }
 
 }
-
-    /*
-    public class AedActivity extends MainActivity {
-    Context context;
-    private MapFragmentActivity activityMap; //MapFragmentActivity 자바 파일 객체 생성
-    private FragmentTransaction transaction;  //플레그먼트 화면 전환 객체생성
-    private Fragment fragment = null; // 02. 플래그먼트 객체 생성.
-    PermissionListener permissionlistener;
-
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aed);
-        actList.add(this);  // 메인의 Activity List에 추가
-        setTitle("AED 위치");
-        context = this.getBaseContext();
-
-        permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                Toast.makeText(context, "권한 허가가 되었습니다.", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                Toast.makeText(context, "권한 허용을 하지 않으면 서비스를 이용할 수 없습니다.", Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        if (Build.VERSION.SDK_INT >= 23) { // 마시멜로(안드로이드 6.0) 이상 권한 체크
-            TedPermission.with(context).setPermissionListener(permissionlistener)
-                    .setRationaleMessage("앱을 이용하기 위해서는 접근 권한이 필요합니다")
-                    .setDeniedMessage("앱에서 요구하는 권한설정이 필요합니다...\n [설정] > [권한] 에서 사용으로 활성화해주세요.")
-                    .setPermissions(new String[]{
-                                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                                    //android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                                    //android.Manifest.permission.WRITE_EXTERNAL_STORAGE // 기기, 사진, 미디어, 파일 엑세스 권한 }).check();}
-                            });
-
-            //FragmentManager fragmentManager = getSupportFragmentManager(); // 플레그먼트 매니저 생성후
-            //activityMap = new MapFragmentActivity();                               // 해당 객체에 MapFragmnet.java 객체를 생성
-            //transaction = fragmentManager.beginTransaction();              // 플레그 먼트 매니저를 활용한 페이지 전환 객체 생성 후
-            //transaction.replace(R.id.map, activityMap).commitAllowingStateLoss();    // 현재 raw map 객체에 해당 activty_map raw 레이아웃 화면이 전환 되도록.
-            //transaction.commit();
-
-            /****************************************************
-             ****************** 변수 선언부 *********************
-             ****************************************************/
-
-/****************************************************
- *************** 인텐트 변환 메서드 ******************
- ****************************************************/
-
-/*
-            // 바텀 네이게이션 각 버튼 클릭시 실행.
-            BottomNavigationView frBottom = (BottomNavigationView) findViewById(R.id.frBottom);
-            frBottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                    switch (menuItem.getItemId()) {
-                        case R.id.frBack:
-                            finish();
-                            return true;
-                        case R.id.frMain:
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            // 활성화 되어 있는 모든 인텐트 삭제
-                            for (int i = 0; i < actList.size(); i++)
-                                actList.get(i).finish();
-                            startActivity(intent);
-                            finish();
-                            return true;
-                        case R.id.frExit:
-                            moveTaskToBack(true); // 태스크를 백그라운드로 이동
-                            finishAndRemoveTask(); // 액티비티 종료 + 태스크 리스트에서 지우기
-                            System.exit(0);
-                            return true;
-                    }
-                    return false;
-                }
-            });
-        }
-    }
-    */
-/*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.tbEmer :
-                Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-                startActivity(intent); // 응급처치 기능 클릭시 페이지 전환
-                return true;
-            case R.id.tbAed:
-                intent = new Intent(getApplicationContext(), AedActivity.class);
-                startActivity(intent); //자동제세동기 기능 클릭시 페이지 전환
-                return true;
-            case R.id.tbMoun:
-                intent = new Intent(getApplicationContext(), ReportActivity.class);
-                startActivity(intent); //등산중 사고 신고 클릭시 페이지 전환
-                return true;
-            case R.id.tbPati:
-                intent = new Intent(getApplicationContext(), PatientActivity.class);
-                startActivity(intent); //환자 상태파악 클릭시 페이지 전환
-                return true;
-            case R.id.tbCont:
-                intent = new Intent(getApplicationContext(), ContactActivity.class);
-                startActivity(intent); //문의하기 기능클릭시 페이지 전환
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-}
-
-*/

@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -11,9 +12,11 @@ import android.hardware.Camera;
 import android.hardware.Camera.PreviewCallback;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.SurfaceHolder;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -73,7 +77,6 @@ public class PatientActivity extends MainActivity {
         setTitle("환자 상태 파악");
 
         int permissonCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-
         if (permissonCheck == PackageManager.PERMISSION_GRANTED) {
             startCamera();
         } else {
