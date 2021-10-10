@@ -1,12 +1,16 @@
 package com.example.saveus;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("메인화면");
 
-        // permissionCheck();
+        permissionCheck();
 
         MainTv_EMER = (TextView) findViewById(R.id.mainTv_Emer);
         MainTv_AED = (TextView)findViewById(R.id.mainTv_AED);
@@ -100,6 +104,59 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 권한 체크
+    private void permissionCheck() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            permission = new PermissionSupport(this, this);
+            if (!permission.checkPermission()) {
+                openAlert(); // 모든 권한이 허용되지 않았다면 권한 설정 화면으로 넘기기
+            }
+        }
+    }
+
+    // Request Permission에 대한 결과 값
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(!permission.permissionResult(requestCode, permissions, grantResults)) {
+            openAlert();
+        }
+    }
+
+    // 경고창
+    private void openAlert() {
+        AlertDialog.Builder permissionAlert = new AlertDialog.Builder(MainActivity.this);
+        // alert의 title과 message 세팅
+        permissionAlert.setTitle("미허용 권한 안내");
+        permissionAlert.setMessage("모든 권한이 허용되지 않았습니다.\n" +
+                "Cancle버튼을 누르면 앱이 종료되고, OK버튼을 누르시면 다시 어플리케이션 정보 화면으로 이동합니다.");
+        // OK 버튼
+        permissionAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openSettings();
+            }
+        });
+        // Cancle 버튼
+        permissionAlert.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                moveTaskToBack(true); // 태스크를 백그라운드로 이동
+                finishAndRemoveTask(); // 액티비티 종료 + 태스크 리스트에서 지우기
+                System.exit(0);
+            }
+        });
+        // Alert를 생성해주고 보여주는 메소드(show를 선언해야 Alert가 생성됨)
+        permissionAlert.show();
+    }
+
+    // 앱설정 페이지로 진입.
+    private void openSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, 101);
+    }
+
+
     private boolean permissionCheck_gps(Intent intent) {
         // SDK 23버전 이하에서는 Permission이 필요하지 않음
         if (Build.VERSION.SDK_INT >= 23) {
@@ -131,15 +188,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return true;
-    }
-
-    // Request Permission에 대한 결과값 받아오기
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        // 여기서도 리턴값이 false라면 다시 Permission 요청
-        if (!permission.permissionResult(requestCode, permissions, grantResults)) {
-            permission.requestPermission();
-        }
     }
 
 

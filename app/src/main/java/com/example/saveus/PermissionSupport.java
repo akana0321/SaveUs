@@ -18,6 +18,13 @@ public class PermissionSupport {
     private Activity activity;
 
     // 요청할 권한
+    private String[] permissions = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.CAMERA,
+            Manifest.permission.SEND_SMS
+    };
+
     private String[] permissions_gps = {
             Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION
     };
@@ -35,7 +42,24 @@ public class PermissionSupport {
         this.context = _context;
     }
 
-    // 허용 받아야 할 권한이 남았는지 체크
+    // 허용 받아야 할 권한이 남아있는지 체크
+    public boolean checkPermission() {
+        int result;
+        permissionList = new ArrayList();
+
+        // 위에서 배열로 선언한 권한 중 허용되지 않은 권한이 있는지 체크
+        for (String pm : permissions) {
+            result = ContextCompat.checkSelfPermission(context, pm);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                permissionList.add(pm);
+            }
+        }
+        if (!permissionList.isEmpty())
+            return false;
+        return true;
+    }
+
+    // 각각의 권한 체크
     public boolean checkPermission_gps() {
         int result;
         permissionList = new ArrayList();
