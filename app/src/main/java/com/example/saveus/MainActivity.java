@@ -54,14 +54,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AedActivity.class);
-                permissionCheck_gps(intent);
+                permission.permissionCheck_gps(intent); // 20211010 Test
             }
         });
         Main_MOUN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
-                permissionCheck_gps(intent);
+                permission.permissionCheck_gps(intent); // 20211010 Test
             }
         });
         Main_PATI.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 101);
     }
 
-
+/* 20211010 - Modulation Success
     private boolean permissionCheck_gps(Intent intent) {
         // SDK 23버전 이하에서는 Permission이 필요하지 않음
         if (Build.VERSION.SDK_INT >= 23) {
@@ -173,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+ */
     private boolean permissionCheck_camera(Intent intent) {
         // SDK 23버전 이하에서는 Permission이 필요하지 않음
         if (Build.VERSION.SDK_INT >= 23) {
@@ -206,13 +207,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.tbAed:
                 intent = new Intent(getApplicationContext(), AedActivity.class);
-                permissionCheck_gps(intent);
+                permission.permissionCheck_gps(intent);
             case R.id.tbMoun:
                 intent = new Intent(getApplicationContext(), ReportActivity.class);
-                permissionCheck_gps(intent);
+                permission.permissionCheck_gps(intent);
             case R.id.tbPati:
                 intent = new Intent(getApplicationContext(), PatientActivity.class);
-                permissionCheck_gps(intent);
+                permission.permissionCheck_gps(intent);
             case R.id.tbCont:
                 intent = new Intent(getApplicationContext(), ContactActivity.class);
                 startActivity(intent); //문의하기 기능클릭시 페이지 전환

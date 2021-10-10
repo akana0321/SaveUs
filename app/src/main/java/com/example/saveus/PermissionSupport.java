@@ -3,7 +3,10 @@ package com.example.saveus;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -94,6 +97,21 @@ public class PermissionSupport {
     // 권한 허용 요청
     public void requestPermission() {
         ActivityCompat.requestPermissions(activity, (String[]) permissionList.toArray(new String[permissionList.size()]), MULTIPLE_PERMISSIONS);
+    }
+
+    public boolean permissionCheck_gps(Intent intent) {
+        // SDK 23버전 이하에서는 Permission이 필요하지 않음
+        if (Build.VERSION.SDK_INT >= 23) {
+            // 권한 체크한 후에 리턴이 false로 들어온다면 권한요청
+            if (!checkPermission_gps()) {
+                requestPermission();
+                Toast.makeText(activity, "위치 권한 승인 후 다시 메뉴를 눌러주세요.", Toast.LENGTH_LONG).show();
+            } else {
+                activity.startActivity(intent);
+                return true;
+            }
+        }
+        return true;
     }
 
     // 권한 요청에 대한 결과 처리
