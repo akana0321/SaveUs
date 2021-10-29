@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="생활 속 응급처치"
-        android:textSize="35dp" />
+        android:textSize="35dp"
+        android:fontFamily="@font/nexon_gothic_bold"/>
 
 </LinearLayout>

@@ -4,17 +4,22 @@
 
     <item
         android:id="@+id/tbEmer"
-        android:title="응급처치" />
+        android:title="응급처치"
+        android:fontFamily="@font/nexon_gothic_light"/>
     <item
         android:id="@+id/tbAed"
-        android:title="AED 위치" />
+        android:title="AED 위치"
+        android:fontFamily="@font/nexon_gothic_light"/>
     <item
         android:id="@+id/tbMoun"
-        android:title="위급 상황 신고" />
+        android:title="위급 상황 신고"
+        android:fontFamily="@font/nexon_gothic_light"/>
     <item
         android:id="@+id/tbPati"
-        android:title="환자 상태 파악" />
+        android:title="환자 상태 파악"
+        android:fontFamily="@font/nexon_gothic_light"/>
     <item
         android:id="@+id/tbCont"
-        android:title="문의하기" />
+        android:title="문의하기"
+        android:fontFamily="@font/nexon_gothic_light"/>
 </menu>

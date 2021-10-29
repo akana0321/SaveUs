@@ -19,7 +19,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
-                android:text="\n\가. 발작 개요"/>
+                android:text="\n\가. 발작 개요"
+                android:fontFamily="@font/nexon_gothic_medium"/>
 
             <TextView
                 android:id="@+id/seiTv_Sub01"
@@ -35,7 +36,8 @@
                                \n● 뇌손상, 암, 뇌졸중 등\n
                                \n발작은 심한 경우(발작이 15분 이상 지속되는 경우 등) 즉각적인 의학적 처치가 필요하지만 다행히도 대부분의 발작은 의학적 치료를 필요로 하지 않는다. 이러한 발작 환자에 대한 응급처치는 발작 시에 다치지 않도록 하고, 발작이 끝난 후 편하게 해주는 것이다.
                                \n발작은 크게 신체가 한 가지 자세로 굳어지면서 떠는 운동성 발작과 신체의 떨림이 없이 잠시 동안의 의식 변화 등을 특징으로 하는 비운동성 발작의 두 가지 형태로 나뉜다.\n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
 
             <View android:background="#D0D0D0"
                 android:layout_width="match_parent"
@@ -47,7 +49,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="3dp"
                 android:textSize="18dp"
-                android:text="\n나. 비 운동성 발작 혹은 운동성 발작 직전의 증상 및 조치\n"/>
+                android:text="\n나. 비 운동성 발작 혹은 운동성 발작 직전의 증상 및 조치\n"
+                android:fontFamily="@font/nexon_gothic_light"/>
 
             <TextView
                 android:id="@+id/seiTv_Sub02"
@@ -58,7 +61,8 @@
                               \n● 입안에 금속이 들어있는 것 같은 맛이 느껴진다.
                               \n● 환각
                               \n● 혼동 상태나 의식의 변화\n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
 
             <TextView
                 android:id="@+id/seiTv_Sub03"
@@ -66,7 +70,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="3dp"
                 android:textSize="17dp"
-                android:text="\n\t비 운동성 경련 응급처치\n"/>
+                android:text="\n\t비 운동성 경련 응급처치\n"
+                android:fontFamily="@font/nexon_gothic_medium"/>
 
             <TextView
                 android:id="@+id/seiTv_Sub04"
@@ -75,7 +80,8 @@
                 android:padding="3dp"
                 android:text="의심이 되는 경우에 환자에서 필요한 응급처치는 없다.
                               \n 신속히 병원으로 이송한다.\n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
 
             <View
                 android:background="#D0D0D0"
@@ -88,7 +94,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="3dp"
                 android:textSize="20dp"
-                android:text="\n다. 운동성 발작의 증상 및 조치\n"/>
+                android:text="\n다. 운동성 발작의 증상 및 조치\n"
+                android:fontFamily="@font/nexon_gothic_medium"/>
             <TextView
                 android:id="@+id/seiTv_Sub05"
                 android:layout_width="match_parent"
@@ -98,7 +105,8 @@
                               \n● 눈이 상방을 주시하며 고정된다.
                               \n● 침을 흘리거나 소변이나 대변을 본다.
                               \n● 호흡이 힘들어지고 의식을 잃게 된다.\n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
 
             <TextView
                 android:id="@+id/seiTv_Sub06"
@@ -106,7 +114,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="3dp"
                 android:textSize="17dp"
-                android:text="\n\t운동성 경련 응급처치\n"/>
+                android:text="\n\t운동성 경련 응급처치\n"
+                android:fontFamily="@font/nexon_gothic_light"/>
 
             <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                 android:id="@+id/youtube_player_seizure"
@@ -128,7 +137,8 @@
                               \n벨트도 배를 조일 수 있으므로 느슨하게 풀어준다.
                               \n기도가 막힐 수도 있으므로 약을 억지로 먹이는 것을 금한다.
                               \n대부분의 운동선 경련은 수분 이내에 종료되지만 경련을 다시 시작할 수 있기 때문에 이에 필요한 준비는 해야 하며, 환자가 경련하는 동안 다친 곳은 없는지 살펴보고 치료한다. 환자가 경련 후 수면을 지속할 수 있도록 한다."
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
         </LinearLayout>
     </ScrollView>
     <LinearLayout

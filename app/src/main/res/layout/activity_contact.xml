@@ -11,7 +11,8 @@
         android:id="@+id/contTv3"
         android:layout_marginTop="20dp"
         android:textSize="20dp"
-        android:text="제목" />
+        android:text="제목"
+        android:fontFamily="@font/nexon_gothic_medium"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -19,14 +20,16 @@
         android:id="@+id/contTitle"
         android:textSize="20dp"
         android:hint="(제목)"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/nexon_gothic_light"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/contTv2"
         android:textSize="20dp"
-        android:text="내용" />
+        android:text="내용"
+        android:fontFamily="@font/nexon_gothic_medium"/>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -37,7 +40,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/contContents"
             android:textSize="20dp"
-            android:hint="문의사항 또는 개선사항을 자유롭게 적어주세요" />
+            android:hint="문의사항 또는 개선사항을 자유롭게 적어주세요"
+            android:fontFamily="@font/nexon_gothic_light"/>
     </ScrollView>
 
     <Button
@@ -46,7 +50,8 @@
         android:id="@+id/contBtn"
         android:layout_gravity="center"
         android:textSize="20dp"
-        android:text="보내기" />
+        android:text="보내기"
+        android:fontFamily="@font/nexon_gothic_medium"/>
 
     <LinearLayout
         android:layout_width="match_parent"

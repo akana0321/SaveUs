@@ -18,7 +18,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
-                android:text="\n\n쏘임/물림 개요"/>
+                android:text="\n\n쏘임/물림 개요"
+                android:fontFamily="@font/nexon_gothic_medium"/>
 
             <TextView
                 android:id="@+id/stiTv_Sub01"
@@ -30,7 +31,8 @@
                                 \n② 뱀에게 물렸을 때
                                 \n③ 벌이나 벌레에게 쏘이는 경우
                                 \n의 세가지로 나누어 설명할 수 있다.\n\n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
 
             <View android:background="#D0D0D0"
                 android:layout_width="match_parent"
@@ -42,7 +44,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="3dp"
                 android:textSize="20dp"
-                android:text="\n① 동물에게 물렸을 때\n"/>
+                android:text="\n① 동물에게 물렸을 때\n"
+                android:fontFamily="@font/nexon_gothic_medium"/>
 
             <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                 android:id="@+id/youtube_player_animal"
@@ -67,7 +70,8 @@
                                 \n상처를 소독된 거즈나 깨끗한 패드로 덮고 붕대를 감는다.
                                 \n병/의원을 방문하여 경우에 따라 다음의 처치를 받도록 한다.
                                 \n세척, 항파상풍 주사, 봉합술 등을 시행하는데, 파상풍 예방 접종 경력과 시기에 대한 정보를 의료진에게 정확히 전달하면 도움을 받을 수 있다.\n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
             <View
                 android:background="#D0D0D0"
                 android:layout_width="match_parent"
@@ -79,7 +83,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="3dp"
                 android:textSize="20dp"
-                android:text="\n② 뱀에게 물렸을 때\n"/>
+                android:text="\n② 뱀에게 물렸을 때\n"
+                android:fontFamily="@font/nexon_gothic_medium"/>
 
             <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                 android:id="@+id/youtube_player_snake"
@@ -103,7 +108,8 @@
                                 \n물린곳에서 5~10cm 위를 적당한 압력으로 묶어 독이 퍼지지않게 한다.\n
                                 \n3. 압박하여 묶기
                                 \n물린곳에서 5~10cm 위를 적당한 압력으로 묶어 독이 퍼지지않게 한다.\n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
             <View
                 android:background="#D0D0D0"
                 android:layout_width="match_parent"
@@ -115,7 +121,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="3dp"
                 android:textSize="20dp"
-                android:text="\n③ 벌이나 벌레에게 쏘이는 경우\n"/>
+                android:text="\n③ 벌이나 벌레에게 쏘이는 경우\n"
+                android:fontFamily="@font/nexon_gothic_medium"/>
 
             <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                 android:id="@+id/youtube_player_bee"
@@ -139,7 +146,8 @@
                                 \n- 전신적 과민성 반응에 의한 사망 원인 중 60 ~ 80%는 공기를 폐로 전달하는 통로 역할을 하는 기도가 부어 숨을 쉴 수가 없어 사망하는 질식사로 보고되고 있다.
                                 \n- 두 번째로 흔한 사망 원인으로는 혈관 확장에 따른 의한 쇼크사이다.
                                 \n- 즉시 필요한 응급조치(심폐소생술 참고)를 시행하면서 신속히 의료기관으로 이송하여야 한다.\n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
 
             <TextView
                 android:id="@+id/stiTv_Sub05"
@@ -153,7 +161,8 @@
                                 \n신용카드 등을 이용해 피부를 긁어내듯 침을 제거한다.\n
                                 \n3. 통증(부기) 완화
                                 \n상처 부위에 얼음주머니를 대 통증과 부기를 가라앉힌다.\n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
 
             <View
                 android:background="#D0D0D0"
@@ -169,7 +178,8 @@
                                 \n1. 거미에 물렸을 때는 우선 거미의 사진을 찍어 둔다.\n
                                 \n2. 카메라가 없으면 거미의 크기와 모양을 기억하여 메모해 둔다.\n
                                 \n3. 시간이 지날수록 붓고 통증이 있다면 병원으로 간다.\n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
 
             <View
                 android:background="#D0D0D0"
@@ -183,7 +193,8 @@
                 android:text="\n독나방에 쏘였을 때
                                 \n1. 독나방 가루가 피부에 묻으면 빨간 가루를 뿌린 것 같은 발진이 나타난다.\n
                                 \n2. 즉시 소독하고 스테로이드 연고를 바른다.\n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
         </LinearLayout>
     </ScrollView>
     <LinearLayout

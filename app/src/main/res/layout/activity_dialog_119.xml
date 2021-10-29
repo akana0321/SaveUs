@@ -17,7 +17,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:padding="15dp"
-            android:text="사고유형"/>
+            android:text="사고유형"
+            android:fontFamily="@font/nexon_gothic_light"/>
         <Spinner
             android:id="@+id/TypeSpinner"
             android:layout_width="200dp"
@@ -32,13 +33,15 @@
             android:layout_below="@+id/tv_Type_of_accident"
             android:visibility="invisible"
             android:padding="15dp"
-            android:text="기타 사고 유형"/>
+            android:text="기타 사고 유형"
+            android:fontFamily="@font/nexon_gothic_light"/>
         <EditText
             android:id="@+id/edt_other_type_accident"
             android:layout_width="172dp"
             android:layout_height="50dp"
             android:visibility="invisible"
             android:hint="기타 사고 유형 입력"
+            android:fontFamily="@font/nexon_gothic_light"
             android:layout_toRightOf="@+id/tv_Other_Type_accident"
             android:layout_alignTop="@+id/tv_Other_Type_accident"/>
 
@@ -49,7 +52,8 @@
             android:layout_alignLeft="@id/tv_Other_Type_accident"
             android:layout_below="@id/tv_Other_Type_accident"
             android:padding="15dp"
-            android:text="추가 전달사항"/>
+            android:text="추가 전달사항"
+            android:fontFamily="@font/nexon_gothic_light"/>
 
 
         <EditText
@@ -62,6 +66,7 @@
             android:layout_marginTop="0dp"
             android:gravity="center"
             android:hint="유의 사항 및 추가 전달 사항 입력"
+            android:fontFamily="@font/nexon_gothic_light"
             android:lines="8"
             android:paddingLeft="10dp"
             android:scrollbars="vertical"
@@ -75,13 +80,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="닫기" />
+            android:text="닫기"
+            android:fontFamily="@font/nexon_gothic_light"/>
         <Button
             android:id="@+id/SendBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="보내기" />
+            android:text="보내기"
+            android:fontFamily="@font/nexon_gothic_light"/>
     </LinearLayout>
 
 </LinearLayout>
