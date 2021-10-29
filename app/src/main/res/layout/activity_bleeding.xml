@@ -18,7 +18,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
-                android:text="\n\가. 의심 상황"/>
+                android:text="\n\가. 의심 상황"
+                android:fontFamily="@font/nexon_gothic_medium"/>
 
             <TextView
                 android:id="@+id/bleTv_Sub01"
@@ -26,7 +27,8 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="① 피부가 창백해지고 체온이 떨어짐. \n② 갈증을 느끼며 불안감을 가짐. \n③ 동공이 확대되고 간혹 구토 발생. \n④ 호흡과 맥박이 빨라지고 심하면 호흡이 곤란함.\n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
 
             <View android:background="#D0D0D0"
                 android:layout_width="match_parent"
@@ -38,7 +40,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="3dp"
                 android:textSize="20dp"
-                android:text="\n나. 시행순서\n"/>
+                android:text="\n나. 시행순서\n"
+                android:fontFamily="@font/nexon_gothic_medium"/>
 
             <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                 android:id="@+id/youtube_player_bleeding"
@@ -54,7 +57,8 @@
                 android:layout_height="wrap_content"
                 android:padding="3dp"
                 android:text="1. 옷을 벗기거나 잘라서 상처 부위를 드러내어 출혈이 되는 곳을 찾는다.\n\n 소독거즈나 깨끗한 천 (손수건,타올,깨끗한 헝겊)으로 상처 부위를 완전히 덮고 손가락이나 손바닥으로 직접압박을 한다. \n거즈나 천을 덮어서 압박을 하면, 압박이 골고루 가서 대부분의 경우 직접압박을 하면 지혈된다. 출혈 부위에 압박을 가하되 너무 약하게 누르지 말고 같은 힘으로 계속 하여 압박한다. 지혈에 사용된 드레싱은 제거하지 않고, 새 드레싱을 그 위에 다시 덮어 사용한다. \n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
 
             <View
                 android:background="#D0D0D0"
@@ -67,7 +71,8 @@
                 android:layout_height="wrap_content"
                 android:padding="3dp"
                 android:text="2. 10분 이내에 출혈이 멈추지 않는다면 압박의 강도가 약했거나 압박 부위가 잘못된 것이다. \n\n 압박 부위를 넓히고 강도를 더 세게 하여 다시 10분 동안 압박한다. 팔이나 다리에서 출혈이 있을 경우 압박을 가하면서 동시에 상처 부위를 심장보다 높게 들어 올려 혈액의 흐름을 줄인다.\n\t상처부위를 심장보다 높이면 중력의 작용으로 피가 심장에서 팔 다리로 흐르는 것이 어려워진다. 그러나 상처 부위를 높이는 것만으로는 출혈이 멈추지 않으므로 압박을 함께 실시한다.\n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
             <View
                 android:background="#D0D0D0"
                 android:layout_width="match_parent"
@@ -79,7 +84,8 @@
                 android:layout_height="wrap_content"
                 android:padding="3dp"
                 android:text="3. 출혈이 계속되면 상처 부위를 직접 압박함과 동시에 압박 점에 압박을 가해서 혈류를 늦춘다.\n\n\t압박 점은 체표면의 뼈 근처를 지나는 동맥이다. \n\t따라서 압박 시 뼈에 닿는 듯한 느낌으로 압박을 하여야 한다. 몸 양측의 두 압박 점인 ＊[팔 쪽 출혈 인 경우]위팔 안쪽의 상완점(상완동맥)과 ＊[하체쪽 출혈인 경우] 사타구니의 대퇴점(대퇴동맥)이 가장 찾기 시운 압박점이다. \n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
             <View
                 android:background="#D0D0D0"
                 android:layout_width="match_parent"
@@ -91,7 +97,8 @@
                 android:layout_height="wrap_content"
                 android:padding="3dp"
                 android:text="4.출혈이 멈춘 후 압박붕대를 사용하여 상처 부위에 댄 드레싱을 고정시킨다. 감은 붕대를 이용하여 상처 부위의 위아래를 단단히 감는다.\n\n\t만약, 상처 부위를 직접 압박할 수 없는 경우는 (예를 들면 탈구, 두개골 골절, 이물질이 박여있을 경우)거즈를 도넛 모양의 고리를 만들어 지혈한다.\n\t도넛 모양의 고리는 폭이 좁은 붕대(감은 붕대, 접은 삼각건)의 한쪽 끝을 네 손가락으로 여러 번 감아 동글게 만든다. 다른 한쪽 끝을 고리 안쪽으로 집어 넣어 테두리를 감는다. \n붕대를 다 쓸 때 까지 계속 감는다.\n"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:fontFamily="@font/nexon_gothic_light"/>
         </LinearLayout>
     </ScrollView>
     <LinearLayout

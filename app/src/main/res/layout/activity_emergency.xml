@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="타박상"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:fontFamily="@font/nexon_gothic_bold"/>
 
         <TextView
             android:id="@+id/emerTv_burn"
@@ -24,7 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="화상"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:fontFamily="@font/nexon_gothic_bold"/>
 
         <TextView
             android:id="@+id/emerTv_air"
@@ -32,7 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="기도폐쇄"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:fontFamily="@font/nexon_gothic_bold"/>
 
         <TextView
             android:id="@+id/emerTv_sei"
@@ -40,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="발작"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:fontFamily="@font/nexon_gothic_bold"/>
 
         <TextView
             android:id="@+id/emerTv_sti"
@@ -48,7 +52,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="쏘임/물림"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:fontFamily="@font/nexon_gothic_bold"/>
 
         <TextView
             android:id="@+id/emerTv_heaTv"
@@ -56,7 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="심장마비"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:fontFamily="@font/nexon_gothic_bold"/>
 
     </LinearLayout>
 

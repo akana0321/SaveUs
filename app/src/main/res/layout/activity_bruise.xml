@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="골절"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:fontFamily="@font/nexon_gothic_bold"/>
 
         <TextView
             android:id="@+id/emerTv_spr"
@@ -24,7 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="염좌"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:fontFamily="@font/nexon_gothic_bold"/>
 
         <TextView
             android:id="@+id/emerTv_ble"
@@ -32,7 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="출혈"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:fontFamily="@font/nexon_gothic_bold"/>
     </LinearLayout>
 
     <RelativeLayout

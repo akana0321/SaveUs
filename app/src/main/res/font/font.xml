@@ -12,4 +12,9 @@
         android:fontStyle="normal"
         android:fontWeight="400" />
 
+    <!-- light -->
+    <font
+        android:font="@font/nexon_gothic_light"
+        android:fontStyle="normal"
+        android:fontWeight="200" />
 </font-family>
