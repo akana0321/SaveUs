@@ -202,21 +202,27 @@ public class MainActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.tbEmer :
-                Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-                startActivity(intent); // 응급처치 기능 클릭시 페이지 전환
+                Intent intent_Emer = new Intent(getApplicationContext(), EmergencyActivity.class);
+                startActivity(intent_Emer); // 응급처치 기능 클릭시 페이지 전환
                 return true;
             case R.id.tbAed:
-                intent = new Intent(getApplicationContext(), AedActivity.class);
-                permission.permissionCheck_gps(intent);
+                Intent intent_AED = new Intent(getApplicationContext(), AedActivity.class);
+                permission.permissionCheck_gps(intent_AED);
+                startActivity(intent_AED);
+                return true;
             case R.id.tbMoun:
-                intent = new Intent(getApplicationContext(), ReportActivity.class);
-                permission.permissionCheck_gps(intent);
+                Intent intent_Moun = new Intent(getApplicationContext(), ReportActivity.class);
+                permission.permissionCheck_gps(intent_Moun);
+                startActivity(intent_Moun);
+                return true;
             case R.id.tbPati:
-                intent = new Intent(getApplicationContext(), PatientActivity.class);
-                permission.permissionCheck_gps(intent);
+                Intent intent_pati = new Intent(getApplicationContext(), PatientActivity.class);
+                permission.permissionCheck_gps(intent_pati);
+                startActivity(intent_pati);
+                return true;
             case R.id.tbCont:
-                intent = new Intent(getApplicationContext(), ContactActivity.class);
-                startActivity(intent); //문의하기 기능클릭시 페이지 전환
+                Intent intent_Cont = new Intent(getApplicationContext(), ContactActivity.class);
+                startActivity(intent_Cont); //문의하기 기능클릭시 페이지 전환
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

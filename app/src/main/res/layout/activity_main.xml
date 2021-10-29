@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="응급처치"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:fontFamily="@font/nexon_gothic_bold"/>
 
         <TextView
             android:id="@+id/mainTv_AED"
@@ -24,7 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="AED위치"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:fontFamily="@font/nexon_gothic_bold" />
 
         <TextView
             android:id="@+id/mainTV_Moun"
@@ -32,7 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="위급 상황 신고"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:fontFamily="@font/nexon_gothic_bold"/>
 
         <TextView
             android:id="@+id/mainTv_Pati"
@@ -40,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="환자 상태파악"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:fontFamily="@font/nexon_gothic_bold"/>
 
         <TextView
             android:id="@+id/mainTv_Cont"
@@ -48,7 +52,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="문의하기"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:fontFamily="@font/nexon_gothic_bold"/>
 
     </LinearLayout>
 

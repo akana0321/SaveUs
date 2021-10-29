@@ -10,7 +10,7 @@
         android:title="AED 위치" />
     <item
         android:id="@+id/tbMoun"
-        android:title="등산 중 사고신고" />
+        android:title="위급 상황 신고" />
     <item
         android:id="@+id/tbPati"
         android:title="환자 상태 파악" />
